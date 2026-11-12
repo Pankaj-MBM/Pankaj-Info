@@ -1,0 +1,44 @@
+---
+/**
+ * Hero background: a faint dot grid plus circuit traces with light "electrons" running along them.
+ * The traces live in the gutters and the empty bands around the content, so they never cross text.
+ * Pure SVG + CSS (no library). Animation stops under prefers-reduced-motion and while the hero is off-screen.
+ */
+const traces = [
+  'M-20 180H60l40 40V430',
+  'M-20 540H30l50 50V770l30 30',
+  'M1460 150H1380l-50 50V400',
+  'M1460 610H1400l-60 60V860',
+  'M1460 105H1210l-26 26H1010',
+  'M-20 860H330l26-26H600',
+  'M1460 880H1120l-30-30H860',
+];
+const nodes: [number, number][] = [
+  [100, 430],
+  [110, 800],
+  [1330, 400],
+  [1340, 860],
+  [1010, 131],
+  [600, 834],
+  [860, 850],
+];
+---
+
+<svg class="lx-backdrop" viewBox="0 0 1440 900" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="lx-dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" class="lx-dot"></circle>
+    </pattern>
+    <radialGradient id="lx-dots-fade" cx="0.5" cy="0.45" r="0.65">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.9"></stop>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
+    </radialGradient>
+    <mask id="lx-dots-mask"><rect width="1440" height="900" fill="url(#lx-dots-fade)"></rect></mask>
+  </defs>
+  <rect width="1440" height="900" fill="url(#lx-dots)" mask="url(#lx-dots-mask)"></rect>
+  <g class="lx-circuit">
+    {traces.map((d) => <path d={d} class="lx-trace" />)}
+    {traces.map((d, i) => <path d={d} class="lx-pulse" pathLength="1000" style={`--d:${(i * 1.3) % 6}s;--t:${5 + (i % 3) * 1.5}s`} />)}
+    {nodes.map(([cx, cy], i) => <circle cx={cx} cy={cy} r="4" class="lx-node" style={`--d:${(i * 0.9) % 4}s`} />)}
+  </g>
+</svg>

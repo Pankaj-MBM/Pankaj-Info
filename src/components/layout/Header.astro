@@ -31,17 +31,6 @@ const base = Astro.url.pathname === '/' ? '' : '/';
     </nav>
 
     <div class="ml-auto flex items-center gap-1 lg:ml-0">
-      <button
-        type="button"
-        class="search-btn hidden md:inline-flex"
-        data-open-palette
-        aria-label="Search and quick actions"
-        aria-keyshortcuts="Control+K Meta+K"
-      >
-        <Icon name="lucide:search" class="size-4" />
-        <span>Search</span>
-        <kbd class="kbd" data-kbd-hint>Ctrl K</kbd>
-      </button>
       <ThemeToggle />
       <a
         href={profile.resume.pdf}

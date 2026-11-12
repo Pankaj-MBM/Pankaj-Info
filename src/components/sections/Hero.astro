@@ -7,6 +7,7 @@ import { getProjects } from '@/lib/projects';
 import Icon from '../ui/Icon.astro';
 import shotQr from '@/assets/projects/2026-co-in.png';
 import photo from '@/assets/profile/pankaj.jpg';
+import HeroBackdrop from '../ui/HeroBackdrop.astro';
 
 const { resume, availability } = profile;
 const projectCount = (await getProjects()).filter((p) => !p.data.draft).length;
@@ -20,8 +21,9 @@ const stats = [
 
 <section id="top" class="lx-hero" aria-labelledby="hero-title" data-hero-chat data-parallax>
   <div class="lx-hero-glow" aria-hidden="true"></div>
+  <HeroBackdrop />
   <div class="container-page grid items-center gap-14 pt-10 pb-16 md:pt-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-10 lg:pt-20 lg:pb-20">
-    <div>
+    <div class="relative z-[2]">
       <p class="lx-badge" data-reveal><i aria-hidden="true"></i>{availability.statusLabel} · Software Engineer</p>
       <h1 id="hero-title" class="lx-h1 mt-7" data-reveal style="--reveal-delay:80ms">
         I ship <span class="lx-shine">AI-powered</span> products businesses <span class="lx-serif">use daily.</span>
@@ -49,12 +51,41 @@ const stats = [
     </div>
 
     <div class="lx-stage" data-reveal style="--reveal-delay:200ms">
+      <svg class="lx-orbits" viewBox="-300 -300 600 600" aria-hidden="true" focusable="false">
+        <defs>
+          <path id="lx-orbit-1" d="M-270 0a270 96 0 1 0 540 0a270 96 0 1 0 -540 0" />
+          <path id="lx-orbit-2" d="M-250 0a250 84 0 1 0 500 0a250 84 0 1 0 -500 0" />
+          <path id="lx-orbit-3" d="M-285 0a285 110 0 1 0 570 0a285 110 0 1 0 -570 0" />
+        </defs>
+        {
+          [
+            { id: 1, rot: -18, dur: 10, begin: 0 },
+            { id: 2, rot: 24, dur: 14, begin: -4 },
+            { id: 3, rot: 72, dur: 18, begin: -9 },
+          ].map((o) => (
+            <g transform={`rotate(${o.rot})`}>
+              <use href={`#lx-orbit-${o.id}`} class="lx-orbit-ring" />
+              <circle r="5.5" class="lx-electron">
+                <animateMotion dur={`${o.dur}s`} begin={`${o.begin}s`} repeatCount="indefinite">
+                  <mpath href={`#lx-orbit-${o.id}`} />
+                </animateMotion>
+              </circle>
+              <circle r="3.5" class="lx-electron lx-electron-sm">
+                <animateMotion dur={`${o.dur}s`} begin={`${o.begin - o.dur / 2}s`} repeatCount="indefinite">
+                  <mpath href={`#lx-orbit-${o.id}`} />
+                </animateMotion>
+              </circle>
+            </g>
+          ))
+        }
+      </svg>
       <figure class="lx-portrait" data-depth="10">
         <Image
           src={photo}
           alt="Portrait of Pankaj Parihar"
-          widths={[400, 600, 800]}
-          sizes="(min-width:1024px) 30vw, 70vw"
+          widths={[480, 720, 960, 1121]}
+          sizes="(min-width:1024px) 32vw, 80vw"
+          quality={92}
           loading="eager"
           fetchpriority="high"
         />

@@ -1,63 +1,120 @@
 ---
-/** Selected work: bento gallery for the headline projects + an editorial list for the rest. */
+/** Selected work: a dark "showroom" — three signature projects as large showcases, the rest as framed tiles. */
 import { Image } from 'astro:assets';
-import { getProjects, type Project } from '@/lib/projects';
+import { contextLabels, getProjects, projectYear, type Project } from '@/lib/projects';
 import Icon from '../ui/Icon.astro';
 import ProjectCover from '../ui/ProjectCover.astro';
 
 const projects = await getProjects();
-const bentoIds = ['2026-co-in', 'ai-crm-whatsapp', 'setu', 'geo-tracker', 'suvidha'];
-const bento = bentoIds.map((id) => projects.find((p) => p.id === id)).filter((p): p is Project => Boolean(p));
-const rest = projects.filter((p) => !bentoIds.includes(p.id));
+const featured = projects.slice(0, 3);
+const rest = projects.slice(3);
+const name = (p: Project) => p.data.title.split(' — ')[0];
 const short = (p: Project) => p.data.summary.split(' — ')[0];
-const tag = (p: Project) =>
-  p.data.badge ?? (p.data.illustration ? 'Illustrative UI' : p.data.visibility === 'public' ? 'Open source' : 'Product');
+const num = (i: number) => String(i + 1).padStart(2, '0');
+const kind = (p: Project) =>
+  p.data.badge ??
+  p.data.org ??
+  (p.data.context ? contextLabels[p.data.context] : p.data.visibility === 'public' ? 'Open source' : 'Product');
+const meta = (p: Project) => [kind(p), projectYear(p)].filter(Boolean).join(' · ');
 ---
 
-<section id="projects" class="section" aria-labelledby="work-title">
+<section id="projects" class="lx-showroom" aria-labelledby="work-title">
+  <div class="lx-showroom-glow" aria-hidden="true"></div>
   <div class="container-page">
-    <div class="flex flex-wrap items-end justify-between gap-6" data-reveal>
+    <div class="flex flex-wrap items-end justify-between gap-8" data-reveal>
       <div>
         <p class="lx-eyebrow">Selected work</p>
-        <h2 id="work-title" class="lx-title mt-5">Products built to be <span class="lx-serif">used.</span></h2>
+        <h2 id="work-title" class="lx-title mt-5">Products built to be <span class="lx-serif lx-gold">used.</span></h2>
       </div>
-      <p class="lx-lead max-w-sm">From an enterprise CRM with AI to a QR-ordering platform running in real cafés.</p>
+      <div class="max-w-sm">
+        <p class="lx-count"><b>{String(projects.length).padStart(2, '0')}</b> projects · enterprise, client &amp; product</p>
+        <p class="lx-lead mt-3">From an enterprise CRM with AI to a QR-ordering platform running in real cafés.</p>
+      </div>
     </div>
 
-    <div class="lx-bento mt-14">
+    <div class="mt-16 grid gap-20 md:mt-24 md:gap-28">
       {
-        bento.map((p, i) => (
-          <a href={`/projects/${p.id}/`} class="lx-card" data-reveal style={`--reveal-delay:${i * 70}ms`}>
-            {p.data.cover ? (
-              <Image src={p.data.cover} alt="" widths={[640, 960, 1280]} sizes={i === 0 ? '(min-width:900px) 45vw, 100vw' : '(min-width:900px) 28vw, 100vw'} loading="lazy" />
-            ) : (
-              <ProjectCover project={p} />
-            )}
-            <span class="lx-card-tag">{tag(p)}</span>
-            <h3>{p.data.title.split(' — ')[0]}</h3>
-            <p>{short(p)}</p>
-            <span class="lx-card-arrow" aria-hidden="true"><Icon name="lucide:arrow-up-right" class="size-5" /></span>
-          </a>
+        featured.map((p, i) => (
+          <article class:list={['lx-feat', i % 2 === 1 && 'lx-feat-flip']} data-reveal>
+            <a href={`/projects/${p.id}/`} class="lx-feat-media" data-spotlight tabindex="-1" aria-hidden="true">
+              <span class="lx-frame">
+                <span class="lx-frame-bar">
+                  <i />
+                  <i />
+                  <i />
+                  <span>{name(p)}</span>
+                </span>
+                {p.data.cover ? (
+                  <Image src={p.data.cover} alt="" widths={[640, 960, 1280, 1600]} sizes="(min-width:1024px) 56vw, 100vw" loading="lazy" />
+                ) : (
+                  <ProjectCover project={p} />
+                )}
+              </span>
+              {p.data.illustration && <span class="lx-frame-note">Illustrative UI</span>}
+            </a>
+            <div class="lx-feat-body">
+              <span class="lx-feat-num" aria-hidden="true">{num(i)}</span>
+              <p class="lx-feat-meta">{meta(p)}</p>
+              <h3 class="lx-feat-title">
+                <a href={`/projects/${p.id}/`}>{name(p)}</a>
+              </h3>
+              <p class="lx-feat-text">{p.data.summary}</p>
+              {p.data.highlights.length > 0 && (
+                <ul class="lx-feat-points">
+                  {p.data.highlights.slice(0, 3).map((h) => (
+                    <li>{h}</li>
+                  ))}
+                </ul>
+              )}
+              {p.data.stack.length > 0 && (
+                <ul class="lx-feat-stack" aria-label="Tech stack">
+                  {p.data.stack.slice(0, 5).map((s) => (
+                    <li>{s}</li>
+                  ))}
+                </ul>
+              )}
+              <a href={`/projects/${p.id}/`} class="lx-feat-link">
+                View case study <Icon name="lucide:arrow-up-right" class="size-4" />
+                <span class="sr-only"> — {name(p)}</span>
+              </a>
+            </div>
+          </article>
         ))
       }
     </div>
 
     {
       rest.length > 0 && (
-        <ul class="lx-list mt-16">
-          {rest.map((p) => (
-            <li data-reveal>
-              <a href={`/projects/${p.id}/`} class="lx-row">
-                <span class="lx-row-title">
-                  {p.data.title.split(' — ')[0]}
-                  {p.data.draft && <span class="lx-gold text-sm font-medium"> · draft</span>}
-                </span>
-                <span class="lx-row-text">{short(p)}</span>
-                <span class="lx-row-arrow" aria-hidden="true"><Icon name="lucide:arrow-right" class="size-4" /></span>
-              </a>
-            </li>
-          ))}
-        </ul>
+        <>
+          <div class="lx-more-head" data-reveal>
+            <p class="lx-eyebrow">More work</p>
+            <span aria-hidden="true" />
+          </div>
+          <ul class="lx-more">
+            {rest.map((p, i) => (
+              <li data-reveal style={`--reveal-delay:${(i % 3) * 80}ms`}>
+                <a href={`/projects/${p.id}/`} class="lx-tile" data-spotlight>
+                  <span class="lx-tile-media">
+                    {p.data.cover ? (
+                      <Image src={p.data.cover} alt="" widths={[480, 720, 960]} sizes="(min-width:1024px) 30vw, (min-width:640px) 50vw, 100vw" loading="lazy" />
+                    ) : (
+                      <ProjectCover project={p} />
+                    )}
+                  </span>
+                  <span class="lx-tile-meta">
+                    <span>{num(i + featured.length)}</span>
+                    {meta(p)}
+                  </span>
+                  <span class="lx-tile-title">{name(p)}</span>
+                  <span class="lx-tile-text">{short(p)}</span>
+                  <span class="lx-tile-arrow" aria-hidden="true">
+                    <Icon name="lucide:arrow-up-right" class="size-4" />
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
       )
     }
   </div>

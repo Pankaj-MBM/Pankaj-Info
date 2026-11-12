@@ -169,11 +169,6 @@ function initPalette() {
       .then((m) => m.openPalette())
       .catch(() => undefined);
   };
-  $$('[data-open-palette]').forEach((b) => {
-    b.addEventListener('click', open);
-    b.addEventListener('pointerenter', () => void load(), { once: true });
-    b.addEventListener('focus', () => void load(), { once: true });
-  });
   document.addEventListener('keydown', (e) => {
     const target = e.target as HTMLElement | null;
     const typing = target?.closest('input, textarea, select, [contenteditable="true"]');
@@ -185,8 +180,6 @@ function initPalette() {
       open();
     }
   });
-  const isMac = /Mac|iPhone|iPad/i.test(navigator.userAgent);
-  $$('[data-kbd-hint]').forEach((el) => (el.textContent = isMac ? '⌘K' : 'Ctrl K'));
 }
 
 /* ---------- Contact actions (email, WhatsApp, phone) ---------- */
@@ -302,6 +295,33 @@ function initParallax() {
   host.addEventListener('pointerleave', () => layers.forEach((l) => (l.style.translate = '0 0')));
 }
 
+/* ---------- Hero backdrop: SMIL orbits + CSS pulses run only while the hero is on screen ---------- */
+function initHeroMotion() {
+  const hero = $('[data-parallax]');
+  if (!hero) return;
+  const svgs = $$<SVGSVGElement>('svg.lx-orbits', hero);
+  const setRunning = (on: boolean) => {
+    hero.classList.toggle('is-paused', !on);
+    svgs.forEach((s) => (on ? s.unpauseAnimations() : s.pauseAnimations()));
+  };
+  if (prefersReducedMotion()) return setRunning(false);
+  if (!('IntersectionObserver' in window)) return;
+  new IntersectionObserver(([entry]) => setRunning(entry.isIntersecting)).observe(hero);
+  document.addEventListener('visibilitychange', () => setRunning(!document.hidden));
+}
+
+/* ---------- Work cards: a soft light follows the pointer ---------- */
+function initSpotlight() {
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  $$('[data-spotlight]').forEach((el) =>
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      el.style.setProperty('--my', `${e.clientY - r.top}px`);
+    }),
+  );
+}
+
 function greetDevelopers() {
   const { email } = contactInfo();
   console.log(
@@ -322,4 +342,6 @@ initContactActions();
 initLocalTime();
 initReveal();
 initParallax();
+initHeroMotion();
+initSpotlight();
 greetDevelopers();
