@@ -12,7 +12,7 @@ const base = Astro.url.pathname === '/' ? '' : '/';
   <div class="container-page flex h-16 items-center gap-3">
     <a href="/" class="flex items-center gap-2.5 rounded-full pr-2 font-semibold tracking-[-0.01em]">
       <Logo class="size-9" />
-      <span class="text-[1.02rem]">Pankaj Parihar</span>
+      <span class="text-[1.02rem] whitespace-nowrap">Pankaj Parihar</span>
       <span class="sr-only">— home</span>
     </a>
 
@@ -34,14 +34,14 @@ const base = Astro.url.pathname === '/' ? '' : '/';
       <ThemeToggle />
       <a
         href={profile.resume.pdf}
-        class="btn btn-sm ml-1 bg-fg text-bg hover:opacity-90 max-[399px]:!px-3"
+        class="btn btn-sm ml-1 bg-fg text-bg hover:opacity-90 max-[439px]:!px-3"
         download
         data-track="resume_download"
         data-track-source="nav"
         aria-label="Download resume (PDF)"
       >
         <Icon name="lucide:download" class="size-4" />
-        <span class="max-[399px]:hidden" aria-hidden="true">Resume</span>
+        <span class="max-[439px]:hidden" aria-hidden="true">Resume</span>
       </a>
       <button
         type="button"

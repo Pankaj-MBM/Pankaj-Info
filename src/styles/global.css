@@ -1251,24 +1251,18 @@
     pointer-events: none;
   }
 
-  /* Hero backdrop — dot grid + circuit traces with travelling light pulses */
+  /* Hero backdrop — faint dot grid + "silk" canvas: fine gold-to-blue threads flowing behind the portrait */
   .lx-hero {
-    --trace: rgb(14 14 17 / 0.07);
-    --pulse: #b08d57;
-    --pulse-2: #1f3b8f;
-    --dot: rgb(14 14 17 / 0.11);
-    --ring: rgb(14 14 17 / 0.08);
-    --ring-glow: #b08d57;
-    --ring-glow-2: #1f3b8f;
+    --dot: rgb(14 14 17 / 0.1);
+    --silk-a: 176 141 87;
+    --silk-b: 31 59 143;
+    --silk-alpha: 0.26;
   }
   :root[data-theme='dark'] .lx-hero {
-    --trace: rgb(255 255 255 / 0.06);
-    --pulse: #e2b86f;
-    --pulse-2: #7aa2ff;
-    --dot: rgb(255 255 255 / 0.09);
-    --ring: rgb(255 255 255 / 0.08);
-    --ring-glow: #e2b86f;
-    --ring-glow-2: #7aa2ff;
+    --dot: rgb(255 255 255 / 0.08);
+    --silk-a: 226 184 111;
+    --silk-b: 122 162 255;
+    --silk-alpha: 0.34;
   }
   .lx-backdrop {
     position: absolute;
@@ -1280,144 +1274,21 @@
     translate: -50% 0;
     pointer-events: none;
   }
-  @media (max-width: 1279px) {
-    .lx-circuit {
-      display: none;
-    }
-  }
   .lx-dot {
     fill: var(--dot);
   }
-  .lx-trace,
-  .lx-pulse {
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .lx-trace {
-    stroke: var(--trace);
-    stroke-width: 1.2;
-  }
-  .lx-pulse {
-    stroke: var(--pulse);
-    stroke-width: 1.6;
-    stroke-dasharray: 70 930;
-    stroke-dashoffset: 1000;
-    opacity: 0;
-    filter: drop-shadow(0 0 6px var(--pulse));
-  }
-  .lx-pulse:nth-of-type(even) {
-    stroke: var(--pulse-2);
-    filter: drop-shadow(0 0 6px var(--pulse-2));
-  }
-  .lx-node {
-    fill: var(--bg);
-    stroke: var(--pulse);
-    stroke-width: 1.2;
-    opacity: 0.35;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .lx-pulse {
-      animation: lx-pulse var(--t, 7s) linear var(--d, 0s) infinite;
-    }
-    .lx-node {
-      animation: lx-node 4s ease-in-out var(--d, 0s) infinite;
-    }
-  }
-  .lx-hero.is-paused :is(.lx-pulse, .lx-node, .lx-halo > span) {
-    animation-play-state: paused;
-  }
-  @keyframes lx-pulse {
-    0% {
-      stroke-dashoffset: 1000;
-      opacity: 0;
-    }
-    8%,
-    80% {
-      opacity: 1;
-    }
-    100% {
-      stroke-dashoffset: 0;
-      opacity: 0;
-    }
-  }
-  @keyframes lx-node {
-    50% {
-      opacity: 1;
-      filter: drop-shadow(0 0 6px var(--pulse));
-    }
-  }
-
-  /* Halo behind the portrait: two hairline rings, each with one soft light sweeping round */
-  .lx-halo {
-    position: absolute;
-    top: 40%;
-    left: 58%;
-    z-index: 0;
-    width: 118%;
-    aspect-ratio: 1;
-    translate: -50% -50%;
-    pointer-events: none;
-  }
-  .lx-halo > span {
+  .lx-silk {
     position: absolute;
     inset: 0;
-    border: 1px solid var(--ring);
-    border-radius: 50%;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s ease;
   }
-  .lx-halo > span:nth-child(2) {
-    inset: 13%;
-  }
-  .lx-halo > span::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg, transparent 0 72%, var(--ring-glow) 99.5%, transparent 100%);
-    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1px));
-    mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1px));
-  }
-  .lx-halo > span::after {
-    content: '';
-    position: absolute;
-    top: -3px;
-    left: calc(50% - 3px);
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--ring-glow);
-    box-shadow:
-      0 0 8px 1px var(--ring-glow),
-      0 0 22px 4px color-mix(in oklab, var(--ring-glow) 45%, transparent);
-  }
-  .lx-halo > span:nth-child(2)::after {
-    background: var(--ring-glow-2);
-    box-shadow:
-      0 0 8px 1px var(--ring-glow-2),
-      0 0 22px 4px color-mix(in oklab, var(--ring-glow-2) 45%, transparent);
-  }
-  .lx-halo > span:nth-child(2)::before {
-    background: conic-gradient(from 0deg, transparent 0 78%, var(--ring-glow-2) 99.5%, transparent 100%);
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .lx-halo > span {
-      animation: lx-spin 14s linear infinite;
-    }
-    .lx-halo > span:nth-child(2) {
-      animation-duration: 20s;
-      animation-delay: -7s;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .lx-halo > span::before,
-    .lx-halo > span::after {
-      display: none;
-    }
-  }
-  @keyframes lx-spin {
-    to {
-      rotate: 1turn;
-    }
+  .lx-silk.is-ready {
+    opacity: 1;
   }
   .lx-h1 {
     font-size: clamp(2.8rem, 5.2vw, 4.7rem);
@@ -1610,13 +1481,38 @@
     .lx-portrait {
       aspect-ratio: 4 / 4.4;
     }
-    .lx-halo {
-      top: 42%;
-      width: 112%;
-    }
     .lx-shot-mini {
       bottom: 0;
       width: 44%;
+    }
+  }
+  /* Phones: the photo leads the first screen — bigger portrait, chips moved clear of the name plate */
+  @media (max-width: 640px) {
+    .lx-stage {
+      aspect-ratio: 1 / 1.2;
+    }
+    .lx-portrait {
+      right: 0;
+      width: 82%;
+      border-width: 6px;
+      border-radius: 28px;
+    }
+    .lx-portrait img {
+      border-radius: 22px;
+    }
+    .lx-chip-b {
+      left: 0;
+      top: 7%;
+    }
+    .lx-chip-a {
+      top: auto;
+      right: 0;
+      left: auto;
+      bottom: 1%;
+    }
+    .lx-shot-mini {
+      bottom: 0;
+      width: 42%;
     }
   }
   @media (max-width: 520px) {
@@ -2263,6 +2159,11 @@
     transition:
       background-size 0.6s var(--ease-soft),
       color 0.3s;
+  }
+  @media (max-width: 520px) {
+    .lx-email {
+      font-size: 5.1vw;
+    }
   }
   .lx-email:hover {
     color: #d8b77a;

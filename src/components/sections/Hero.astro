@@ -22,7 +22,7 @@ const stats = [
 <section id="top" class="lx-hero" aria-labelledby="hero-title" data-hero-chat data-parallax>
   <div class="lx-hero-glow" aria-hidden="true"></div>
   <HeroBackdrop />
-  <div class="container-page grid items-center gap-14 pt-10 pb-16 md:pt-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-10 lg:pt-20 lg:pb-20">
+  <div class="container-page grid items-center gap-10 pt-8 pb-16 md:pt-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-10 lg:pt-20 lg:pb-20">
     <div class="relative z-[2]">
       <p class="lx-badge" data-reveal><i aria-hidden="true"></i>{availability.statusLabel} · Software Engineer</p>
       <h1 id="hero-title" class="lx-h1 mt-7" data-reveal style="--reveal-delay:80ms">
@@ -50,8 +50,7 @@ const stats = [
       </p>
     </div>
 
-    <div class="lx-stage" data-reveal style="--reveal-delay:200ms">
-      <div class="lx-halo" aria-hidden="true"><span></span><span></span></div>
+    <div class="lx-stage order-first lg:order-none" data-reveal style="--reveal-delay:60ms">
       <figure class="lx-portrait" data-depth="10">
         <Image
           src={photo}

@@ -295,13 +295,16 @@ function initParallax() {
   host.addEventListener('pointerleave', () => layers.forEach((l) => (l.style.translate = '0 0')));
 }
 
-/* ---------- Hero backdrop: halo + circuit pulses run only while the hero is on screen ---------- */
+/* ---------- Hero backdrop: the silk canvas loads after first paint ---------- */
 function initHeroMotion() {
-  const hero = $('[data-parallax]');
-  if (!hero || prefersReducedMotion() || !('IntersectionObserver' in window)) return;
-  const setRunning = (on: boolean) => hero.classList.toggle('is-paused', !on);
-  new IntersectionObserver(([entry]) => setRunning(entry.isIntersecting)).observe(hero);
-  document.addEventListener('visibilitychange', () => setRunning(!document.hidden));
+  const canvas = $<HTMLCanvasElement>('canvas[data-silk]');
+  if (!canvas) return;
+  const load = () =>
+    import('./silk')
+      .then((m) => m.initSilk(canvas))
+      .catch(() => undefined);
+  if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 1500 });
+  else setTimeout(load, 300);
 }
 
 /* ---------- Work cards: a soft light follows the pointer ---------- */
