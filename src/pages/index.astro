@@ -1,29 +1,25 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/components/sections/Hero.astro';
-import ProofBar from '@/components/sections/ProofBar.astro';
+import Statement from '@/components/sections/Statement.astro';
+import Work from '@/components/sections/Work.astro';
+import Capabilities from '@/components/sections/Capabilities.astro';
 import Experience from '@/components/sections/Experience.astro';
-import Projects from '@/components/sections/Projects.astro';
-import Skills from '@/components/sections/Skills.astro';
-import About from '@/components/sections/About.astro';
-import Education from '@/components/sections/Education.astro';
 import Testimonials from '@/components/sections/Testimonials.astro';
 import Contact from '@/components/sections/Contact.astro';
 import { profileJsonLd } from '@/lib/seo';
 
-const title = 'Pankaj Parihar — Full-Stack Engineer · Angular, .NET, AI';
+const title = 'Pankaj Parihar — Software Engineer · Angular, .NET, AI';
 const description =
   'Software Engineer (2.5+ yrs) building AI-powered CRM/ERP apps with Angular, ASP.NET Core, C#, MongoDB & Azure OpenAI. See projects, resume & contact.';
 ---
 
 <BaseLayout title={title} description={description} type="profile" jsonLd={profileJsonLd(Astro.site)}>
   <Hero />
-  <ProofBar />
+  <Work />
+  <Statement />
+  <Capabilities />
   <Experience />
-  <Projects />
-  <Skills />
-  <About />
-  <Education />
   <Testimonials />
   <Contact />
 </BaseLayout>

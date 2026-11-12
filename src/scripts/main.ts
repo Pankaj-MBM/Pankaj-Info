@@ -44,12 +44,6 @@ function initTheme() {
         .catch(() => undefined);
     }),
   );
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!storage.get('theme')) {
-      root.dataset.theme = e.matches ? 'dark' : 'light';
-      sync();
-    }
-  });
   sync();
 }
 
@@ -155,18 +149,15 @@ function initChatFab() {
   window.addEventListener('open-chat', () => open());
   $$<HTMLButtonElement>('[data-ask]').forEach((b) => b.addEventListener('click', () => open(b.dataset.ask)));
 
-  const heroChat = $('[data-hero-chat]');
-  const large = matchMedia('(min-width: 1024px)');
-  let heroVisible = false;
-  const sync = () => fab.toggleAttribute('data-visible', !large.matches || !heroVisible);
-  if (heroChat && 'IntersectionObserver' in window) {
-    new IntersectionObserver(([entry]) => {
-      heroVisible = entry.isIntersecting;
-      sync();
-    }).observe(heroChat);
+  // Keep the hero clean: the chat button appears once the hero has scrolled away.
+  const hero = $('[data-hero-chat]');
+  if (hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => fab.toggleAttribute('data-visible', !entry.isIntersecting), {
+      threshold: 0.15,
+    }).observe(hero);
+  } else {
+    fab.setAttribute('data-visible', '');
   }
-  large.addEventListener('change', sync);
-  sync();
 }
 
 /* ---------- Command palette (lazy-loaded) ---------- */
@@ -290,70 +281,57 @@ function initReveal() {
   document.documentElement.classList.add('reveal-ready');
 }
 
-function initCountUp() {
-  const items = $$('[data-count-to]');
-  if (!items.length || prefersReducedMotion() || !('IntersectionObserver' in window)) return;
-  const run = (el: HTMLElement) => {
-    const to = Number(el.dataset.countTo);
-    const decimals = Number(el.dataset.decimals ?? 0);
-    const start = performance.now();
-    const step = (now: number) => {
-      const t = Math.min(1, (now - start) / 1100);
-      el.textContent = (to * (1 - Math.pow(1 - t, 3))).toFixed(decimals);
-      if (t < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
+/* ---------- About: statement lights up word by word while scrolling ---------- */
+function initLitText() {
+  const el = $('[data-lit]');
+  if (!el || prefersReducedMotion()) return;
+  const words = $$('span', el);
+  el.setAttribute('data-lit-ready', '');
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const progress = Math.min(1, Math.max(0, (vh * 0.85 - rect.top) / (rect.height + vh * 0.3)));
+    const lit = Math.round(progress * words.length);
+    words.forEach((w, i) => w.classList.toggle('on', i < lit));
+  };
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true },
+  );
+  update();
+}
+
+/* ---------- Work: the pinned screen follows the project you are reading ---------- */
+function initWorkStage() {
+  const items = $$('[data-work-index]');
+  const stage = $('[data-stage]');
+  if (!items.length || !stage || !('IntersectionObserver' in window)) return;
+  const shots = $$('[data-stage-shot]', stage);
+  const label = $('[data-stage-label]', stage);
+  const activate = (index: number) => {
+    items.forEach((it, i) => it.toggleAttribute('data-active', i === index));
+    shots.forEach((s, i) => s.toggleAttribute('data-active', i === index));
+    stage.style.setProperty('--glow', items[index]?.dataset.glow ?? '#7ab0ff');
+    if (label) label.textContent = shots[index]?.dataset.label ?? '';
   };
   const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        run(entry.target as HTMLElement);
-        observer.unobserve(entry.target);
+        if (entry.isIntersecting) activate(Number((entry.target as HTMLElement).dataset.workIndex));
       }
     },
-    { threshold: 0.6 },
+    { rootMargin: '-45% 0px -45% 0px' },
   );
-  items.forEach((el) => {
-    el.textContent = (0).toFixed(Number(el.dataset.decimals ?? 0));
-    observer.observe(el);
-  });
-}
-
-/* ---------- Project filter (URL-synced) ---------- */
-function initProjectFilter() {
-  const group = $('[data-project-filter]');
-  if (!group) return;
-  const buttons = $$<HTMLButtonElement>('[data-filter]', group);
-  const cards = $$('[data-project]');
-  const empty = $('[data-filter-empty]');
-  const moreHeading = $('[data-more-heading]');
-  const apply = (tag: string, updateUrl = true) => {
-    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === tag)));
-    let shown = 0;
-    let shownMore = 0;
-    cards.forEach((card) => {
-      const match = tag === 'all' || (card.dataset.tags ?? '').split(' ').includes(tag);
-      card.hidden = !match;
-      if (match) {
-        shown++;
-        if (moreHeading && card.compareDocumentPosition(moreHeading) & Node.DOCUMENT_POSITION_PRECEDING) shownMore++;
-      }
-    });
-    if (empty) empty.hidden = shown > 0;
-    if (moreHeading) moreHeading.hidden = shownMore === 0;
-    if (updateUrl) {
-      const url = new URL(location.href);
-      if (tag === 'all') url.searchParams.delete('tag');
-      else url.searchParams.set('tag', tag);
-      history.replaceState(history.state, '', url);
-      track('project_filter', { tag });
-    }
-  };
-  buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.filter ?? 'all')));
-  $('[data-filter-reset]')?.addEventListener('click', () => apply('all'));
-  const initial = new URLSearchParams(location.search).get('tag');
-  if (initial && buttons.some((b) => b.dataset.filter === initial)) apply(initial, false);
+  items.forEach((it) => observer.observe(it));
+  activate(0);
 }
 
 /* ---------- Small touches ---------- */
@@ -369,17 +347,6 @@ function initMarquee() {
       btn.setAttribute('aria-label', paused ? 'Play the technology logos animation' : 'Pause the technology logos animation');
     });
   });
-}
-
-function initSpotlight() {
-  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  $$('.spotlight').forEach((el) =>
-    el.addEventListener('pointermove', (e) => {
-      const rect = el.getBoundingClientRect();
-      el.style.setProperty('--mx', `${e.clientX - rect.left}px`);
-      el.style.setProperty('--my', `${e.clientY - rect.top}px`);
-    }),
-  );
 }
 
 function greetDevelopers() {
@@ -401,8 +368,7 @@ initPalette();
 initContactActions();
 initLocalTime();
 initReveal();
-initCountUp();
-initProjectFilter();
+initLitText();
+initWorkStage();
 initMarquee();
-initSpotlight();
 greetDevelopers();

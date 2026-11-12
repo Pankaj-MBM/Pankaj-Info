@@ -15,7 +15,7 @@ export const profile = {
     rest: 'with Angular, .NET & Azure OpenAI.',
   },
   pitch:
-    '2.5+ years shipping production software — CRM & ERP at Dial ERP Technology, plus a live QR-ordering platform for cafés, WhatsApp bulk messaging, inventory and field-sales tracking.',
+    'Software engineer with 2.5+ years shipping CRM & ERP products at Dial ERP Technology — Angular, ASP.NET Core, MongoDB and Azure OpenAI. Also the engineer behind 2026.co.in, a QR-ordering platform live in cafés.',
   summary:
     'Software Engineer with 2.5+ years of experience in Angular, ASP.NET Core and Flutter. At Dial ERP Technology I build enterprise CRM & ERP products: REST APIs in ASP.NET Core, Angular (Material) front-ends, WhatsApp automation with Meta’s Cloud API, and AI features with Azure OpenAI and Azure AI Search.',
   experience: {

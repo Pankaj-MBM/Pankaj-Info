@@ -1,0 +1,98 @@
+---
+/** Selected work: a scroll-pinned showcase for featured projects + an editorial index for the rest. */
+import { Image } from 'astro:assets';
+import { getProjects, projectYear } from '@/lib/projects';
+import Icon from '../ui/Icon.astro';
+import ProjectCover from '../ui/ProjectCover.astro';
+
+const projects = await getProjects();
+const featured = projects.filter((p) => p.data.featured);
+const more = projects.filter((p) => !p.data.featured);
+const glows = ['#25d366', '#2dd4bf', '#7ab0ff', '#ffc24d', '#c4b5fd'];
+const note = (p: (typeof projects)[number]) =>
+  p.data.illustration ? 'Illustrative UI' : p.data.visibility === 'public' ? 'Public code' : 'Real screenshot';
+---
+
+<section id="projects" class="section work" aria-labelledby="work-title">
+  <div class="container-page">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <h2 id="work-title" class="section-title">Selected <em class="accent-serif text-primary">work</em></h2>
+      <p class="max-w-sm text-muted">Products I designed and built — from enterprise CRM to a QR-ordering platform running in cafés.</p>
+    </div>
+
+    <div class="work-grid mt-16">
+      <ol class="work-list">
+        {
+          featured.map((p, i) => (
+            <li class="work-item" data-work-index={i} data-glow={glows[i % glows.length]}>
+              <span class="work-n">0{i + 1}</span>
+              <h3 class="work-title">
+                <a href={`/projects/${p.id}/`}>{p.data.title}</a>
+              </h3>
+              <p class="work-summary">{p.data.summary}</p>
+              {p.data.stack.length > 0 && <p class="work-stack">{p.data.stack.slice(0, 4).join(' · ')}</p>}
+              <div class="work-shot-mobile lg:hidden">
+                <ProjectCover project={p} />
+                <span class="shot-note">{note(p)}</span>
+              </div>
+              <a href={`/projects/${p.id}/`} class="arrow-link">
+                Read case study <Icon name="lucide:arrow-right" class="size-4" />
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="work-stage" aria-hidden="true">
+        <div class="stage-sticky" data-stage style={`--glow:${glows[0]}`}>
+          <div class="stage-frame">
+            <div class="stage-bar"><i></i><i></i><i></i><span data-stage-label>{featured[0]?.data.title}</span></div>
+            <div class="stage-screen">
+              {
+                featured.map((p, i) => (
+                  <figure class="stage-shot" data-stage-shot={i} data-active={i === 0 ? '' : undefined} data-label={p.data.title}>
+                    {p.data.cover ? (
+                      <Image src={p.data.cover} alt="" widths={[720, 1080, 1440]} sizes="45vw" loading={i === 0 ? 'eager' : 'lazy'} />
+                    ) : (
+                      <ProjectCover project={p} />
+                    )}
+                    <figcaption class="shot-note">{note(p)}</figcaption>
+                  </figure>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {
+      more.length > 0 && (
+        <div class="mt-24">
+          <h3 class="kicker">More work</h3>
+          <ul class="index-list mt-6">
+            {more.map((p, i) => (
+              <li>
+                <a href={`/projects/${p.id}/`} class="index-row">
+                  <span class="index-n">{String(featured.length + i + 1).padStart(2, '0')}</span>
+                  <span class="index-title">
+                    {p.data.title}
+                    {p.data.draft && <span class="text-accent-ink"> · draft</span>}
+                  </span>
+                  <span class="index-summary">{p.data.summary}</span>
+                  <span class="index-year">{projectYear(p) ?? '—'}</span>
+                  <Icon name="lucide:arrow-up-right" class="index-arrow size-5" />
+                  {p.data.cover && (
+                    <span class="index-thumb" aria-hidden="true">
+                      <Image src={p.data.cover} alt="" widths={[480]} sizes="280px" loading="lazy" />
+                    </span>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </div>
+</section>

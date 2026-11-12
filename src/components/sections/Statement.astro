@@ -1,0 +1,82 @@
+---
+/** About — a statement that lights up word by word as you scroll, then the facts. */
+import { profile } from '@/data/profile';
+import { education } from '@/data/education';
+import { getProjects } from '@/lib/projects';
+import { experienceYears } from '@/lib/format';
+
+const statement =
+  'I turn messy business workflows into calm, fast software. In 2.5 years I have shipped 40+ REST APIs, WhatsApp automation end to end, an AI assistant that answers from a company’s own data, and a QR-ordering platform that runs in real cafés.';
+const words = statement.split(' ');
+const projectCount = (await getProjects()).filter((p) => !p.data.draft).length;
+const stats = [
+  { value: `${experienceYears()}+`, label: 'Years building production software' },
+  { value: '40+', label: 'REST APIs designed and shipped' },
+  { value: String(projectCount), label: 'Products and projects delivered' },
+];
+const principles = [
+  ['Business first', 'I learn the workflow before I touch the code — the best feature is often the one you don’t build.'],
+  ['Data & APIs before screens', 'Clean models and contracts make every screen after them easier.'],
+  ['AI-augmented, human-owned', 'I use AI to move faster, then review, test and own every line that ships.'],
+];
+---
+
+<section id="about" class="section" aria-labelledby="about-title">
+  <div class="container-page">
+    <h2 id="about-title" class="kicker">About</h2>
+    <p class="lit-text" data-lit>
+      {words.map((w) => <span>{w} </span>)}
+    </p>
+
+    <dl class="stat-row" data-reveal>
+      {
+        stats.map((s) => (
+          <div>
+            <dt class="sr-only">{s.label}</dt>
+            <dd>
+              <span class="stat-value">{s.value}</span>
+              <span class="stat-label" aria-hidden="true">{s.label}</span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="mt-20 grid gap-12 md:grid-cols-[1fr_1.4fr] md:gap-20">
+      <div class="grid content-start gap-8" data-reveal>
+        <div>
+          <p class="kicker">Background</p>
+          <ul class="mt-4 grid gap-3">
+            {
+              education.map((e) => (
+                <li>
+                  <span class="font-medium">{e.short}, {e.school}</span>
+                  <span class="block text-sm text-muted">
+                    {e.place}{e.year ? ` · ${e.year}` : ''} · {e.score}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <p class="kicker">Languages</p>
+          <p class="mt-4">{profile.languages.join(' · ')}</p>
+        </div>
+      </div>
+      <ol class="principles" data-reveal>
+        {
+          principles.map(([title, text], i) => (
+            <li>
+              <span class="principle-n">0{i + 1}</span>
+              <div>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
