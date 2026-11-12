@@ -1,18 +1,21 @@
 ---
 import { sections } from '@/data/nav';
 import { profile } from '@/data/profile';
+import Logo from '../ui/Logo.astro';
 
 const base = Astro.url.pathname === '/' ? '' : '/';
 const now = new Date();
 const updated = now.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 ---
 
-<footer class="site-footer border-t border-line">
-  <div class="container-page grid gap-10 pt-14 pb-8 md:grid-cols-3">
-    <p class="max-w-xs text-sm text-muted">
-      Software engineer building AI-powered business software with Angular, ASP.NET Core and Azure. Based in India ·
-      {profile.location.tzAbbr} ({profile.location.tzOffset}).
-    </p>
+<footer class="site-footer mt-6 border-t border-line">
+  <div class="container-page grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
+    <div>
+      <a href="/" class="inline-flex items-center gap-3 font-semibold"><Logo class="size-9" /> Pankaj Parihar</a>
+      <p class="mt-4 max-w-xs text-sm text-muted">
+        Software engineer building AI-powered business software with Angular, ASP.NET Core and Azure.
+      </p>
+    </div>
     <nav aria-label="Footer">
       <ul class="grid gap-2 text-sm">
         {
@@ -33,11 +36,8 @@ const updated = now.toLocaleDateString('en-US', { month: 'short', year: 'numeric
       <li><a href="#contact" class="footer-link" data-whatsapp>WhatsApp ↗</a></li>
     </ul>
   </div>
-  <div class="container-page">
-    <p class="wordmark" aria-hidden="true">Pankaj Parihar</p>
-  </div>
   <div class="container-page flex flex-col gap-2 border-t border-line py-6 text-xs text-muted md:flex-row md:justify-between">
-    <p>© {now.getFullYear()} Pankaj Parihar · Designed & built by me with Astro</p>
+    <p>© {now.getFullYear()} Pankaj Parihar · Designed &amp; built by me</p>
     <p>
       No cookies · Updated <time datetime={now.toISOString().slice(0, 10)}>{updated}</time> ·
       <a href="#main" class="footer-link">Back to top ↑</a>

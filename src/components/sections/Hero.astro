@@ -1,65 +1,97 @@
 ---
+import { Image } from 'astro:assets';
 import { profile } from '@/data/profile';
-import LocalTime from '../features/LocalTime.astro';
+import { techStrip } from '@/data/skills';
+import { experienceYears } from '@/lib/format';
+import { getProjects } from '@/lib/projects';
 import Icon from '../ui/Icon.astro';
+import shotQr from '@/assets/projects/2026-co-in.png';
+import shotCrm from '@/assets/projects/ai-crm-whatsapp.png';
 
 const { resume, availability } = profile;
-const ticker = ['CRM & ERP platforms', 'WhatsApp automation', 'QR ordering', 'AI assistants', 'Inventory systems', 'Field-sales tracking'];
+const projectCount = (await getProjects()).filter((p) => !p.data.draft).length;
+const stats = [
+  { value: `${experienceYears()}+`, label: 'Years shipping production software' },
+  { value: '40+', label: 'REST APIs designed and in production' },
+  { value: String(projectCount), label: 'Products and projects delivered' },
+  { value: '84%', label: 'MCA, MBM University' },
+];
 ---
 
-<section id="top" class="hero-cine" aria-labelledby="hero-title" data-hero-chat>
-  <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
-  <canvas class="hero-canvas" data-hero-3d aria-hidden="true"></canvas>
-
-  <div class="container-page relative z-[1] flex min-h-[calc(100svh-4rem)] flex-col justify-between gap-10 pt-8 pb-10 md:pt-12">
-    <div class="hero-meta">
-      <span>Software Engineer</span>
-      <span>India · <LocalTime /></span>
-      <span class="hero-avail"><i aria-hidden="true"></i>{availability.statusLabel}</span>
-    </div>
-
+<section id="top" class="lx-hero" aria-labelledby="hero-title" data-hero-chat data-parallax>
+  <div class="lx-hero-glow" aria-hidden="true"></div>
+  <div class="container-page grid items-center gap-14 pt-10 pb-16 md:pt-16 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:gap-10 lg:pt-20 lg:pb-20">
     <div>
-      <h1 id="hero-title" class="display hero-name" data-hero-name>
-        <span class="line" style="--i:0"><span data-line>Pankaj</span></span>
-        <span class="line" style="--i:1"><span data-line>Parihar</span></span>
+      <p class="lx-badge" data-reveal><i aria-hidden="true"></i>{availability.statusLabel} · Software Engineer</p>
+      <h1 id="hero-title" class="lx-h1 mt-7" data-reveal style="--reveal-delay:80ms">
+        I ship <span class="lx-shine">AI-powered</span> products businesses <span class="lx-serif">use daily.</span>
       </h1>
-      <p class="hero-tagline">
-        I build software that businesses <em class="accent-serif text-primary">run on.</em>
+      <p class="lx-lead mt-7 max-w-[34rem]" data-reveal style="--reveal-delay:160ms">
+        I’m <strong class="font-semibold text-fg">Pankaj Parihar</strong> — 2.5+ years building CRM &amp; ERP at Dial ERP
+        with Angular, ASP.NET Core and Azure OpenAI. Creator of <strong class="font-semibold text-fg">2026.co.in</strong>, a
+        QR-ordering platform live in cafés.
       </p>
-      <p class="hero-hint" aria-hidden="true">
-        <span class="hint-mouse">Move your cursor through the name · click for a shockwave</span>
-        <span class="hint-touch">Touch the name · tap for a shockwave</span>
+      <div class="mt-9 flex flex-wrap items-center gap-3" data-reveal style="--reveal-delay:240ms">
+        <a href="#projects" class="lx-btn lx-btn-dark">See my work <Icon name="lucide:arrow-right" class="size-[1.1rem]" /></a>
+        <a href={resume.pdf} class="lx-btn lx-btn-light" download data-track="resume_download" data-track-source="hero">
+          <Icon name="lucide:download" class="size-[1.1rem]" /> Download résumé
+        </a>
+      </div>
+      <p class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted" data-reveal style="--reveal-delay:320ms">
+        <a href="/resume/" data-open-summary class="inline-flex items-center gap-1.5 font-medium text-fg hover:text-primary">
+          <Icon name="lucide:zap" class="size-4 lx-gold" /> 30-second summary
+        </a>
+        <span aria-hidden="true">·</span>
+        <span>Currently at Dial ERP Technology</span>
+        <span aria-hidden="true">·</span>
+        <span>India (IST)</span>
       </p>
     </div>
 
-    <div class="hero-foot grid items-end gap-8 md:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] md:gap-16">
-      <p class="hero-lead">{profile.pitch}</p>
-      <nav aria-label="Get started" class="hero-links">
-        <a href="#projects"><span>Selected work</span><Icon name="lucide:arrow-down" class="size-5" /></a>
-        <a href={resume.pdf} download data-track="resume_download" data-track-source="hero"><span>Résumé — PDF</span><Icon name="lucide:arrow-up-right" class="size-5" /></a>
-        <a href="/resume/" data-open-summary><span>30-second summary</span><Icon name="lucide:zap" class="size-5" /></a>
-        <a href="#contact"><span>Get in touch</span><Icon name="lucide:arrow-right" class="size-5" /></a>
-      </nav>
+    <div class="lx-stage" data-reveal style="--reveal-delay:200ms" aria-hidden="true">
+      <a href="/projects/2026-co-in/" class="lx-shot lx-shot-a" data-depth="18" tabindex="-1">
+        <Image src={shotQr} alt="" widths={[560, 840, 1120]} sizes="(min-width:1024px) 38vw, 90vw" loading="eager" fetchpriority="high" class="lx-float" />
+      </a>
+      <a href="/projects/ai-crm-whatsapp/" class="lx-shot lx-shot-b" data-depth="34" tabindex="-1">
+        <Image src={shotCrm} alt="" widths={[560, 840, 1120]} sizes="(min-width:1024px) 34vw, 80vw" loading="eager" class="lx-float-slow" />
+      </a>
+      <div class="lx-chip lx-chip-a" data-depth="48">
+        <span class="lx-chip-icon"><Icon name="lucide:circle-check" class="size-5" /></span>
+        <span>Live in production<small>2026.co.in · cafés</small></span>
+      </div>
+      <div class="lx-chip lx-chip-b" data-depth="-26">
+        <span class="lx-chip-icon"><Icon name="lucide:sparkles" class="size-5" /></span>
+        <span>AI chatbot<small>Azure OpenAI + RAG</small></span>
+      </div>
     </div>
   </div>
 
-  <div class="ticker relative z-[1]" data-marquee>
-    <p class="sr-only">What I build: {ticker.join(', ')}</p>
-    <div class="marquee flex-1" aria-hidden="true">
-      <ul class="marquee-track">
+  <div class="container-page pb-14">
+    <dl class="lx-stats">
+      {
+        stats.map((s, i) => (
+          <div class="lx-stat" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+            <dt class="sr-only">{s.label}</dt>
+            <dd>
+              <b>{s.value}</b>
+              <span aria-hidden="true">{s.label}</span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+    <div class="lx-logos mt-14" aria-label="Technologies">
+      <p class="sr-only">{techStrip.map((t) => t.name).join(', ')}</p>
+      <ul aria-hidden="true">
         {
-          [...ticker, ...ticker].map((t) => (
-            <li class="ticker-item">
-              {t}
-              <span class="ticker-star">✦</span>
+          [...techStrip, ...techStrip].map((t) => (
+            <li>
+              <Icon name={t.icon} class="size-5" />
+              {t.name}
             </li>
           ))
         }
       </ul>
     </div>
-    <button type="button" class="icon-btn marquee-toggle size-9 shrink-0" data-marquee-toggle aria-pressed="false" aria-label="Pause the moving text">
-      <Icon name="lucide:pause" class="icon-pause size-4" />
-      <Icon name="lucide:play" class="icon-play size-4" />
-    </button>
   </div>
 </section>

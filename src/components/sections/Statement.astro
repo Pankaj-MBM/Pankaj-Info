@@ -1,19 +1,8 @@
 ---
-/** About — a statement that lights up word by word as you scroll, then the facts. */
+/** About: a confident statement + principles and background. */
 import { profile } from '@/data/profile';
 import { education } from '@/data/education';
-import { getProjects } from '@/lib/projects';
-import { experienceYears } from '@/lib/format';
 
-const statement =
-  'I turn messy business workflows into calm, fast software. In 2.5 years I have shipped 40+ REST APIs, WhatsApp automation end to end, an AI assistant that answers from a company’s own data, and a QR-ordering platform that runs in real cafés.';
-const words = statement.split(' ');
-const projectCount = (await getProjects()).filter((p) => !p.data.draft).length;
-const stats = [
-  { value: `${experienceYears()}+`, label: 'Years building production software' },
-  { value: '40+', label: 'REST APIs designed and shipped' },
-  { value: String(projectCount), label: 'Products and projects delivered' },
-];
 const principles = [
   ['Business first', 'I learn the workflow before I touch the code — the best feature is often the one you don’t build.'],
   ['Data & APIs before screens', 'Clean models and contracts make every screen after them easier.'],
@@ -22,53 +11,42 @@ const principles = [
 ---
 
 <section id="about" class="section" aria-labelledby="about-title">
-  <div class="container-page">
-    <h2 id="about-title" class="kicker">About</h2>
-    <p class="lit-text" data-lit>
-      {words.map((w) => <span>{w} </span>)}
-    </p>
-
-    <dl class="stat-row" data-reveal>
-      {
-        stats.map((s) => (
-          <div>
-            <dt class="sr-only">{s.label}</dt>
-            <dd>
-              <span class="stat-value">{s.value}</span>
-              <span class="stat-label" aria-hidden="true">{s.label}</span>
-            </dd>
-          </div>
-        ))
-      }
-    </dl>
-
-    <div class="mt-20 grid gap-12 md:grid-cols-[1fr_1.4fr] md:gap-20">
-      <div class="grid content-start gap-8" data-reveal>
+  <div class="container-page grid gap-14 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-20">
+    <div data-reveal>
+      <p class="lx-eyebrow">About</p>
+      <h2 id="about-title" class="sr-only">About Pankaj</h2>
+      <p class="lx-quote mt-6">
+        I turn messy business workflows into <span class="lx-serif lx-gold">calm, fast software</span> — from WhatsApp
+        automation and AI assistants to a QR-ordering platform that runs in real cafés.
+      </p>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2">
+        {
+          education.map((e) => (
+            <div>
+              <p class="font-semibold">{e.degree}</p>
+              <p class="text-sm text-muted">
+                {e.school} · {e.year ? `${e.year} · ` : ''}{e.score}
+              </p>
+            </div>
+          ))
+        }
         <div>
-          <p class="kicker">Background</p>
-          <ul class="mt-4 grid gap-3">
-            {
-              education.map((e) => (
-                <li>
-                  <span class="font-medium">{e.short}, {e.school}</span>
-                  <span class="block text-sm text-muted">
-                    {e.place}{e.year ? ` · ${e.year}` : ''} · {e.score}
-                  </span>
-                </li>
-              ))
-            }
-          </ul>
+          <p class="font-semibold">Languages</p>
+          <p class="text-sm text-muted">{profile.languages.join(' · ')}</p>
         </div>
         <div>
-          <p class="kicker">Languages</p>
-          <p class="mt-4">{profile.languages.join(' · ')}</p>
+          <p class="font-semibold">Based in</p>
+          <p class="text-sm text-muted">India · {profile.location.tzAbbr} ({profile.location.tzOffset})</p>
         </div>
       </div>
-      <ol class="principles" data-reveal>
+    </div>
+    <div class="lx-panel self-start" data-reveal style="--reveal-delay:120ms">
+      <p class="lx-eyebrow">How I work</p>
+      <ol class="mt-6">
         {
           principles.map(([title, text], i) => (
-            <li>
-              <span class="principle-n">0{i + 1}</span>
+            <li class="lx-principle">
+              <span>0{i + 1}</span>
               <div>
                 <h3>{title}</h3>
                 <p>{text}</p>

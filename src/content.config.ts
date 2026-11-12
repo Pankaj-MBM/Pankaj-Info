@@ -23,6 +23,8 @@ const projects = defineCollection({
       coverAlt: z.string().optional(),
       /** true = the cover is an illustrative UI mockup, not a real screenshot (labelled on the site). */
       illustration: z.boolean().default(false),
+      /** Short label shown on the project card, e.g. "Live in production". */
+      badge: z.string().optional(),
       gallery: z.array(z.object({ src: image(), alt: z.string() })).default([]),
       links: z
         .object({ live: z.string().optional(), repo: z.string().optional(), video: z.string().optional() })

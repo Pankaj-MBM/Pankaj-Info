@@ -1,21 +1,25 @@
 ---
 import { familiarSkills } from '@/data/skills';
+import Icon from '../ui/Icon.astro';
 
 const areas = [
   {
+    icon: 'lucide:layers',
     title: 'Product engineering',
-    text: 'End-to-end features across Angular front-ends, ASP.NET Core (C#) APIs and MongoDB — including 40+ REST APIs and a reusable Angular Material component library at Dial ERP.',
-    tools: ['Angular', 'TypeScript', 'Angular Material', 'ASP.NET Core', 'C#', 'MongoDB', 'REST APIs'],
+    text: 'End-to-end features across Angular front-ends, ASP.NET Core (C#) APIs and MongoDB — including 40+ REST APIs and a reusable Angular Material component library.',
+    tools: ['Angular', 'TypeScript', 'ASP.NET Core', 'C#', 'MongoDB', 'REST APIs'],
   },
   {
+    icon: 'lucide:sparkles',
     title: 'AI & automation',
-    text: 'AI assistants grounded in a company’s own data with Azure OpenAI and Azure AI Search (RAG), and WhatsApp Cloud API automation — templates, media, webhooks and bulk campaigns.',
+    text: 'AI assistants grounded in a company’s own data with Azure OpenAI and Azure AI Search (RAG), and WhatsApp Cloud API automation — templates, media, webhooks, bulk.',
     tools: ['Azure OpenAI', 'Azure AI Search', 'RAG', 'WhatsApp Cloud API', 'Webhooks'],
   },
   {
+    icon: 'lucide:rocket',
     title: 'Mobile & delivery',
     text: 'Flutter and Firebase apps, Google Maps tracking, and delivery from GitHub Actions to Jenkins pipelines deploying to Nginx on Linux.',
-    tools: ['Flutter', 'Firebase', 'Google Maps API', 'Linux', 'Nginx', 'Git'],
+    tools: ['Flutter', 'Firebase', 'Google Maps', 'Linux', 'Nginx', 'Git'],
   },
 ];
 const also = ['MySQL', 'PostgreSQL', 'Redis', 'Laravel', 'React', 'JavaScript', 'Bootstrap', 'Postman'];
@@ -23,20 +27,27 @@ const also = ['MySQL', 'PostgreSQL', 'Redis', 'Laravel', 'React', 'JavaScript', 
 
 <section id="skills" class="section" aria-labelledby="skills-title">
   <div class="container-page">
-    <h2 id="skills-title" class="section-title">What I <em class="accent-serif text-primary">do</em></h2>
-    <ol class="cap-grid mt-16">
+    <div data-reveal>
+      <p class="lx-eyebrow">Expertise</p>
+      <h2 id="skills-title" class="lx-title mt-5">What I <span class="lx-serif">bring.</span></h2>
+    </div>
+    <ul class="mt-14 grid gap-5 md:grid-cols-3">
       {
         areas.map((a, i) => (
-          <li class="cap" data-reveal style={`--reveal-delay:${i * 90}ms`}>
-            <span class="cap-n">0{i + 1}</span>
-            <h3 class="cap-title">{a.title}</h3>
-            <p class="cap-text">{a.text}</p>
-            <p class="cap-tools">{a.tools.join(' · ')}</p>
+          <li class="lx-cap" data-reveal style={`--reveal-delay:${i * 90}ms`}>
+            <span class="lx-cap-icon"><Icon name={a.icon} class="size-6" /></span>
+            <h3>{a.title}</h3>
+            <p>{a.text}</p>
+            <ul class="lx-tags">
+              {a.tools.map((t) => (
+                <li>{t}</li>
+              ))}
+            </ul>
           </li>
         ))
       }
-    </ol>
-    <p class="mt-14 text-sm text-muted" data-reveal>
+    </ul>
+    <p class="mt-10 text-sm text-muted" data-reveal>
       Also worked with {also.join(', ')}. Familiar from university: {familiarSkills.join(', ')}.
     </p>
   </div>

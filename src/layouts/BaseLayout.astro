@@ -37,7 +37,7 @@ const props = Astro.props;
           theme = localStorage.getItem('theme');
         } catch {}
         if (theme !== 'light' && theme !== 'dark') {
-          theme = 'dark';
+          theme = 'light';
         }
         root.dataset.theme = theme;
       })();
@@ -49,7 +49,7 @@ const props = Astro.props;
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#f7f5f0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#05070d" media="(prefers-color-scheme: dark)" />
     <meta name="color-scheme" content="light dark" />
   </head>

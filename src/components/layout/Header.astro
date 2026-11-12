@@ -11,17 +11,17 @@ const base = Astro.url.pathname === '/' ? '' : '/';
 <header class="site-header" data-header>
   <div class="container-page flex h-16 items-center gap-3">
     <a href="/" class="flex items-center gap-2.5 rounded-full pr-2 font-semibold tracking-[-0.01em]">
-      <Logo class="size-8" />
+      <Logo class="size-9" />
       <span class="text-[1.02rem]">Pankaj Parihar</span>
       <span class="sr-only">— home</span>
     </a>
 
-    <nav aria-label="Primary" class="ml-auto hidden lg:block">
-      <ul class="flex items-center gap-0.5">
+    <nav aria-label="Primary" class="mx-auto hidden lg:block">
+      <ul class="lx-nav">
         {
           sections.map((s) => (
             <li>
-              <a href={`${base}#${s.id}`} class="nav-link" data-nav-link={s.id}>
+              <a href={`${base}#${s.id}`} data-nav-link={s.id}>
                 {s.label}
               </a>
             </li>
@@ -30,7 +30,7 @@ const base = Astro.url.pathname === '/' ? '' : '/';
       </ul>
     </nav>
 
-    <div class="ml-auto flex items-center gap-1 lg:ml-3">
+    <div class="ml-auto flex items-center gap-1 lg:ml-0">
       <button
         type="button"
         class="search-btn hidden md:inline-flex"
@@ -45,7 +45,7 @@ const base = Astro.url.pathname === '/' ? '' : '/';
       <ThemeToggle />
       <a
         href={profile.resume.pdf}
-        class="btn btn-secondary btn-sm ml-1 max-[399px]:!px-3"
+        class="btn btn-sm ml-1 bg-fg text-bg hover:opacity-90 max-[399px]:!px-3"
         download
         data-track="resume_download"
         data-track-source="nav"

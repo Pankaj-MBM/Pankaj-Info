@@ -6,30 +6,37 @@ import Icon from '../ui/Icon.astro';
 
 <section id="experience" class="section" aria-labelledby="experience-title">
   <div class="container-page">
-    <h2 id="experience-title" class="section-title">Experience</h2>
-    <ol class="exp-list mt-14">
+    <div data-reveal>
+      <p class="lx-eyebrow">Experience</p>
+      <h2 id="experience-title" class="lx-title mt-5">Where I’ve <span class="lx-serif">built.</span></h2>
+    </div>
+    <ol class="mt-14 grid gap-5">
       {
         experience.map((job) => {
           const duration = durationLabel(job.start, job.end);
           return (
-            <li class="exp-row" data-reveal>
-              <div class="exp-when">
-                <p>{formatPeriod(job.start, job.end)}</p>
-                {duration && <p class="text-muted">{duration}</p>}
-                <p class="text-muted">{job.location}</p>
+            <li class="lx-job" data-reveal>
+              <div class="lx-job-when">
+                <b>{formatPeriod(job.start, job.end)}</b>
+                {duration && <span class="block">{duration}</span>}
+                <span class="block">{job.location}</span>
               </div>
               <div>
-                <h3 class="exp-role">
-                  {job.role} <span class="text-muted">at</span> <span class="text-primary">{job.company}</span>
+                <h3>
+                  {job.role} <span class="lx-serif text-muted">at</span> {job.company}
                 </h3>
-                <ul class="exp-points">
+                <ul>
                   {job.bullets.map((b) => (
-                    <li>{b}</li>
+                    <li class="pt">{b}</li>
                   ))}
                 </ul>
-                <p class="exp-stack">{job.stack.join(' · ')}</p>
+                <ul class="lx-tags !pt-6">
+                  {job.stack.map((s) => (
+                    <li>{s}</li>
+                  ))}
+                </ul>
                 {job.caseStudy && (
-                  <a href={job.caseStudy.href} class="arrow-link mt-5">
+                  <a href={job.caseStudy.href} class="mt-6 inline-flex items-center gap-2 font-semibold hover:text-primary">
                     {job.caseStudy.label} <Icon name="lucide:arrow-right" class="size-4" />
                   </a>
                 )}

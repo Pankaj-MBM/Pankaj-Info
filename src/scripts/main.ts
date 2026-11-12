@@ -281,91 +281,25 @@ function initReveal() {
   document.documentElement.classList.add('reveal-ready');
 }
 
-/* ---------- About: statement lights up word by word while scrolling ---------- */
-function initLitText() {
-  const el = $('[data-lit]');
-  if (!el || prefersReducedMotion()) return;
-  const words = $$('span', el);
-  el.setAttribute('data-lit-ready', '');
-  let ticking = false;
-  const update = () => {
-    ticking = false;
-    const rect = el.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const progress = Math.min(1, Math.max(0, (vh * 0.85 - rect.top) / (rect.height + vh * 0.3)));
-    const lit = Math.round(progress * words.length);
-    words.forEach((w, i) => w.classList.toggle('on', i < lit));
-  };
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    },
-    { passive: true },
-  );
-  update();
-}
-
-/* ---------- 3D particle hero (lazy; skipped for reduced motion, data saver or no WebGL) ---------- */
-function initHero3D() {
-  const canvas = $<HTMLCanvasElement>('[data-hero-3d]');
-  const name = $('[data-hero-name]');
-  if (!canvas || !name || prefersReducedMotion()) return;
-  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-  if (connection?.saveData) return;
-  const probe = document.createElement('canvas');
-  if (!(probe.getContext('webgl2') || probe.getContext('webgl'))) return;
-  const start = () => {
-    import('./hero3d')
-      .then((m) => m.startHero3D(canvas, name))
-      .then(() => document.documentElement.classList.add('has-3d'))
-      .catch(() => name.classList.remove('is-3d'));
-  };
-  if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 1500 });
-  else setTimeout(start, 600);
-}
-
-/* ---------- Work: the pinned screen follows the project you are reading ---------- */
-function initWorkStage() {
-  const items = $$('[data-work-index]');
-  const stage = $('[data-stage]');
-  if (!items.length || !stage || !('IntersectionObserver' in window)) return;
-  const shots = $$('[data-stage-shot]', stage);
-  const label = $('[data-stage-label]', stage);
-  const activate = (index: number) => {
-    items.forEach((it, i) => it.toggleAttribute('data-active', i === index));
-    shots.forEach((s, i) => s.toggleAttribute('data-active', i === index));
-    stage.style.setProperty('--glow', items[index]?.dataset.glow ?? '#7ab0ff');
-    if (label) label.textContent = shots[index]?.dataset.label ?? '';
-  };
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) activate(Number((entry.target as HTMLElement).dataset.workIndex));
-      }
-    },
-    { rootMargin: '-45% 0px -45% 0px' },
-  );
-  items.forEach((it) => observer.observe(it));
-  activate(0);
-}
-
-/* ---------- Small touches ---------- */
-function initMarquee() {
-  $$<HTMLButtonElement>('[data-marquee-toggle]').forEach((btn) => {
-    const host = btn.closest('[data-marquee]');
-    const track = host?.querySelector('.marquee');
-    btn.addEventListener('click', () => {
-      const paused = !host?.hasAttribute('data-paused');
-      host?.toggleAttribute('data-paused', paused);
-      track?.toggleAttribute('data-paused', paused);
-      btn.setAttribute('aria-pressed', String(paused));
-      btn.setAttribute('aria-label', paused ? 'Play the technology logos animation' : 'Pause the technology logos animation');
+/* ---------- Hero: screenshots and chips drift with the pointer (subtle depth) ---------- */
+function initParallax() {
+  const host = $('[data-parallax]');
+  if (!host || prefersReducedMotion() || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const layers = $$('[data-depth]', host);
+  let raf = 0;
+  host.addEventListener('pointermove', (e) => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      const r = host.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      layers.forEach((l) => {
+        const d = Number(l.dataset.depth ?? 0);
+        l.style.translate = `${(-x * d).toFixed(1)}px ${(-y * d).toFixed(1)}px`;
+      });
     });
   });
+  host.addEventListener('pointerleave', () => layers.forEach((l) => (l.style.translate = '0 0')));
 }
 
 function greetDevelopers() {
@@ -387,8 +321,5 @@ initPalette();
 initContactActions();
 initLocalTime();
 initReveal();
-initLitText();
-initWorkStage();
-initHero3D();
-initMarquee();
+initParallax();
 greetDevelopers();
