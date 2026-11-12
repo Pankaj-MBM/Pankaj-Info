@@ -309,6 +309,25 @@ function initLitText() {
   update();
 }
 
+/* ---------- 3D particle hero (lazy; skipped for reduced motion, data saver or no WebGL) ---------- */
+function initHero3D() {
+  const canvas = $<HTMLCanvasElement>('[data-hero-3d]');
+  const name = $('[data-hero-name]');
+  if (!canvas || !name || prefersReducedMotion()) return;
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  if (connection?.saveData) return;
+  const probe = document.createElement('canvas');
+  if (!(probe.getContext('webgl2') || probe.getContext('webgl'))) return;
+  const start = () => {
+    import('./hero3d')
+      .then((m) => m.startHero3D(canvas, name))
+      .then(() => document.documentElement.classList.add('has-3d'))
+      .catch(() => name.classList.remove('is-3d'));
+  };
+  if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 1500 });
+  else setTimeout(start, 600);
+}
+
 /* ---------- Work: the pinned screen follows the project you are reading ---------- */
 function initWorkStage() {
   const items = $$('[data-work-index]');
@@ -370,5 +389,6 @@ initLocalTime();
 initReveal();
 initLitText();
 initWorkStage();
+initHero3D();
 initMarquee();
 greetDevelopers();

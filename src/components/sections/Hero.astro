@@ -9,20 +9,28 @@ const ticker = ['CRM & ERP platforms', 'WhatsApp automation', 'QR ordering', 'AI
 
 <section id="top" class="hero-cine" aria-labelledby="hero-title" data-hero-chat>
   <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+  <canvas class="hero-canvas" data-hero-3d aria-hidden="true"></canvas>
 
-  <div class="container-page relative flex min-h-[calc(100svh-4rem)] flex-col justify-between gap-12 pt-8 pb-10 md:pt-12">
+  <div class="container-page relative z-[1] flex min-h-[calc(100svh-4rem)] flex-col justify-between gap-10 pt-8 pb-10 md:pt-12">
     <div class="hero-meta">
-      <span>Pankaj Parihar</span>
-      <span class="hidden sm:inline">Software Engineer</span>
+      <span>Software Engineer</span>
       <span>India · <LocalTime /></span>
       <span class="hero-avail"><i aria-hidden="true"></i>{availability.statusLabel}</span>
     </div>
 
-    <h1 id="hero-title" class="display">
-      <span class="line" style="--i:0"><span>I build software</span></span>
-      <span class="line" style="--i:1"><span>that businesses</span></span>
-      <span class="line" style="--i:2"><span><em class="accent-serif text-primary">run on.</em></span></span>
-    </h1>
+    <div>
+      <h1 id="hero-title" class="display hero-name" data-hero-name>
+        <span class="line" style="--i:0"><span data-line>Pankaj</span></span>
+        <span class="line" style="--i:1"><span data-line>Parihar</span></span>
+      </h1>
+      <p class="hero-tagline">
+        I build software that businesses <em class="accent-serif text-primary">run on.</em>
+      </p>
+      <p class="hero-hint" aria-hidden="true">
+        <span class="hint-mouse">Move your cursor through the name · click for a shockwave</span>
+        <span class="hint-touch">Touch the name · tap for a shockwave</span>
+      </p>
+    </div>
 
     <div class="hero-foot grid items-end gap-8 md:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] md:gap-16">
       <p class="hero-lead">{profile.pitch}</p>
@@ -35,7 +43,7 @@ const ticker = ['CRM & ERP platforms', 'WhatsApp automation', 'QR ordering', 'AI
     </div>
   </div>
 
-  <div class="ticker" data-marquee>
+  <div class="ticker relative z-[1]" data-marquee>
     <p class="sr-only">What I build: {ticker.join(', ')}</p>
     <div class="marquee flex-1" aria-hidden="true">
       <ul class="marquee-track">

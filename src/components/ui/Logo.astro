@@ -1,18 +1,27 @@
 ---
-/** "PP" monogram — two back-to-back P's inside a jharokha arch. */
+/** "PP" monogram — a blue P overlapped by a marigold P on a dark tile (same artwork as the favicon). */
 interface Props {
   class?: string;
 }
 const { class: className } = Astro.props;
+const id = `pp${Math.random().toString(36).slice(2, 8)}`;
+const P1 = 'M12 37V8.5h8a7.5 7.5 0 0 1 0 15h-8';
+const P2 = 'M23 39.5V17.5h6.5a7 7 0 0 1 0 14H23';
 ---
 
-<svg viewBox="0 0 32 32" class={className} aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-  <path d="M6 29V14.5a10 10 0 0 1 20 0V29H6Z" fill="var(--primary)"></path>
-  <path
-    d="M16 9v15M16 9h3.25a3.4 3.4 0 0 1 0 6.8H16M16 9h-3.25a3.4 3.4 0 0 0 0 6.8H16"
-    fill="none"
-    stroke="var(--on-primary)"
-    stroke-width="2.2"
-    stroke-linecap="round"
-    stroke-linejoin="round"></path>
+<svg viewBox="0 0 48 48" class={className} aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id={`${id}b`} x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a9ccff"></stop><stop offset="1" stop-color="#3a7be0"></stop>
+    </linearGradient>
+    <linearGradient id={`${id}g`} x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd98a"></stop><stop offset="1" stop-color="#f2a93b"></stop>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="13" fill="#0b1220"></rect>
+  <rect x=".75" y=".75" width="46.5" height="46.5" rx="12.25" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="1.5"></rect>
+  <path d={P1} fill="none" stroke={`url(#${id}b)`} stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
+  <path d="M23 17.5h6.5a7 7 0 0 1 0 14H23z" fill="#0b1220"></path>
+  <path d={P2} fill="none" stroke="#0b1220" stroke-width="8.6" stroke-linecap="round" stroke-linejoin="round"></path>
+  <path d={P2} fill="none" stroke={`url(#${id}g)`} stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"></path>
 </svg>
