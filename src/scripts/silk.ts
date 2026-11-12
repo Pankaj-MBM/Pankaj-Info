@@ -1,7 +1,7 @@
 /**
- * "Silk" hero background: a ribbon of fine threads that rises from the lower-left to behind the portrait,
+ * "Silk" hero background: ribbons of fine threads flowing around the portrait,
  * twisting slowly and bending a little towards the pointer.
- * Light on purpose: one 2D canvas, ~30 polylines, DPR capped at 2, paused off-screen / in hidden tabs,
+ * Light on purpose: one 2D canvas, ~90 polylines, DPR capped at 2, paused off-screen / in hidden tabs,
  * and a single still frame for prefers-reduced-motion.
  */
 import { prefersReducedMotion } from './utils';
@@ -48,48 +48,81 @@ export function initSilk(canvas: HTMLCanvasElement) {
     if (!running) draw();
   };
 
+  /**
+   * Three ribbons. y values are fractions of the hero's first screen; `fade` is where along x each ribbon
+   * becomes visible / disappears again, so threads never sit on top of the headline.
+   * swap = blue→gold instead of gold→blue.
+   */
+  type Ribbon = {
+    from: number;
+    to: number;
+    lines: number;
+    spread: number;
+    amp: number;
+    freq: number;
+    speed: number;
+    phase: number;
+    weight: number;
+    fade: [number, number, number, number];
+    swap?: boolean;
+    desktopOnly?: boolean;
+  };
+  const ribbons: Ribbon[] = [
+    // Main ribbon: from below the text, rising behind the portrait.
+    { from: 0.98, to: 0.08, lines: 40, spread: 9, amp: 52, freq: 4.6, speed: 0.5, phase: 0, weight: 1, fade: [0, 0.3, 0.75, 1] },
+    // Counter ribbon: falls across the right half, crossing the main one behind the photo.
+    { from: 0.05, to: 0.92, lines: 28, spread: 6, amp: 40, freq: 3.8, speed: -0.42, phase: 2.1, weight: 0.8, fade: [0.45, 0.68, 0.9, 1], swap: true },
+    // Low, faint ribbon along the bottom of the first screen.
+    { from: 0.9, to: 0.8, lines: 22, spread: 4, amp: 26, freq: 6.2, speed: 0.36, phase: 4.2, weight: 0.55, fade: [0, 0.25, 0.7, 1], desktopOnly: true },
+  ];
+
   const draw = () => {
     ctx.clearRect(0, 0, w, h);
     const mobile = w < 768;
-    const lines = mobile ? 26 : 40;
     const step = mobile ? 10 : 14;
-    // Desktop: rises from below the text to behind the portrait. Mobile: flows behind the photo on the first screen.
+    // Desktop: the first screen (≤ 900px). Mobile: the photo area at the top.
     const span = Math.min(h, mobile ? 560 : 900);
-    const startY = mobile ? span * 0.8 : span * 0.98;
-    const endY = mobile ? span * 0.22 : span * 0.08;
-    const spread = mobile ? 5.5 : 9;
 
     pointer.x += (pointer.tx - pointer.x) * 0.05;
     pointer.y += (pointer.ty - pointer.y) * 0.05;
     pointer.pull += (pointer.tpull - pointer.pull) * 0.04;
-
-    const grad = ctx.createLinearGradient(0, startY, w, endY);
-    const [ar, ag, ab] = colorA;
-    const [br, bg, bb] = colorB;
-    grad.addColorStop(0, `rgb(${ar} ${ag} ${ab} / 0)`);
-    grad.addColorStop(0.3, `rgb(${ar} ${ag} ${ab} / ${alpha})`);
-    grad.addColorStop(0.75, `rgb(${br} ${bg} ${bb} / ${alpha})`);
-    grad.addColorStop(1, `rgb(${br} ${bg} ${bb} / 0)`);
-    ctx.strokeStyle = grad;
-    ctx.lineWidth = 1;
-
     const px = pointer.x * w;
     const py = pointer.y * h;
-    for (let i = 0; i < lines; i++) {
-      const k = i / (lines - 1) - 0.5; // -0.5 … 0.5 across the ribbon
-      ctx.beginPath();
-      for (let x = -step; x <= w + step; x += step) {
-        const u = x / w;
-        const base = startY + (endY - startY) * (u * u * (3 - 2 * u)); // smooth S-curve rise
-        const wave = Math.sin(u * 4.6 + t * 0.5) * (mobile ? 30 : 52) + Math.sin(u * 11 - t * 0.8 + k * 2) * 10;
-        const twist = Math.sin(u * 3.4 - t * 0.45) * 1.4 + 0.25; // threads cross over like silk
-        let y = base + wave + k * spread * 22 * twist;
-        const dx = (x - px) / (w * 0.18);
-        y += (py - y) * 0.22 * pointer.pull * Math.exp(-dx * dx);
-        if (x === -step) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
+    ctx.lineWidth = 1;
+
+    for (const r of ribbons) {
+      if (mobile && r.desktopOnly) continue;
+      const startY = span * (mobile ? 0.2 + r.from * 0.62 : r.from);
+      const endY = span * (mobile ? 0.2 + r.to * 0.62 : r.to);
+      const [c1, c2] = r.swap ? [colorB, colorA] : [colorA, colorB];
+      const a = alpha * r.weight;
+      const grad = ctx.createLinearGradient(0, startY, w, endY);
+      grad.addColorStop(r.fade[0], `rgb(${c1.join(' ')} / 0)`);
+      grad.addColorStop(r.fade[1], `rgb(${c1.join(' ')} / ${a})`);
+      grad.addColorStop(r.fade[2], `rgb(${c2.join(' ')} / ${a})`);
+      grad.addColorStop(r.fade[3], `rgb(${c2.join(' ')} / 0)`);
+      ctx.strokeStyle = grad;
+
+      const lines = mobile ? Math.round(r.lines * 0.65) : r.lines;
+      const spread = r.spread * (mobile ? 0.6 : 1);
+      const amp = r.amp * (mobile ? 0.6 : 1);
+      const tt = t * r.speed;
+      for (let i = 0; i < lines; i++) {
+        const k = i / (lines - 1) - 0.5; // -0.5 … 0.5 across the ribbon
+        ctx.beginPath();
+        for (let x = -step; x <= w + step; x += step) {
+          const u = Math.min(Math.max(x / w, 0), 1);
+          const base = startY + (endY - startY) * (u * u * (3 - 2 * u)); // smooth S-curve
+          const wave = Math.sin(u * r.freq + tt + r.phase) * amp + Math.sin(u * 11 - tt * 1.6 + k * 2) * 10;
+          const twist = Math.sin(u * 3.4 - tt * 0.9 + r.phase) * 1.4 + 0.25; // threads cross over like silk
+          let y = base + wave + k * spread * 22 * twist;
+          const dx = (x - px) / (w * 0.18);
+          y += (py - y) * 0.22 * pointer.pull * Math.exp(-dx * dx);
+          if (x === -step) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
       }
-      ctx.stroke();
     }
   };
 
