@@ -1,0 +1,47 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>;
+}
+const {
+  title,
+  description,
+  image = '/og/og-default.png',
+  imageAlt = 'Pankaj Parihar — Software Engineer · Angular · ASP.NET Core · Azure OpenAI',
+  type = 'website',
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex" />}
+<meta name="author" content="Pankaj Parihar" />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content="Pankaj Parihar" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+{jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}

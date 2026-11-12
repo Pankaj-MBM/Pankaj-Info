@@ -1,0 +1,71 @@
+---
+/** Simplified WhatsApp Cloud API message flow (accessible inline SVG). */
+---
+
+<figure class="diagram mt-6">
+  <p class="mb-2 text-xs text-muted md:hidden" aria-hidden="true">Swipe to see the full diagram →</p>
+  <div class="overflow-x-auto rounded-2xl border border-line bg-surface p-4 md:p-6" tabindex="0" aria-label="WhatsApp message flow diagram (scrollable)">
+    <svg viewBox="0 0 880 300" class="min-w-[720px]" role="img" aria-labelledby="wa-title wa-desc">
+      <title id="wa-title">WhatsApp message flow</title>
+      <desc id="wa-desc">
+        The Angular CRM sends messages through the ASP.NET Core Web API to Meta's WhatsApp Cloud API, which delivers
+        them to the customer. Delivery status and replies come back to the API through webhooks, are stored in
+        MongoDB, and update the CRM.
+      </desc>
+      <defs>
+        <marker id="wa-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 10 5 0 10z" fill="var(--primary)"></path>
+        </marker>
+        <marker id="wa-arrow-alt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 10 5 0 10z" fill="var(--accent-ink)"></path>
+        </marker>
+      </defs>
+
+      <g>
+        <rect class="node" x="16" y="40" width="170" height="68" rx="14"></rect>
+        <text class="t-title" x="101" y="70" text-anchor="middle">CRM web app</text>
+        <text class="t-sub" x="101" y="90" text-anchor="middle">Angular · Material</text>
+
+        <rect class="node node-accent" x="246" y="40" width="190" height="68" rx="14"></rect>
+        <text class="t-title" x="341" y="70" text-anchor="middle">ASP.NET Core API</text>
+        <text class="t-sub" x="341" y="90" text-anchor="middle">C# · REST + webhooks</text>
+
+        <rect class="node" x="496" y="40" width="170" height="68" rx="14"></rect>
+        <text class="t-title" x="581" y="70" text-anchor="middle">WhatsApp Cloud API</text>
+        <text class="t-sub" x="581" y="90" text-anchor="middle">Meta</text>
+
+        <rect class="node" x="726" y="40" width="140" height="68" rx="14"></rect>
+        <text class="t-title" x="796" y="70" text-anchor="middle">Customer</text>
+        <text class="t-sub" x="796" y="90" text-anchor="middle">on WhatsApp</text>
+
+        <rect class="node" x="256" y="206" width="170" height="68" rx="14"></rect>
+        <text class="t-title" x="341" y="236" text-anchor="middle">MongoDB</text>
+        <text class="t-sub" x="341" y="256" text-anchor="middle">messages · status</text>
+      </g>
+
+      <path id="wa-forward" class="edge" d="M186 62H244" marker-end="url(#wa-arrow)"></path>
+      <path class="edge" d="M436 62H494" marker-end="url(#wa-arrow)"></path>
+      <path class="edge" d="M666 62H724" marker-end="url(#wa-arrow)"></path>
+      <text class="t-label" x="215" y="30" text-anchor="middle">send / bulk</text>
+      <text class="t-label" x="466" y="30" text-anchor="middle">template · media</text>
+      <text class="t-label" x="696" y="30" text-anchor="middle">deliver</text>
+
+      <path class="edge-dashed" d="M726 92H668" marker-end="url(#wa-arrow-alt)"></path>
+      <path class="edge-dashed" d="M496 92H438" marker-end="url(#wa-arrow-alt)"></path>
+      <path class="edge-dashed" d="M246 92H188" marker-end="url(#wa-arrow-alt)"></path>
+      <text class="t-label" x="696" y="128" text-anchor="middle">reply</text>
+      <text class="t-label" x="466" y="128" text-anchor="middle">webhook: status, replies</text>
+      <text class="t-label" x="215" y="128" text-anchor="middle">live updates</text>
+
+      <path class="edge" d="M341 110V204" marker-start="url(#wa-arrow)" marker-end="url(#wa-arrow)"></path>
+      <text class="t-label" x="352" y="162">store / read</text>
+
+      <circle class="packet" r="5">
+        <animateMotion dur="3.2s" repeatCount="indefinite" path="M186 62H244M436 62H494M666 62H724"></animateMotion>
+      </circle>
+    </svg>
+  </div>
+  <figcaption class="mt-3 text-sm text-muted">
+    Simplified message flow — outgoing messages (solid) and webhook callbacks (dashed). Details anonymized.
+  </figcaption>
+</figure>

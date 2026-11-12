@@ -1,0 +1,72 @@
+---
+import '@fontsource-variable/geist/wght.css';
+import '@fontsource/instrument-serif/latin-400-italic.css';
+import '../styles/global.css';
+import geistWoff2 from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import SEO from '../components/layout/SEO.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import ChatFab from '../components/features/ChatFab.astro';
+import CommandPalette from '../components/features/CommandPalette.astro';
+import RecruiterSummary from '../components/features/RecruiterSummary.astro';
+import SiteConfig from '../components/features/SiteConfig.astro';
+import Toast from '../components/features/Toast.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>;
+}
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        root.classList.add('js');
+        let theme = null;
+        try {
+          theme = localStorage.getItem('theme');
+        } catch {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        root.dataset.theme = theme;
+      })();
+    </script>
+    <link rel="preload" href={geistWoff2} as="font" type="font/woff2" crossorigin />
+    <SEO {...props} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#f7f5f0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#070b14" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+    <Footer />
+    <ChatFab />
+    <RecruiterSummary />
+    <CommandPalette />
+    <Toast />
+    <SiteConfig />
+    <script>
+      import '@/scripts/main';
+    </script>
+  </body>
+</html>

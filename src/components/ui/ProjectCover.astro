@@ -1,0 +1,59 @@
+---
+/** Real screenshot when available; otherwise a designed, on-brand placeholder cover. */
+import { Image } from 'astro:assets';
+import type { Project } from '@/lib/projects';
+import Icon from './Icon.astro';
+import JaaliPattern from './JaaliPattern.astro';
+
+interface Props {
+  project: Project;
+  eager?: boolean;
+}
+const { project, eager = false } = Astro.props;
+const { cover, coverAlt, title, tags, order, illustration } = project.data;
+const alt = coverAlt ?? (illustration ? `Illustrative UI mockup of ${title}` : `Screenshot of ${title}`);
+
+const iconByTag: Record<string, string> = {
+  ai: 'lucide:brain-circuit',
+  angular: 'si:angular',
+  dotnet: 'si:dotnet',
+  flutter: 'si:flutter',
+  react: 'si:react',
+  maps: 'lucide:route',
+  web: 'lucide:globe',
+  realtime: 'lucide:zap',
+};
+const icon = iconByTag[tags[0] ?? ''] ?? 'lucide:layers';
+---
+
+{
+  cover ? (
+    <Image
+      src={cover}
+      alt={alt}
+      widths={[480, 800, 1200]}
+      sizes="(min-width: 1024px) 50vw, 100vw"
+      loading={eager ? 'eager' : 'lazy'}
+      class="h-full w-full object-cover object-top-left"
+    />
+  ) : (
+    <div class="cover-gen" data-variant={String(order % 3)} aria-hidden="true">
+      <JaaliPattern id={`cover-${project.id}`} size={48} class="absolute inset-0 h-full w-full text-white/[0.13]" />
+      <div class="mock-window">
+        <div class="mock-bar">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div class="mock-body">
+          <Icon name={icon} class="size-10 shrink-0" />
+          <div class="mock-lines">
+            <i />
+            <i />
+            <i />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

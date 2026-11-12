@@ -1,0 +1,25 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+
+# environment variables
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+
+# Private planning docs — never publish these (candid audit + personal notes)
+Roadmap.md
+info.md
+Pankaj-2026.pdf
+.private/

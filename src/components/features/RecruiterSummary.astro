@@ -1,0 +1,89 @@
+---
+/** 30-second recruiter summary (Roadmap §4.5-B) — opens from buttons, the palette, the chat or /?view=summary. */
+import { profile } from '@/data/profile';
+import { education } from '@/data/education';
+import { coreSkills } from '@/data/skills';
+import { experienceLabel } from '@/lib/format';
+import Icon from '../ui/Icon.astro';
+
+const { availability, location, resume, socials } = profile;
+const mca = education[0];
+const facts = [
+  { label: 'Experience', value: experienceLabel() },
+  { label: 'Current role', value: 'Software Engineer, Dial ERP Technology' },
+  { label: 'Location', value: `${location.city ? `${location.city}, ` : ''}${location.country} · ${location.tzAbbr}` },
+  { label: 'Education', value: `${mca.short}, ${mca.school} (${mca.score})` },
+  availability.noticePeriod ? { label: 'Notice period', value: availability.noticePeriod } : null,
+  availability.openTo.length ? { label: 'Open to', value: availability.openTo.join(' · ') } : null,
+  availability.relocation ? { label: 'Relocation', value: availability.relocation } : null,
+].filter((f): f is { label: string; value: string } => f !== null);
+
+const highlights = [
+  '40+ REST APIs in ASP.NET Core and reusable Angular Material components',
+  'WhatsApp Cloud API — templates, media, webhooks and bulk messaging',
+  'AI chatbot features on Azure OpenAI + Azure AI Search (RAG)',
+];
+---
+
+<dialog id="summary-dialog" class="modal" aria-labelledby="summary-title">
+  <div class="p-6 sm:p-8">
+    <div class="flex items-start gap-4">
+      <span class="arch-mini !w-14 shrink-0 text-xl" aria-hidden="true">PP</span>
+      <div class="min-w-0 flex-1">
+        <p class="eyebrow">30-second summary</p>
+        <h2 id="summary-title" class="mt-1 text-2xl font-semibold tracking-[-0.02em]">{profile.name}</h2>
+        <p class="text-muted">{profile.role} · {profile.tagline}</p>
+      </div>
+      <button type="button" class="icon-btn -mt-2 -mr-2" data-dialog-close aria-label="Close summary">
+        <Icon name="lucide:x" class="size-5" />
+      </button>
+    </div>
+
+    <p class="mt-5 inline-flex items-center gap-2 rounded-full bg-surface-2 px-3 py-1 text-sm font-medium">
+      <span class="status-dot"></span>{availability.statusLabel}
+    </p>
+
+    <dl class="mt-6 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+      {
+        facts.map((f) => (
+          <div>
+            <dt class="text-xs font-semibold tracking-[0.06em] text-muted uppercase">{f.label}</dt>
+            <dd class="mt-0.5 font-medium">{f.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <p class="mt-6 text-xs font-semibold tracking-[0.06em] text-muted uppercase">Core stack</p>
+    <ul class="mt-2 flex flex-wrap gap-1.5">
+      {coreSkills.map((s) => <li class="chip">{s.name}</li>)}
+    </ul>
+
+    <p class="mt-6 text-xs font-semibold tracking-[0.06em] text-muted uppercase">Highlights</p>
+    <ul class="mt-2 grid gap-2">
+      {
+        highlights.map((h) => (
+          <li class="flex gap-2.5">
+            <Icon name="lucide:check" class="mt-1 size-4 shrink-0 text-success" />
+            <span>{h}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-7 flex flex-wrap gap-2">
+      <a href={resume.pdf} class="btn btn-primary" download data-track="resume_download" data-track-source="summary">
+        <Icon name="lucide:download" class="size-[1.1rem]" /> Download resume
+      </a>
+      <button type="button" class="btn btn-secondary" data-copy-email>
+        <Icon name="lucide:mail" class="size-[1.1rem]" /> Copy email
+      </button>
+      <a href="#contact" class="btn btn-secondary" data-whatsapp>
+        <Icon name="si:whatsapp" class="size-[1.1rem]" /> WhatsApp
+      </a>
+      <a href={socials.linkedin} class="btn btn-ghost" target="_blank" rel="noopener noreferrer" data-track="linkedin_click" data-track-source="summary">
+        <Icon name="si:linkedin" class="size-[1.1rem]" /> LinkedIn<span class="sr-only"> (opens in a new tab)</span>
+      </a>
+    </div>
+  </div>
+</dialog>

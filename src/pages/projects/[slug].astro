@@ -1,0 +1,223 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/ui/Icon.astro';
+import ProjectCover from '@/components/ui/ProjectCover.astro';
+import WhatsAppFlow from '@/components/diagrams/WhatsAppFlow.astro';
+import RagFlow from '@/components/diagrams/RagFlow.astro';
+import { contextLabels, getProjects, type Project } from '@/lib/projects';
+import { formatPeriod } from '@/lib/format';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, prev: projects[i - 1] ?? null, next: projects[i + 1] ?? null },
+  }));
+}
+
+interface Props {
+  project: Project;
+  prev: Project | null;
+  next: Project | null;
+}
+const { project, prev, next } = Astro.props;
+const { Content, headings } = await render(project);
+const d = project.data;
+
+const facts = [
+  d.role ? { label: 'Role', value: d.role } : null,
+  d.period ? { label: 'Timeline', value: formatPeriod(d.period.start, d.period.end ?? null) } : null,
+  d.org ? { label: 'Organization', value: d.org } : d.context ? { label: 'Type', value: contextLabels[d.context] } : null,
+  {
+    label: 'Status',
+    value: d.visibility === 'public' ? 'Public code' : d.visibility === 'confidential' ? 'Confidential — screenshots only' : 'Private — screenshots only',
+  },
+].filter((f): f is { label: string; value: string } => f !== null);
+
+const diagramHeading = d.diagrams.length ? [{ depth: 2, slug: 'architecture', text: 'Architecture' }] : [];
+const toc = [...headings.filter((h) => h.depth === 2), ...diagramHeading];
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: d.title,
+  description: d.summary,
+  author: { '@type': 'Person', name: 'Pankaj Parihar', url: new URL('/', Astro.site).href },
+  url: new URL(`/projects/${project.id}/`, Astro.site).href,
+};
+---
+
+<BaseLayout title={`${d.title} — Case Study · Pankaj Parihar`} description={d.summary} type="article" jsonLd={articleLd}>
+  <article class="container-page pt-8 pb-16 md:pt-12">
+    <nav aria-label="Breadcrumb" class="text-sm text-muted">
+      <ol class="flex flex-wrap items-center gap-1.5">
+        <li><a href="/" class="hover:text-primary">Home</a></li>
+        <li aria-hidden="true"><Icon name="lucide:chevron-right" class="size-3.5" /></li>
+        <li><a href="/#projects" class="hover:text-primary">Projects</a></li>
+        <li aria-hidden="true"><Icon name="lucide:chevron-right" class="size-3.5" /></li>
+        <li aria-current="page" class="text-fg">{d.title}</li>
+      </ol>
+    </nav>
+
+    <header class="mt-8 max-w-3xl">
+      <div class="flex flex-wrap gap-2">
+        {d.visibility !== 'public' && (
+          <span class="chip"><Icon name="lucide:lock" class="size-3.5" />{d.visibility === 'confidential' ? 'Confidential' : 'Private project'}</span>
+        )}
+        {d.aiAssisted && <span class="chip"><Icon name="lucide:sparkles" class="size-3.5 text-accent-ink" />AI-assisted build</span>}
+        {d.draft && <span class="chip !bg-accent text-[#0b1220]">Draft — needs content</span>}
+      </div>
+      <h1 class="mt-4 text-[clamp(2.2rem,5.5vw,3.75rem)] leading-[1.04] font-bold tracking-[-0.03em]">{d.title}</h1>
+      <p class="mt-4 text-lg text-muted md:text-xl">{d.summary}</p>
+    </header>
+
+    <dl class="mt-8 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+      {
+        facts.map((f) => (
+          <div class="bg-surface p-4">
+            <dt class="text-xs font-semibold tracking-[0.06em] text-muted uppercase">{f.label}</dt>
+            <dd class="mt-1 font-medium">{f.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    {
+      d.visibility === 'public' && (d.links.repo || d.links.live) && (
+        <div class="mt-6 flex flex-wrap gap-2">
+          {d.links.live && (
+            <a href={d.links.live} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              View live <Icon name="lucide:arrow-up-right" class="size-4" />
+            </a>
+          )}
+          {d.links.repo && (
+            <a href={d.links.repo} class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="github_click" data-track-source={project.id}>
+              <Icon name="si:github" class="size-4" /> View code on GitHub
+            </a>
+          )}
+        </div>
+      )
+    }
+
+    <div class="relative mt-10 aspect-[16/10] overflow-hidden rounded-3xl border border-line">
+      <ProjectCover project={project} eager />
+    </div>
+    {
+      (d.illustration || d.visibility === 'confidential') && (
+        <p class="mt-3 text-sm text-muted">
+          {d.illustration && 'Illustrative UI mockup, not a real screenshot — real screens can be shown in an interview. '}
+          {d.visibility === 'confidential' && `Built at ${d.org ?? 'work'}; no proprietary code or client data shown.`}
+        </p>
+      )
+    }
+
+    <div class="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_15rem]">
+      <div class="min-w-0">
+        {
+          d.highlights.length > 0 && (
+            <section class="card p-6 md:p-7" aria-labelledby="tldr-title">
+              <h2 id="tldr-title" class="eyebrow">TL;DR</h2>
+              <ul class="mt-4 grid gap-2.5 sm:grid-cols-2">
+                {d.highlights.map((h) => (
+                  <li class="flex gap-2.5">
+                    <Icon name="lucide:check" class="mt-1 size-4 shrink-0 text-success" />
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        <div class="prose-cs mt-4">
+          <Content />
+        </div>
+
+        {
+          d.diagrams.length > 0 && (
+            <section class="prose-cs" aria-labelledby="architecture">
+              <h2 id="architecture">Architecture</h2>
+              {d.diagrams.includes('whatsapp') && <WhatsAppFlow />}
+              {d.diagrams.includes('rag') && <RagFlow />}
+            </section>
+          )
+        }
+
+        {
+          d.metrics.length > 0 && (
+            <section class="mt-12" aria-labelledby="results-title">
+              <h2 id="results-title" class="text-2xl font-semibold">Results</h2>
+              <ul class="mt-5 grid gap-4 sm:grid-cols-3">
+                {d.metrics.map((m) => (
+                  <li class="card p-5">
+                    <p class="text-gradient text-3xl font-bold">{m.value}</p>
+                    <p class="mt-1 text-sm text-muted">{m.label}</p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        {
+          d.stack.length > 0 && (
+            <section class="mt-12" aria-labelledby="stack-title">
+              <h2 id="stack-title" class="text-sm font-semibold tracking-[0.08em] text-muted uppercase">Tech stack</h2>
+              <ul class="mt-4 flex flex-wrap gap-2">
+                {d.stack.map((s) => (
+                  <li class="chip !py-1.5 !text-sm">{s}</li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+      </div>
+
+      {
+        toc.length > 1 && (
+          <aside class="hidden lg:block">
+            <nav aria-label="On this page" class="sticky top-24">
+              <p class="text-xs font-semibold tracking-[0.08em] text-muted uppercase">On this page</p>
+              <ul class="mt-4 grid gap-2 border-l border-line text-sm">
+                {toc.map((h) => (
+                  <li>
+                    <a href={`#${h.slug}`} class="-ml-px block border-l border-transparent pl-4 text-muted hover:border-primary hover:text-fg">
+                      {h.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </aside>
+        )
+      }
+    </div>
+
+    <nav aria-label="More projects" class="mt-16 grid gap-4 border-t border-line pt-8 sm:grid-cols-2">
+      {
+        prev ? (
+          <a href={`/projects/${prev.id}/`} class="card group p-5 hover:border-primary">
+            <span class="text-sm text-muted">← Previous project</span>
+            <span class="mt-1 block font-semibold group-hover:text-primary">{prev.data.title}</span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        next ? (
+          <a href={`/projects/${next.id}/`} class="card group p-5 text-right hover:border-primary">
+            <span class="text-sm text-muted">Next project →</span>
+            <span class="mt-1 block font-semibold group-hover:text-primary">{next.data.title}</span>
+          </a>
+        ) : (
+          <a href="/#contact" class="card group p-5 text-right hover:border-primary">
+            <span class="text-sm text-muted">That’s all for now →</span>
+            <span class="mt-1 block font-semibold group-hover:text-primary">Let’s talk</span>
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</BaseLayout>

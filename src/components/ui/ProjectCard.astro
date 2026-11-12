@@ -1,0 +1,97 @@
+---
+import type { Project } from '@/lib/projects';
+import { contextLabels, projectYear } from '@/lib/projects';
+import Icon from './Icon.astro';
+import ProjectCover from './ProjectCover.astro';
+
+interface Props {
+  project: Project;
+  size?: 'lg' | 'md';
+}
+const { project, size = 'md' } = Astro.props;
+const { title, summary, stack, links, visibility, aiAssisted, tags, context, org, draft, illustration } =
+  project.data;
+const href = `/projects/${project.id}/`;
+const year = projectYear(project);
+const meta = [org ?? (context ? contextLabels[context] : null), year].filter(Boolean).join(' · ');
+const headingId = `project-${project.id}`;
+---
+
+<div class:list={['h-full', size === 'lg' && 'lg:col-span-1']} data-project data-tags={tags.join(' ')} data-reveal>
+<article class="project-card card spotlight h-full" aria-labelledby={headingId}>
+  <a href={href} class="project-media" tabindex="-1" aria-hidden="true">
+    <ProjectCover project={project} />
+    <span class="absolute top-3 left-3 z-[3] flex flex-wrap gap-1.5">
+      {
+        visibility !== 'public' && (
+          <span class="badge-glass">
+            <Icon name="lucide:lock" class="size-3" />
+            {visibility === 'confidential' ? 'Confidential' : 'Private project'}
+          </span>
+        )
+      }
+      {
+        aiAssisted && (
+          <span class="badge-glass">
+            <Icon name="lucide:sparkles" class="size-3" />
+            AI-assisted build
+          </span>
+        )
+      }
+      {draft && <span class="badge-glass !bg-[#9a5b00]">Draft — add details</span>}
+    </span>
+    {
+      illustration && (
+        <span class="badge-glass absolute right-3 bottom-3 z-[3] !bg-black/45 !font-medium">Illustrative UI</span>
+      )
+    }
+  </a>
+  <div class:list={['flex flex-1 flex-col', size === 'lg' ? 'p-6 md:p-7' : 'p-5 md:p-6']}>
+    {meta && <p class="text-xs font-medium tracking-wide text-muted uppercase">{meta}</p>}
+    <h3
+      id={headingId}
+      class:list={['mt-1.5 font-semibold tracking-[-0.015em]', size === 'lg' ? 'text-2xl' : 'text-xl']}
+    >
+      <a href={href} class="hover:text-primary">{title}</a>
+    </h3>
+    <p class="mt-2 text-[0.975rem] text-muted">{summary}</p>
+    {
+      stack.length > 0 && (
+        <ul class="mt-4 flex flex-wrap gap-1.5" aria-label="Tech stack">
+          {stack.slice(0, size === 'lg' ? 6 : 4).map((s) => (
+            <li class="chip">{s}</li>
+          ))}
+        </ul>
+      )
+    }
+    <div class="mt-auto flex flex-wrap items-center gap-2 pt-5">
+      <a href={href} class="btn btn-secondary btn-sm">
+        Case study <Icon name="lucide:arrow-right" class="size-4" />
+      </a>
+      {
+        visibility === 'public' && links.repo && (
+          <a
+            href={links.repo}
+            class="btn btn-ghost btn-sm"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-track="github_click"
+            data-track-source={project.id}
+          >
+            <Icon name="si:github" class="size-4" /> Code
+            <span class="sr-only">(opens GitHub in a new tab)</span>
+          </a>
+        )
+      }
+      {
+        visibility === 'public' && links.live && (
+          <a href={links.live} class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer">
+            Live <Icon name="lucide:arrow-up-right" class="size-4" />
+            <span class="sr-only">(opens in a new tab)</span>
+          </a>
+        )
+      }
+    </div>
+  </div>
+</article>
+</div>

@@ -1,0 +1,18 @@
+---
+/** "PP" monogram — two back-to-back P's inside a jharokha arch. */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<svg viewBox="0 0 32 32" class={className} aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <path d="M6 29V14.5a10 10 0 0 1 20 0V29H6Z" fill="var(--primary)"></path>
+  <path
+    d="M16 9v15M16 9h3.25a3.4 3.4 0 0 1 0 6.8H16M16 9h-3.25a3.4 3.4 0 0 0 0 6.8H16"
+    fill="none"
+    stroke="var(--on-primary)"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"></path>
+</svg>

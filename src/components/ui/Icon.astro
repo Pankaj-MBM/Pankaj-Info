@@ -1,0 +1,46 @@
+---
+/**
+ * Inline SVG icon, resolved at build time from Iconify JSON (zero runtime JS).
+ * name: 'lucide:<icon>' or 'si:<simple-icon>'. Decorative unless `label` is given.
+ */
+import lucide from '@iconify-json/lucide/icons.json';
+import simpleIcons from '@iconify-json/simple-icons/icons.json';
+
+interface IconSet {
+  icons: Record<string, { body: string; width?: number; height?: number }>;
+  aliases?: Record<string, { parent: string }>;
+  width?: number;
+  height?: number;
+}
+interface Props {
+  name: string;
+  class?: string;
+  label?: string;
+}
+
+const { name, class: className, label } = Astro.props;
+const [prefix, iconName] = name.includes(':') ? name.split(':') : ['lucide', name];
+const set = (prefix === 'si' ? simpleIcons : lucide) as unknown as IconSet;
+const key = set.icons[iconName] ? iconName : set.aliases?.[iconName]?.parent;
+const icon = key ? set.icons[key] : undefined;
+if (!icon && import.meta.env.DEV) console.warn(`[Icon] unknown icon "${name}"`);
+const width = icon?.width ?? set.width ?? 24;
+const height = icon?.height ?? set.height ?? 24;
+---
+
+{
+  icon && (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${width} ${height}`}
+      width="1em"
+      height="1em"
+      class={className}
+      role={label ? 'img' : undefined}
+      aria-label={label}
+      aria-hidden={label ? undefined : 'true'}
+      focusable="false"
+      set:html={icon.body}
+    />
+  )
+}

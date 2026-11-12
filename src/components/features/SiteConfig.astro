@@ -1,0 +1,19 @@
+---
+/**
+ * Contact details for the client scripts, base64-encoded so they are not sitting in the HTML as plain text
+ * (a light guard against e-mail/phone scrapers — Roadmap §6.7).
+ */
+import { email, profile } from '@/data/profile';
+
+const encode = (value: string) => btoa(String.fromCharCode(...new TextEncoder().encode(value)));
+const c = profile.contact;
+const config = {
+  e: encode(email),
+  p: encode(c.phoneDisplay),
+  t: encode(c.phoneE164),
+  w: encode(c.whatsapp),
+  m: encode(c.whatsappMessage),
+};
+---
+
+<script id="site-config" is:inline type="application/json" set:html={JSON.stringify(config)} />

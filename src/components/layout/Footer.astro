@@ -1,0 +1,82 @@
+---
+import { sections } from '@/data/nav';
+import { profile } from '@/data/profile';
+import Icon from '../ui/Icon.astro';
+import Logo from '../ui/Logo.astro';
+
+const base = Astro.url.pathname === '/' ? '' : '/';
+const now = new Date();
+const updated = now.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+---
+
+<footer class="site-footer mt-10 border-t border-line">
+  <div class="container-page grid gap-10 py-12 md:grid-cols-[1.5fr_1fr_1fr]">
+    <div>
+      <a href="/" class="inline-flex items-center gap-2.5 font-semibold">
+        <Logo class="size-8" /> Pankaj Parihar
+      </a>
+      <p class="mt-4 max-w-sm text-sm text-muted">
+        Software Engineer building AI-powered enterprise apps with Angular, ASP.NET Core and Azure OpenAI. Based in
+        India · {profile.location.tzAbbr} ({profile.location.tzOffset}).
+      </p>
+    </div>
+    <nav aria-label="Footer">
+      <p class="text-xs font-semibold tracking-[0.08em] text-muted uppercase">Explore</p>
+      <ul class="mt-4 grid gap-2 text-sm">
+        {
+          sections.map((s) => (
+            <li>
+              <a href={`${base}#${s.id}`} class="hover:text-primary">
+                {s.label}
+              </a>
+            </li>
+          ))
+        }
+        <li><a href="/resume/" class="hover:text-primary">Resume</a></li>
+      </ul>
+    </nav>
+    <div>
+      <p class="text-xs font-semibold tracking-[0.08em] text-muted uppercase">Connect</p>
+      <ul class="mt-4 grid gap-2 text-sm">
+        <li>
+          <a href={profile.socials.linkedin} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 hover:text-primary" data-track="linkedin_click" data-track-source="footer">
+            <Icon name="si:linkedin" class="size-4" /> LinkedIn
+          </a>
+        </li>
+        <li>
+          <a href={profile.socials.github} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 hover:text-primary" data-track="github_click" data-track-source="footer">
+            <Icon name="si:github" class="size-4" /> GitHub
+          </a>
+        </li>
+        {
+          profile.socials.naukri && (
+            <li>
+              <a href={profile.socials.naukri} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 hover:text-primary">
+                <Icon name="lucide:briefcase" class="size-4" /> Naukri
+              </a>
+            </li>
+          )
+        }
+        <li>
+          <button type="button" class="inline-flex items-center gap-2 hover:text-primary" data-copy-email>
+            <Icon name="lucide:mail" class="size-4" /> Copy email
+          </button>
+        </li>
+        <li>
+          <a href="#contact" class="inline-flex items-center gap-2 hover:text-primary" data-whatsapp>
+            <Icon name="si:whatsapp" class="size-4" /> WhatsApp
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-line">
+    <div class="container-page flex flex-col gap-2 py-6 text-sm text-muted md:flex-row md:items-center md:justify-between">
+      <p>© {now.getFullYear()} Pankaj Parihar · Designed & built with Astro + Tailwind CSS</p>
+      <p>
+        No cookies · Last updated <time datetime={now.toISOString().slice(0, 10)}>{updated}</time> ·
+        <a href="#main" class="hover:text-primary">Back to top ↑</a>
+      </p>
+    </div>
+  </div>
+</footer>

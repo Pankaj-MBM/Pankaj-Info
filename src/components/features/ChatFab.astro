@@ -1,0 +1,13 @@
+---
+import Icon from '../ui/Icon.astro';
+import AskPankaj from './AskPankaj.astro';
+---
+
+<button type="button" class="chat-fab no-print" data-chat-fab aria-haspopup="dialog" aria-controls="chat-dialog">
+  <Icon name="lucide:message-circle" class="size-5" />
+  <span>Ask me</span>
+</button>
+
+<dialog id="chat-dialog" class="chat-dialog" aria-label="Ask Pankaj">
+  <AskPankaj id="chat-sheet" variant="sheet" />
+</dialog>

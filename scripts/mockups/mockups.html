@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Project UI mockups (illustrative)</title>
+<style>
+@font-face{font-family:Geist;src:url('../../node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2') format('woff2');font-weight:100 900}
+:root{--bg:#0a1020;--side:#0c1424;--card:#111a2d;--card2:#16223a;--line:#1d2a43;--line2:#17233a;--text:#e8edf6;--muted:#8d9ab3;--blue:#3a7be0;--blue2:#7ab0ff;--green:#22c55e;--wa:#25d366;--amber:#f2a93b;--red:#ef4444;--violet:#8b5cf6}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#05080f;font-family:Geist,system-ui,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.shot{width:1600px;height:1000px;display:flex;background:var(--bg);overflow:hidden;position:relative;margin-bottom:40px}
+.side{width:244px;flex:none;background:var(--side);border-right:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:4px}
+.brand{display:flex;align-items:center;gap:12px;padding:4px 8px 24px}
+.brand b{display:block;font-size:17px}.brand small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+.logo{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,#4f8ef7,#1d4fa8);font-weight:700;font-size:17px;flex:none}
+.nav{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;color:var(--muted);font-size:15px;font-weight:500}
+.nav.on{background:#162440;color:#fff}.nav.on svg{color:var(--blue2)}
+.count{margin-left:auto;background:var(--wa);color:#04210f;font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px}
+.side-foot{margin-top:auto}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.top{height:70px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;padding:0 28px}
+.top h1{font-size:21px;font-weight:650;letter-spacing:-.01em}
+.search{margin-left:auto;width:320px;height:40px;border-radius:11px;background:var(--card);border:1px solid var(--line);color:var(--muted);font-size:14px;display:flex;align-items:center;gap:10px;padding:0 14px}
+.icon-btn{width:40px;height:40px;border-radius:11px;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted)}
+.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;background:#2b4d8f;flex:none}
+.av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:700;flex:none}
+.content{padding:24px 28px;display:flex;flex-direction:column;gap:20px;flex:1;min-height:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card h3{font-size:15.5px;font-weight:600;display:flex;align-items:center;gap:8px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi{display:flex;flex-direction:column;gap:6px}.kpi .l{color:var(--muted);font-size:14px;display:flex;justify-content:space-between;align-items:center}
+.kpi .v{font-size:32px;font-weight:700;letter-spacing:-.02em}.kpi .d{font-size:13px;color:#4ade80}
+.ki{width:36px;height:36px;border-radius:10px;display:grid;place-items:center}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.b-green{background:rgba(34,197,94,.14);color:#4ade80}.b-amber{background:rgba(242,169,59,.15);color:#fbbf24}.b-red{background:rgba(239,68,68,.15);color:#f87171}.b-blue{background:rgba(58,123,224,.2);color:var(--blue2)}.b-violet{background:rgba(139,92,246,.18);color:#c4b5fd}.b-wa{background:rgba(37,211,102,.14);color:#4ade80}.b-gray{background:#1a2640;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:14.5px}th{text-align:left;color:var(--muted);font-weight:500;font-size:13px;padding:10px 12px;border-bottom:1px solid var(--line)}td{padding:13px 12px;border-bottom:1px solid var(--line2)}
+.btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:11px;font-size:14px;font-weight:600;background:var(--blue);color:#fff;white-space:nowrap}.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.row{display:flex;align-items:center;gap:12px}.col{display:flex;flex-direction:column}.muted{color:var(--muted)}.grow{flex:1}.sm{font-size:13px}
+.bar{height:8px;border-radius:999px;background:#1a2640;overflow:hidden}.bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--blue),var(--blue2))}
+
+/* 1 · CRM inbox */
+.inbox{display:grid;grid-template-columns:350px 1fr 360px;flex:1;min-height:0}
+.convs{border-right:1px solid var(--line);padding:16px 14px;display:flex;flex-direction:column;gap:6px}
+.tabs{display:flex;gap:6px;margin-bottom:10px}.tab{padding:7px 12px;border-radius:9px;font-size:13.5px;color:var(--muted)}.tab.on{background:#162440;color:#fff}.tab b{color:var(--wa)}
+.conv{display:flex;gap:12px;padding:12px;border-radius:12px;align-items:center}.conv.on{background:#13203a}
+.conv .t{flex:1;min-width:0}.conv .n{font-weight:600;font-size:14.5px;display:flex;justify-content:space-between}.conv .n span{color:var(--muted);font-weight:400;font-size:12px}
+.conv .m{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+.unread{background:var(--wa);color:#04210f;font-size:11.5px;font-weight:700;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;flex:none}
+.thread{display:flex;flex-direction:column;min-width:0;background:radial-gradient(circle at 70% 20%,rgba(58,123,224,.06),transparent 60%)}
+.th-head{display:flex;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--line)}
+.msgs{flex:1;padding:22px;display:flex;flex-direction:column;gap:14px}
+.bub{max-width:62%;padding:11px 14px;border-radius:16px;font-size:14.5px;line-height:1.5}
+.in{background:#16223a;border-top-left-radius:5px;align-self:flex-start}
+.out{background:#11452e;border-top-right-radius:5px;align-self:flex-end}
+.meta{display:flex;justify-content:flex-end;gap:5px;align-items:center;color:#9fd9b4;font-size:11.5px;margin-top:5px}.meta svg{width:15px;height:15px;color:#53bdeb}
+.tpl{align-self:flex-end;width:62%;border-radius:16px;border-top-right-radius:5px;background:#11452e;overflow:hidden}
+.tpl .img{height:120px;background:linear-gradient(135deg,#1b5e40,#0d3524);display:grid;place-items:center;color:#9fd9b4;font-size:13px}
+.tpl .tx{padding:11px 14px;font-size:14.5px;line-height:1.5}.tpl .bt{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.08)}.tpl .bt span{padding:10px;text-align:center;color:#53bdeb;font-weight:600;font-size:13.5px}.tpl .bt span+span{border-left:1px solid rgba(255,255,255,.08)}
+.day{align-self:center;font-size:12px;color:var(--muted);background:#121c30;padding:4px 12px;border-radius:999px}
+.composer{margin:0 22px 22px;display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 8px 8px 16px;color:var(--muted);font-size:14px}
+.send{width:40px;height:40px;border-radius:11px;background:var(--wa);display:grid;place-items:center;color:#04210f}
+.ai{border-left:1px solid var(--line);padding:20px;display:flex;flex-direction:column;gap:16px}
+.ai-card{border-radius:14px;padding:16px;background:linear-gradient(160deg,rgba(58,123,224,.18),rgba(139,92,246,.1));border:1px solid rgba(122,176,255,.25)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+
+/* 2 · Setu */
+.setu{display:grid;grid-template-columns:1fr 360px;gap:20px;flex:1;min-height:0}
+.field{display:flex;flex-direction:column;gap:7px}.field label{font-size:13px;color:var(--muted)}
+.input{height:44px;border-radius:11px;border:1px solid var(--line);background:#0d1628;display:flex;align-items:center;padding:0 14px;font-size:14.5px;gap:10px}
+.var{font-family:ui-monospace,Consolas,monospace;font-size:13px;color:var(--blue2);background:rgba(58,123,224,.14);padding:2px 7px;border-radius:6px}
+.drop{border:1.5px dashed #2a3c60;border-radius:14px;padding:18px;display:flex;align-items:center;gap:14px}
+.phone{width:300px;height:600px;border-radius:40px;border:10px solid #1b2742;background:#0b141a;margin:0 auto;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.phone .ph-top{height:62px;background:#12232b;display:flex;align-items:center;gap:10px;padding:14px 14px 0;font-size:14px;font-weight:600}
+.phone .ph-body{flex:1;padding:16px 12px;background:radial-gradient(circle,#13202a 1px,transparent 1px) 0 0/18px 18px,#0b141a;display:flex;flex-direction:column;gap:10px}
+.wa-bub{background:#1f2c33;border-radius:12px;border-top-left-radius:4px;overflow:hidden;font-size:13px;line-height:1.45;max-width:92%}
+.wa-bub .img{height:120px;background:linear-gradient(135deg,#f2a93b,#e5532d);display:grid;place-items:center;color:#fff;font-weight:700;font-size:20px}
+.wa-bub .tx{padding:9px 11px}.wa-bub .bt{border-top:1px solid #2c3a42;padding:9px;text-align:center;color:#53bdeb;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+/* 3 · Geo tracker */
+.geo{display:grid;grid-template-columns:330px 1fr;flex:1;min-height:0}
+.emp{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px}.emp.on{background:#13203a;outline:1px solid #23406f}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.map{position:relative;overflow:hidden;background:#0b1424}
+.map svg.m{position:absolute;inset:0;width:100%;height:100%;stroke-width:initial}
+.overlay{position:absolute;background:rgba(12,20,36,.88);border:1px solid var(--line);border-radius:14px;padding:12px 16px;backdrop-filter:blur(6px)}
+.speed{padding:6px 11px;border-radius:9px;font-size:13px;font-weight:600;color:var(--muted)}.speed.on{background:var(--blue);color:#fff}
+
+/* 4 · Inventory */
+.inv{display:grid;grid-template-columns:1fr 380px;gap:20px;flex:1;min-height:0}
+.sku{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;color:var(--muted)}
+.pimg{width:36px;height:36px;border-radius:9px;flex:none}
+
+/* 5 · Kanban */
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;flex:1;min-height:0}
+.colk{background:#0d1628;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.colk h4{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}.colk h4 span{color:var(--muted);font-weight:500}
+.task{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.task p{font-size:14.5px;font-weight:550;line-height:1.4}
+.avs{display:flex}.avs span{width:26px;height:26px;border-radius:50%;border:2px solid var(--card);display:grid;place-items:center;font-size:10.5px;font-weight:700;margin-left:-7px}.avs span:first-child{margin-left:0}
+.feed{display:flex;flex-direction:column;gap:16px}.fi{display:flex;gap:12px;font-size:13.5px;line-height:1.45}.fi .av{width:32px;height:32px;font-size:12px}
+
+/* 6 · Security website */
+.site{flex-direction:column;background:radial-gradient(900px 600px at 80% 20%,rgba(58,123,224,.22),transparent 60%),#070c18}
+.snav{height:78px;display:flex;align-items:center;gap:34px;padding:0 64px;border-bottom:1px solid rgba(255,255,255,.06)}
+.snav a{color:#c4cddd;font-size:15.5px;font-weight:500}
+.shero{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;padding:56px 64px 36px;align-items:center}
+.shero h2{font-size:62px;line-height:1.02;letter-spacing:-.035em;font-weight:750}
+.feeds{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.feedc{height:170px;border-radius:14px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.feedc span{position:absolute;left:10px;bottom:10px;font-size:12px;font-weight:600;background:rgba(0,0,0,.55);padding:3px 8px;border-radius:6px}
+.rec{position:absolute;right:10px;top:10px;font-size:11px;font-weight:700;color:#fff;background:#dc2626;padding:3px 7px;border-radius:6px}
+.svc{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:0 64px}
+.fab{position:absolute;right:30px;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;box-shadow:0 12px 30px rgba(0,0,0,.4)}
+
+/* 7 · EduCareer */
+.edu{display:grid;grid-template-columns:1.35fr 1fr;gap:20px;flex:1;min-height:0}
+
+/* 8 · Parts catalog */
+.shop{flex-direction:column;background:#0a0f1b}
+.pd{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;padding:34px 56px;flex:1;min-height:0}
+.viewer{border-radius:20px;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,#1d3157,#0c1424 70%);position:relative;display:grid;place-items:center}
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:10px}.spec div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.spec small{display:block;color:var(--muted);font-size:12.5px}.spec b{font-size:15px;font-weight:600}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.6c2.6.2 4.6 1.9 5.3 5"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M9 12h6M9 16h6"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2 5.5L19.5 10 14 12l-2 6-2-6-5.5-2L10 8.5z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-7"/></symbol>
+  <symbol id="i-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4l6 2 5-2v15l-5 2-6-2-5 2V6z"/><path d="M9 4v15M15 6v15"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12l3 3 5-6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5c3-1.5 6-1.5 8 0v15c-2-1.5-5-1.5-8 0zM12 5c2-1.5 5-1.5 8 0v15c-3-1.5-6-1.5-8 0"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><rect x="3" y="7" width="13" height="10" rx="2"/><path d="M16 11l5-3v8l-5-3"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2l2.4 10.5h10.8L21 7H6.2"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></symbol>
+  <symbol id="i-ticks" viewBox="0 0 24 24"><path d="M2 13l4 4 8-9M10 16l1 1 8-9"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7 9l5-5 5 5M4 20h16"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+</svg>
+
+<!-- 1 · AI-powered CRM & WhatsApp ------------------------------------------------ -->
+<section class="shot" id="ai-crm-whatsapp">
+  <aside class="side">
+    <div class="brand"><span class="logo">C</span><div><b>CRM Suite</b><small>Sales &amp; support</small></div></div>
+    <div class="nav"><svg><use href="#i-grid"/></svg>Dashboard</div>
+    <div class="nav on"><svg><use href="#i-chat"/></svg>Inbox<span class="count">12</span></div>
+    <div class="nav"><svg><use href="#i-users"/></svg>Contacts</div>
+    <div class="nav"><svg><use href="#i-send"/></svg>Campaigns</div>
+    <div class="nav"><svg><use href="#i-file"/></svg>Templates</div>
+    <div class="nav"><svg><use href="#i-spark"/></svg>AI Assistant</div>
+    <div class="nav"><svg><use href="#i-chart"/></svg>Reports</div>
+    <div class="side-foot"><div class="nav"><svg><use href="#i-cog"/></svg>Settings</div></div>
+  </aside>
+  <div class="main">
+    <header class="top"><h1>Inbox</h1><span class="badge b-wa">● WhatsApp Business connected</span><div class="search"><svg><use href="#i-search"/></svg>Search conversations…</div><span class="icon-btn"><svg><use href="#i-bell"/></svg></span><div class="avatar">AS</div></header>
+    <div class="inbox">
+      <div class="convs">
+        <div class="tabs"><span class="tab on">All</span><span class="tab">Unread <b>5</b></span><span class="tab">Assigned to me</span></div>
+        <div class="conv on"><span class="av" style="background:#7c3aed">MB</span><div class="t"><div class="n">Meera Boutique<span>10:42</span></div><div class="m">Thanks! Can I add 2 more items?</div></div><span class="unread">2</span></div>
+        <div class="conv"><span class="av" style="background:#0e7490">KM</span><div class="t"><div class="n">Kiran Motors<span>10:15</span></div><div class="m">Service booking confirmed for Friday</div></div></div>
+        <div class="conv"><span class="av" style="background:#b45309">AT</span><div class="t"><div class="n">Aarav Traders<span>09:58</span></div><div class="m">Please share the GST invoice</div></div><span class="unread">1</span></div>
+        <div class="conv"><span class="av" style="background:#15803d">SC</span><div class="t"><div class="n">Sunrise Clinic<span>09:31</span></div><div class="m">📎 Appointment_slots.pdf</div></div></div>
+        <div class="conv"><span class="av" style="background:#be123c">PH</span><div class="t"><div class="n">Patel Hardware<span>Yesterday</span></div><div class="m">Is the 20% offer still valid?</div></div><span class="unread">2</span></div>
+        <div class="conv"><span class="av" style="background:#1d4ed8">GF</span><div class="t"><div class="n">Green Farms<span>Yesterday</span></div><div class="m">Delivery received, thank you 🙏</div></div></div>
+        <div class="conv"><span class="av" style="background:#9333ea">NE</span><div class="t"><div class="n">Nova Electronics<span>Mon</span></div><div class="m">Template: order_dispatched ✓✓</div></div></div>
+      </div>
+      <div class="thread">
+        <div class="th-head"><span class="av" style="background:#7c3aed">MB</span><div class="grow"><b style="font-size:15.5px">Meera Boutique</b><div class="muted sm">+91 98•••• ••210 · Customer since 2023</div></div><span class="badge b-blue">Assigned · Sales</span><span class="badge b-green">● Window open 23h</span></div>
+        <div class="msgs">
+          <span class="day">Today</span>
+          <div class="bub in">Hi, has order #4821 been dispatched?<div class="meta" style="justify-content:flex-start;color:var(--muted)">10:31</div></div>
+          <div class="tpl"><div class="img">📦 Order #4821 · Dispatched</div><div class="tx">Hi Meera, your order <b>#4821</b> is on its way and will arrive by <b>Thursday</b>. Track it anytime below.<div class="meta">10:33<svg><use href="#i-ticks"/></svg></div></div><div class="bt"><span>Track order</span><span>Talk to an agent</span></div></div>
+          <div class="bub in">Thanks! Can I add 2 more items to the same order?<div class="meta" style="justify-content:flex-start;color:var(--muted)">10:42</div></div>
+        </div>
+        <div class="composer"><svg><use href="#i-file"/></svg><span class="grow">Type a message or pick a template…</span><span class="badge b-gray">Templates</span><span class="send"><svg><use href="#i-send"/></svg></span></div>
+      </div>
+      <div class="ai">
+        <h3 style="font-size:16px;font-weight:600;display:flex;gap:8px;align-items:center"><svg style="color:#c4b5fd"><use href="#i-spark"/></svg>AI Assistant</h3>
+        <div class="ai-card"><div class="muted sm" style="margin-bottom:8px">Suggested reply</div><p style="font-size:14.5px;line-height:1.55">Yes! I’ve added 2 items to order <b>#4821</b>. Your new total is <b>₹3,240</b> — shall I send the payment link?</p><div class="row" style="margin-top:14px"><span class="btn" style="height:36px">Insert reply</span><span class="btn ghost" style="height:36px">Regenerate</span></div></div>
+        <div><div class="muted sm" style="margin-bottom:10px">Answer grounded in</div><div class="chips"><span class="badge b-blue">Order #4821</span><span class="badge b-blue">Product catalog</span><span class="badge b-blue">Pricing policy</span></div></div>
+        <div class="card" style="padding:16px"><div class="muted sm">Customer insights</div><div class="row" style="margin-top:12px;justify-content:space-between"><div><div style="font-size:22px;font-weight:700">14</div><div class="muted sm">Orders</div></div><div><div style="font-size:22px;font-weight:700">₹48.2k</div><div class="muted sm">Lifetime value</div></div><div><div style="font-size:22px;font-weight:700">4.8</div><div class="muted sm">CSAT</div></div></div></div>
+        <div class="card" style="padding:16px"><div class="muted sm" style="margin-bottom:10px">Ask your CRM data</div><div class="input" style="height:40px;font-size:13.5px;color:var(--muted)">“Which customers haven’t ordered in 30 days?”</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · Setu — WhatsApp bulk messaging ----------------------------------------- -->
+<section class="shot" id="setu">
+  <aside class="side">
+    <div class="brand"><span class="logo" style="background:linear-gradient(135deg,#25d366,#0f8a45)">S</span><div><b>Setu</b><small>WhatsApp campaigns</small></div></div>
+    <div class="nav"><svg><use href="#i-grid"/></svg>Dashboard</div>
+    <div class="nav on"><svg><use href="#i-send"/></svg>Campaigns</div>
+    <div class="nav"><svg><use href="#i-users"/></svg>Contacts</div>
+    <div class="nav"><svg><use href="#i-file"/></svg>Templates</div>
+    <div class="nav"><svg><use href="#i-chart"/></svg>Reports</div>
+    <div class="side-foot"><div class="nav"><svg><use href="#i-cog"/></svg>Settings</div></div>
+  </aside>
+  <div class="main">
+    <header class="top"><h1>New campaign</h1><span class="badge b-amber">Draft</span><div style="margin-left:auto" class="row"><span class="btn ghost">Save draft</span><span class="btn" style="background:#16a34a"><svg><use href="#i-send"/></svg>Send to 2,438 contacts</span></div></header>
+    <div class="content">
+      <div class="setu">
+        <div class="col" style="gap:18px">
+          <div class="card col" style="gap:16px">
+            <div class="row"><div class="field grow"><label>Campaign name</label><div class="input">Festive offer — returning customers</div></div><div class="field" style="width:260px"><label>Schedule</label><div class="input"><svg><use href="#i-calendar"/></svg>Today, 6:00 PM</div></div></div>
+            <div class="field"><label>Message template</label><div class="input">festive_offer_v2<span class="badge b-green" style="margin-left:auto">Approved by Meta</span></div></div>
+            <div class="field"><label>Personalization</label><div class="row" style="flex-wrap:wrap;gap:10px"><span class="input" style="height:40px"><span class="var">{{1}}</span>First name</span><span class="input" style="height:40px"><span class="var">{{2}}</span>Coupon code</span><span class="input" style="height:40px"><span class="var">{{3}}</span>Offer end date</span></div></div>
+          </div>
+          <div class="card col" style="gap:14px">
+            <h3><svg><use href="#i-users"/></svg>Audience</h3>
+            <div class="drop"><span class="ki" style="background:rgba(37,211,102,.14);color:#4ade80"><svg><use href="#i-upload"/></svg></span><div class="grow"><b>contacts_returning.csv</b><div class="muted sm">2,450 rows · 12 invalid numbers removed · 2,438 ready</div></div><span class="badge b-green">Validated</span></div>
+            <div class="row" style="gap:10px"><span class="badge b-blue">Segment: Returning customers</span><span class="badge b-gray">Opted-in only</span><span class="badge b-gray">Rate-limited sending</span></div>
+          </div>
+          <div class="stats">
+            <div class="card kpi"><div class="l">Sent</div><div class="v">1,920</div><div class="bar"><i style="width:79%"></i></div></div>
+            <div class="card kpi"><div class="l">Delivered</div><div class="v">1,874</div><div class="d">97.6%</div></div>
+            <div class="card kpi"><div class="l">Read</div><div class="v">1,431</div><div class="d">76.4%</div></div>
+            <div class="card kpi"><div class="l">Failed</div><div class="v">46</div><div class="d" style="color:#f87171">Retry queued</div></div>
+          </div>
+        </div>
+        <div class="card col" style="gap:14px;align-items:center">
+          <div class="muted sm" style="align-self:flex-start">Live preview</div>
+          <div class="phone"><div class="ph-top"><span class="av" style="width:32px;height:32px;font-size:12px;background:#0f8a45">S</span>Your Brand ✓</div>
+            <div class="ph-body">
+              <div class="wa-bub"><div class="img">Festive Offer · 20% OFF</div><div class="tx">Hi <b>Riya</b> 👋 Celebrate with <b>20% off</b> on your next order. Use code <b>FEST20</b> before <b>30 Nov</b>.</div><div class="bt">Shop now</div><div class="bt">Stop promotions</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · Geo Tracker ------------------------------------------------------------- -->
+<section class="shot" id="geo-tracker">
+  <aside class="side">
+    <div class="brand"><span class="logo" style="background:linear-gradient(135deg,#f2a93b,#c2410c)"><svg style="color:#fff"><use href="#i-pin"/></svg></span><div><b>Geo Tracker</b><small>Field sales</small></div></div>
+    <div class="nav on"><svg><use href="#i-map"/></svg>Live map</div>
+    <div class="nav"><svg><use href="#i-users"/></svg>Sales team</div>
+    <div class="nav"><svg><use href="#i-pin"/></svg>Visits</div>
+    <div class="nav"><svg><use href="#i-clock"/></svg>Route history</div>
+    <div class="nav"><svg><use href="#i-chart"/></svg>Reports</div>
+    <div class="side-foot"><div class="nav"><svg><use href="#i-cog"/></svg>Settings</div></div>
+  </aside>
+  <div class="main">
+    <header class="top"><h1>Route playback</h1><span class="badge b-green">● 18 on field</span><div style="margin-left:auto" class="row"><span class="input" style="height:40px"><svg><use href="#i-calendar"/></svg>Tue, 11 Nov</span><span class="input" style="height:40px">All regions ▾</span></div><div class="avatar">MG</div></header>
+    <div class="geo">
+      <div style="border-right:1px solid var(--line);padding:16px 14px;display:flex;flex-direction:column;gap:6px">
+        <div class="input" style="height:40px;margin-bottom:8px;color:var(--muted);font-size:13.5px"><svg><use href="#i-search"/></svg>Search sales employees</div>
+        <div class="emp on"><span class="av" style="background:#1d4ed8">RV</span><div class="grow"><b style="font-size:14.5px">Rahul Verma</b><div class="muted sm">North zone · 9 visits</div></div><span class="badge b-green">On route</span></div>
+        <div class="emp"><span class="av" style="background:#be123c">AS</span><div class="grow"><b style="font-size:14.5px">Anjali Singh</b><div class="muted sm">Central · 6 visits</div></div><span class="badge b-blue">At client</span></div>
+        <div class="emp"><span class="av" style="background:#0e7490">VR</span><div class="grow"><b style="font-size:14.5px">Vikram Rao</b><div class="muted sm">East zone · 4 visits</div></div><span class="badge b-amber">Idle 12m</span></div>
+        <div class="emp"><span class="av" style="background:#7c3aed">SP</span><div class="grow"><b style="font-size:14.5px">Sneha Patel</b><div class="muted sm">West zone · 7 visits</div></div><span class="badge b-green">On route</span></div>
+        <div class="emp"><span class="av" style="background:#15803d">AM</span><div class="grow"><b style="font-size:14.5px">Arjun Mehta</b><div class="muted sm">South zone · 5 visits</div></div><span class="badge b-gray">Offline</span></div>
+        <div class="card" style="margin-top:auto;padding:16px"><div class="muted sm">Rahul’s day</div><div class="row" style="justify-content:space-between;margin-top:10px"><div><b style="font-size:20px">38.4 km</b><div class="muted sm">Distance</div></div><div><b style="font-size:20px">7h 12m</b><div class="muted sm">On field</div></div><div><b style="font-size:20px">9</b><div class="muted sm">Visits</div></div></div></div>
+      </div>
+      <div class="map">
+        <svg class="m" viewBox="0 0 1110 930" preserveAspectRatio="xMidYMid slice" style="stroke:none">
+          <rect width="1110" height="930" fill="#0b1424"/>
+          <path d="M0 640c160-30 260 40 400 10s240-90 400-60 230 60 310 40v300H0z" fill="#0d2440"/>
+          <g fill="#0f2131"><rect x="80" y="70" width="210" height="150" rx="12"/><rect x="760" y="120" width="250" height="170" rx="12"/><rect x="520" y="420" width="190" height="120" rx="12"/></g>
+          <g fill="#0f2a1e"><circle cx="330" cy="420" r="60"/><rect x="860" y="430" width="170" height="110" rx="20"/></g>
+          <g stroke="#1b2a44" stroke-width="10" fill="none"><path d="M0 300h1110M0 520h1110M240 0v930M620 0v930M900 0v930"/></g>
+          <g stroke="#16233a" stroke-width="5" fill="none"><path d="M0 160h1110M0 420h1110M120 0v930M420 0v930M760 0v930M1010 0v930M0 760c300-60 700 40 1110-20"/></g>
+          <path d="M150 820 C220 700 240 610 240 520 S330 420 420 420 520 300 620 300 760 240 900 300 960 420 1010 160" fill="none" stroke="#3a7be0" stroke-width="8" stroke-linecap="round" opacity=".35"/>
+          <path d="M150 820 C220 700 240 610 240 520 S330 420 420 420 520 300 620 300 760 240 900 300" fill="none" stroke="#7ab0ff" stroke-width="6" stroke-linecap="round"/>
+          <g font-family="Geist" font-size="15" font-weight="700" text-anchor="middle" fill="#0a1020">
+            <circle cx="150" cy="820" r="16" fill="#22c55e"/><text x="150" y="825">S</text>
+            <circle cx="240" cy="560" r="16" fill="#f2a93b"/><text x="240" y="565">1</text>
+            <circle cx="420" cy="420" r="16" fill="#f2a93b"/><text x="420" y="425">2</text>
+            <circle cx="620" cy="300" r="16" fill="#f2a93b"/><text x="620" y="305">3</text>
+            <circle cx="1010" cy="160" r="16" fill="#334155"/><text x="1010" y="165" fill="#cbd5e1">4</text>
+          </g>
+          <circle cx="900" cy="300" r="34" fill="#3a7be0" opacity=".25"/><circle cx="900" cy="300" r="14" fill="#7ab0ff" stroke="#fff" stroke-width="4"/>
+        </svg>
+        <div class="overlay" style="left:24px;top:22px"><div class="row"><span class="av" style="width:34px;height:34px;font-size:12px;background:#1d4ed8">RV</span><div><b>Rahul Verma</b><div class="muted sm">Near Stop 4 · moving 24 km/h · updated 30s ago</div></div></div></div>
+        <div class="overlay" style="right:24px;top:22px;display:flex;gap:18px"><div><div class="muted sm">Visits done</div><b style="font-size:18px">3 / 4</b></div><div><div class="muted sm">Next stop</div><b style="font-size:18px">Sharma Stores</b></div></div>
+        <div class="overlay" style="left:24px;right:24px;bottom:22px;display:flex;align-items:center;gap:16px">
+          <span class="send" style="background:var(--blue);color:#fff;width:44px;height:44px"><svg><use href="#i-play"/></svg></span>
+          <span class="speed">1×</span><span class="speed on">2×</span><span class="speed">4×</span>
+          <span class="muted sm">09:10</span><div class="bar grow" style="height:10px"><i style="width:64%"></i></div><span class="muted sm">18:30</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · Suvidha — inventory --------------------------------------------------- -->
+<section class="shot" id="suvidha">
+  <aside class="side">
+    <div class="brand"><span class="logo" style="background:linear-gradient(135deg,#14b8a6,#0f766e)"><svg style="color:#fff"><use href="#i-box"/></svg></span><div><b>Suvidha</b><small>Inventory &amp; stock</small></div></div>
+    <div class="nav"><svg><use href="#i-grid"/></svg>Dashboard</div>
+    <div class="nav on"><svg><use href="#i-box"/></svg>Products &amp; stock</div>
+    <div class="nav"><svg><use href="#i-truck"/></svg>Purchase orders</div>
+    <div class="nav"><svg><use href="#i-users"/></svg>Suppliers</div>
+    <div class="nav"><svg><use href="#i-map"/></svg>Warehouses</div>
+    <div class="nav"><svg><use href="#i-chart"/></svg>Reports</div>
+    <div class="side-foot"><div class="nav"><svg><use href="#i-cog"/></svg>Settings</div></div>
+  </aside>
+  <div class="main">
+    <header class="top"><h1>Products &amp; stock</h1><div class="search"><svg><use href="#i-search"/></svg>Search SKU or product…</div><span class="btn"><svg><use href="#i-plus"/></svg>Add stock</span><div class="avatar">SK</div></header>
+    <div class="content">
+      <div class="kpis">
+        <div class="card kpi"><div class="l">Total SKUs<span class="ki" style="background:rgba(58,123,224,.18);color:var(--blue2)"><svg><use href="#i-box"/></svg></span></div><div class="v">1,248</div><div class="d">+24 this week</div></div>
+        <div class="card kpi"><div class="l">Low stock<span class="ki" style="background:rgba(242,169,59,.16);color:#fbbf24"><svg><use href="#i-bell"/></svg></span></div><div class="v">37</div><div class="d" style="color:#fbbf24">Reorder suggested</div></div>
+        <div class="card kpi"><div class="l">Out of stock<span class="ki" style="background:rgba(239,68,68,.15);color:#f87171"><svg><use href="#i-box"/></svg></span></div><div class="v">9</div><div class="d" style="color:#f87171">3 POs pending</div></div>
+        <div class="card kpi"><div class="l">Stock value<span class="ki" style="background:rgba(34,197,94,.14);color:#4ade80"><svg><use href="#i-chart"/></svg></span></div><div class="v">₹18.4L</div><div class="d">+6.2% vs last month</div></div>
+      </div>
+      <div class="inv">
+        <div class="card" style="padding:8px 8px 4px">
+          <table>
+            <thead><tr><th>Product</th><th>SKU</th><th>Category</th><th>In stock</th><th>Reorder at</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><div class="row"><span class="pimg" style="background:linear-gradient(135deg,#fde68a,#d97706)"></span>Basmati Rice 5 kg</div></td><td class="sku">GR-1042</td><td class="muted">Grocery</td><td><b>320</b></td><td class="muted">100</td><td><span class="badge b-green">In stock</span></td></tr>
+              <tr><td><div class="row"><span class="pimg" style="background:linear-gradient(135deg,#fef08a,#ca8a04)"></span>Sunflower Oil 1 L</div></td><td class="sku">GR-2208</td><td class="muted">Grocery</td><td><b>42</b></td><td class="muted">150</td><td><span class="badge b-amber">Low stock</span></td></tr>
+              <tr><td><div class="row"><span class="pimg" style="background:linear-gradient(135deg,#e0f2fe,#38bdf8)"></span>LED Bulb 9 W</div></td><td class="sku">EL-0317</td><td class="muted">Electrical</td><td><b>0</b></td><td class="muted">80</td><td><span class="badge b-red">Out of stock</span></td></tr>
+              <tr><td><div class="row"><span class="pimg" style="background:linear-gradient(135deg,#ddd6fe,#7c3aed)"></span>Notebook A4 (pack)</div></td><td class="sku">ST-5521</td><td class="muted">Stationery</td><td><b>860</b></td><td class="muted">200</td><td><span class="badge b-green">In stock</span></td></tr>
+              <tr><td><div class="row"><span class="pimg" style="background:linear-gradient(135deg,#bbf7d0,#16a34a)"></span>Detergent 2 kg</div></td><td class="sku">HH-1180</td><td class="muted">Household</td><td><b>75</b></td><td class="muted">80</td><td><span class="badge b-amber">Low stock</span></td></tr>
+              <tr><td><div class="row"><span class="pimg" style="background:linear-gradient(135deg,#e2e8f0,#64748b)"></span>Steel Bottle 1 L</div></td><td class="sku">HH-3304</td><td class="muted">Household</td><td><b>210</b></td><td class="muted">60</td><td><span class="badge b-green">In stock</span></td></tr>
+              <tr><td><div class="row"><span class="pimg" style="background:linear-gradient(135deg,#fecaca,#dc2626)"></span>Tomato Ketchup 1 kg</div></td><td class="sku">GR-7760</td><td class="muted">Grocery</td><td><b>138</b></td><td class="muted">90</td><td><span class="badge b-green">In stock</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col" style="gap:20px">
+          <div class="card"><h3>Stock movement · 7 days</h3>
+            <svg viewBox="0 0 330 190" style="width:100%;height:190px;margin-top:14px;stroke-width:0">
+              <g fill="#3a7be0"><rect x="10" y="70" width="16" height="110" rx="4"/><rect x="56" y="50" width="16" height="130" rx="4"/><rect x="102" y="90" width="16" height="90" rx="4"/><rect x="148" y="40" width="16" height="140" rx="4"/><rect x="194" y="80" width="16" height="100" rx="4"/><rect x="240" y="60" width="16" height="120" rx="4"/><rect x="286" y="30" width="16" height="150" rx="4"/></g>
+              <g fill="#f2a93b"><rect x="28" y="100" width="16" height="80" rx="4"/><rect x="74" y="95" width="16" height="85" rx="4"/><rect x="120" y="110" width="16" height="70" rx="4"/><rect x="166" y="85" width="16" height="95" rx="4"/><rect x="212" y="105" width="16" height="75" rx="4"/><rect x="258" y="90" width="16" height="90" rx="4"/><rect x="304" y="75" width="16" height="105" rx="4"/></g>
+            </svg>
+            <div class="row sm muted" style="margin-top:8px"><span class="dot" style="background:#3a7be0"></span>Stock in<span class="dot" style="background:#f2a93b;margin-left:12px"></span>Stock out</div>
+          </div>
+          <div class="card col" style="gap:12px"><h3>Reorder suggestions</h3>
+            <div class="row"><span class="grow">LED Bulb 9 W</span><span class="badge b-red">Order 120</span></div>
+            <div class="row"><span class="grow">Sunflower Oil 1 L</span><span class="badge b-amber">Order 200</span></div>
+            <div class="row"><span class="grow">Detergent 2 kg</span><span class="badge b-amber">Order 60</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · Morkl — task & activity --------------------------------------------- -->
+<section class="shot" id="morkl">
+  <aside class="side">
+    <div class="brand"><span class="logo" style="background:linear-gradient(135deg,#8b5cf6,#5b21b6)"><svg style="color:#fff"><use href="#i-check"/></svg></span><div><b>Morkl</b><small>Tasks &amp; activity</small></div></div>
+    <div class="nav"><svg><use href="#i-grid"/></svg>My work</div>
+    <div class="nav on"><svg><use href="#i-check"/></svg>Team board</div>
+    <div class="nav"><svg><use href="#i-clock"/></svg>Activity log</div>
+    <div class="nav"><svg><use href="#i-calendar"/></svg>Timesheets</div>
+    <div class="nav"><svg><use href="#i-chart"/></svg>Reports</div>
+    <div class="side-foot"><div class="nav"><svg><use href="#i-cog"/></svg>Settings</div></div>
+  </aside>
+  <div class="main">
+    <header class="top"><h1>Team board</h1><span class="badge b-gray">This week</span><div style="margin-left:auto;width:220px" class="col"><div class="row sm" style="justify-content:space-between"><span class="muted">Team progress</span><b>68%</b></div><div class="bar" style="margin-top:6px"><i style="width:68%;background:linear-gradient(90deg,#8b5cf6,#c4b5fd)"></i></div></div><span class="btn" style="background:#7c3aed"><svg><use href="#i-plus"/></svg>New task</span></header>
+    <div class="content" style="flex-direction:row">
+      <div class="board grow">
+        <div class="colk"><h4>To do <span>4</span></h4>
+          <div class="task"><span class="badge b-blue" style="align-self:flex-start">Sales</span><p>Prepare Q4 client proposal</p><div class="row" style="justify-content:space-between"><div class="avs"><span style="background:#be123c">NK</span></div><span class="muted sm">Due Fri</span></div></div>
+          <div class="task"><span class="badge b-violet" style="align-self:flex-start">Design</span><p>Update onboarding screens</p><div class="row" style="justify-content:space-between"><div class="avs"><span style="background:#0e7490">RS</span><span style="background:#b45309">AK</span></div><span class="muted sm">Due Mon</span></div></div>
+        </div>
+        <div class="colk"><h4>In progress <span>3</span></h4>
+          <div class="task"><span class="badge b-amber" style="align-self:flex-start">Ops</span><p>Vendor invoice reconciliation</p><div class="bar"><i style="width:55%;background:#f2a93b"></i></div><div class="row" style="justify-content:space-between"><div class="avs"><span style="background:#15803d">PM</span></div><span class="muted sm">3 / 5 subtasks</span></div></div>
+          <div class="task"><span class="badge b-blue" style="align-self:flex-start">Support</span><p>Resolve 12 open tickets</p><div class="bar"><i style="width:70%"></i></div><div class="row" style="justify-content:space-between"><div class="avs"><span style="background:#1d4ed8">VJ</span><span style="background:#7c3aed">SM</span></div><span class="muted sm">Today</span></div></div>
+        </div>
+        <div class="colk"><h4>Review <span>2</span></h4>
+          <div class="task"><span class="badge b-green" style="align-self:flex-start">HR</span><p>New-joiner checklist</p><div class="row" style="justify-content:space-between"><div class="avs"><span style="background:#be123c">NK</span></div><span class="badge b-amber">Needs approval</span></div></div>
+          <div class="task"><span class="badge b-violet" style="align-self:flex-start">Marketing</span><p>Festive campaign creatives</p><div class="row" style="justify-content:space-between"><div class="avs"><span style="background:#b45309">AK</span><span style="background:#0e7490">RS</span></div><span class="muted sm">2 comments</span></div></div>
+        </div>
+        <div class="colk"><h4>Done <span>9</span></h4>
+          <div class="task" style="opacity:.75"><p>Monthly stock audit</p><div class="row" style="justify-content:space-between"><div class="avs"><span style="background:#15803d">PM</span></div><span class="badge b-green">✓ Done</span></div></div>
+          <div class="task" style="opacity:.75"><p>Client demo — CRM rollout</p><div class="row" style="justify-content:space-between"><div class="avs"><span style="background:#1d4ed8">VJ</span></div><span class="badge b-green">✓ Done</span></div></div>
+        </div>
+      </div>
+      <div class="card" style="width:330px;flex:none"><h3><svg><use href="#i-clock"/></svg>Activity</h3>
+        <div class="feed" style="margin-top:18px">
+          <div class="fi"><span class="av" style="background:#be123c">NK</span><div><b>Neha</b> moved <b>New-joiner checklist</b> to Review<div class="muted sm">10:42 AM</div></div></div>
+          <div class="fi"><span class="av" style="background:#1d4ed8">VJ</span><div><b>Vijay</b> closed 4 support tickets<div class="muted sm">10:15 AM</div></div></div>
+          <div class="fi"><span class="av" style="background:#15803d">PM</span><div><b>Priya</b> logged 2h 30m on <b>Invoice reconciliation</b><div class="muted sm">9:58 AM</div></div></div>
+          <div class="fi"><span class="av" style="background:#b45309">AK</span><div><b>Amit</b> commented on <b>Festive campaign</b><div class="muted sm">9:31 AM</div></div></div>
+          <div class="fi"><span class="av" style="background:#0e7490">RS</span><div><b>Rohan</b> checked in · Office<div class="muted sm">9:02 AM</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · Security-services website ------------------------------------------------ -->
+<section class="shot site" id="security-services-website">
+  <nav class="snav"><div class="row" style="gap:12px"><span class="logo" style="background:linear-gradient(135deg,#ef4444,#991b1b)"><svg style="color:#fff"><use href="#i-shield"/></svg></span><b style="font-size:19px">SecureVision</b></div><a style="margin-left:auto">Services</a><a>Projects</a><a>Pricing</a><a>Contact</a><span class="btn" style="background:#ef4444">Get a free quote</span></nav>
+  <div class="shero">
+    <div>
+      <span class="badge b-red">● CCTV &amp; security services</span>
+      <h2 style="margin-top:22px">Protect what<br/>matters, <span style="color:#f87171">24/7.</span></h2>
+      <p class="muted" style="font-size:19px;line-height:1.6;margin-top:20px;max-width:560px">CCTV installation, IP cameras and remote monitoring for homes, offices and factories — watch every camera live from your phone.</p>
+      <div class="row" style="margin-top:30px;gap:14px"><span class="btn" style="background:#ef4444;height:52px;padding:0 24px;font-size:16px">Get a free site survey</span><span class="btn ghost" style="height:52px;padding:0 24px;font-size:16px"><svg><use href="#i-phone"/></svg>Call now</span></div>
+      <div class="row muted" style="margin-top:30px;gap:24px;font-size:14.5px"><span class="row" style="gap:8px"><svg style="color:#4ade80"><use href="#i-check"/></svg>Free site survey</span><span class="row" style="gap:8px"><svg style="color:#4ade80"><use href="#i-check"/></svg>Mobile live view</span><span class="row" style="gap:8px"><svg style="color:#4ade80"><use href="#i-check"/></svg>AMC support</span></div>
+    </div>
+    <div class="card" style="padding:14px;background:rgba(17,26,45,.75)">
+      <div class="row" style="padding:2px 4px 12px"><b>Live view</b><span class="badge b-green" style="margin-left:auto">● 4 cameras online</span></div>
+      <div class="feeds">
+        <div class="feedc" style="background:linear-gradient(160deg,#1e293b,#0f172a 60%,#334155)"><span>Main gate</span><i class="rec">● REC</i></div>
+        <div class="feedc" style="background:linear-gradient(200deg,#283548,#111827 55%,#3f4b5e)"><span>Reception</span><i class="rec">● REC</i></div>
+        <div class="feedc" style="background:linear-gradient(140deg,#1f2937,#0b1220 60%,#2d3a4f)"><span>Parking</span><i class="rec">● REC</i></div>
+        <div class="feedc" style="background:linear-gradient(220deg,#2a3446,#0f172a 50%,#374151)"><span>Warehouse</span><i class="rec">● REC</i></div>
+      </div>
+    </div>
+  </div>
+  <div class="svc">
+    <div class="card"><span class="ki" style="background:rgba(239,68,68,.15);color:#f87171"><svg><use href="#i-cam"/></svg></span><h3 style="margin-top:14px">CCTV installation</h3><p class="muted sm" style="margin-top:6px;line-height:1.5">Planned coverage, clean wiring, tested before handover.</p></div>
+    <div class="card"><span class="ki" style="background:rgba(58,123,224,.18);color:var(--blue2)"><svg><use href="#i-cam"/></svg></span><h3 style="margin-top:14px">IP camera setup</h3><p class="muted sm" style="margin-top:6px;line-height:1.5">HD IP cameras with secure remote access.</p></div>
+    <div class="card"><span class="ki" style="background:rgba(34,197,94,.14);color:#4ade80"><svg><use href="#i-shield"/></svg></span><h3 style="margin-top:14px">Remote monitoring</h3><p class="muted sm" style="margin-top:6px;line-height:1.5">Watch every site live from one app.</p></div>
+    <div class="card"><span class="ki" style="background:rgba(242,169,59,.16);color:#fbbf24"><svg><use href="#i-cog"/></svg></span><h3 style="margin-top:14px">Maintenance &amp; AMC</h3><p class="muted sm" style="margin-top:6px;line-height:1.5">Regular checks so nothing goes dark.</p></div>
+  </div>
+  <span class="fab" style="bottom:110px;background:#25d366;color:#04210f"><svg style="width:26px;height:26px"><use href="#i-chat"/></svg></span>
+  <span class="fab" style="bottom:36px;background:#ef4444;color:#fff"><svg style="width:24px;height:24px"><use href="#i-phone"/></svg></span>
+</section>
+
+<!-- 7 · EduCareer — school education & exam portal -------------------------------- -->
+<section class="shot" id="educareer-admin">
+  <aside class="side">
+    <div class="brand"><span class="logo" style="background:linear-gradient(135deg,#f59e0b,#b45309)"><svg style="color:#fff"><use href="#i-cap"/></svg></span><div><b>EduCareer</b><small>Admin portal</small></div></div>
+    <div class="nav on"><svg><use href="#i-grid"/></svg>Dashboard</div>
+    <div class="nav"><svg><use href="#i-users"/></svg>Students</div>
+    <div class="nav"><svg><use href="#i-book"/></svg>Exams</div>
+    <div class="nav"><svg><use href="#i-file"/></svg>Exam corner</div>
+    <div class="nav"><svg><use href="#i-cap"/></svg>Scholarships</div>
+    <div class="nav"><svg><use href="#i-chat"/></svg>Student queries<span class="count" style="background:#f59e0b">27</span></div>
+    <div class="nav"><svg><use href="#i-send"/></svg>Jobs &amp; careers</div>
+    <div class="side-foot"><div class="nav"><svg><use href="#i-cog"/></svg>Settings</div></div>
+  </aside>
+  <div class="main">
+    <header class="top"><h1>Dashboard</h1><div class="search"><svg><use href="#i-search"/></svg>Search students, exams…</div><span class="icon-btn"><svg><use href="#i-bell"/></svg></span><div class="avatar" style="background:#b45309">AD</div></header>
+    <div class="content">
+      <div class="kpis">
+        <div class="card kpi"><div class="l">Students<span class="ki" style="background:rgba(58,123,224,.18);color:var(--blue2)"><svg><use href="#i-users"/></svg></span></div><div class="v">3,420</div><div class="d">+128 this term</div></div>
+        <div class="card kpi"><div class="l">Exams this month<span class="ki" style="background:rgba(139,92,246,.18);color:#c4b5fd"><svg><use href="#i-book"/></svg></span></div><div class="v">18</div><div class="d" style="color:var(--blue2)">4 this week</div></div>
+        <div class="card kpi"><div class="l">Pending queries<span class="ki" style="background:rgba(242,169,59,.16);color:#fbbf24"><svg><use href="#i-chat"/></svg></span></div><div class="v">27</div><div class="d" style="color:#fbbf24">9 need approval</div></div>
+        <div class="card kpi"><div class="l">Scholarships open<span class="ki" style="background:rgba(34,197,94,.14);color:#4ade80"><svg><use href="#i-cap"/></svg></span></div><div class="v">12</div><div class="d">3 closing soon</div></div>
+      </div>
+      <div class="edu">
+        <div class="card" style="padding:18px 18px 6px"><h3 style="margin-bottom:6px">Upcoming exams</h3>
+          <table>
+            <thead><tr><th>Class</th><th>Subject</th><th>Date</th><th>Students</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><b>Class 10</b></td><td>Mathematics</td><td class="muted">18 Nov · 10:00</td><td>412</td><td><span class="badge b-green">Scheduled</span></td></tr>
+              <tr><td><b>Class 12</b></td><td>Physics</td><td class="muted">20 Nov · 09:30</td><td>356</td><td><span class="badge b-green">Scheduled</span></td></tr>
+              <tr><td><b>Class 8</b></td><td>Science</td><td class="muted">22 Nov · 11:00</td><td>388</td><td><span class="badge b-amber">Draft</span></td></tr>
+              <tr><td><b>Class 12</b></td><td>Chemistry</td><td class="muted">25 Nov · 09:30</td><td>356</td><td><span class="badge b-green">Scheduled</span></td></tr>
+              <tr><td><b>Class 9</b></td><td>English</td><td class="muted">27 Nov · 10:00</td><td>401</td><td><span class="badge b-blue">Paper ready</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col" style="gap:20px">
+          <div class="card"><h3>Average score trend</h3>
+            <svg viewBox="0 0 420 170" style="width:100%;height:170px;margin-top:12px;stroke-width:0">
+              <g stroke="#1d2a43" stroke-width="1"><path d="M0 30h420M0 80h420M0 130h420"/></g>
+              <path d="M0 125 C60 115 80 95 140 92 S230 70 280 62 360 40 420 34 V170 H0Z" fill="url(#eg)"/>
+              <defs><linearGradient id="eg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a7be0" stop-opacity=".35"/><stop offset="1" stop-color="#3a7be0" stop-opacity="0"/></linearGradient></defs>
+              <path d="M0 125 C60 115 80 95 140 92 S230 70 280 62 360 40 420 34" fill="none" stroke="#7ab0ff" stroke-width="3"/>
+            </svg>
+            <div class="row sm muted" style="justify-content:space-between;margin-top:4px"><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span></div>
+          </div>
+          <div class="card col" style="gap:12px"><h3>Student queries</h3>
+            <div class="row"><span class="av" style="width:34px;height:34px;font-size:12px;background:#0e7490">RJ</span><div class="grow"><b class="sm">Re-evaluation request</b><div class="muted sm">Class 12 · Physics</div></div><span class="badge b-green">Approve</span><span class="badge b-red">Reject</span></div>
+            <div class="row"><span class="av" style="width:34px;height:34px;font-size:12px;background:#7c3aed">AK</span><div class="grow"><b class="sm">Scholarship document</b><div class="muted sm">Class 10 · Merit scheme</div></div><span class="badge b-green">Approve</span><span class="badge b-red">Reject</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · Precision-parts catalog ------------------------------------------------- -->
+<section class="shot shop" id="precision-parts-catalog">
+  <nav class="snav" style="padding:0 56px"><div class="row" style="gap:12px"><span class="logo" style="background:linear-gradient(135deg,#94a3b8,#334155)"><svg style="color:#fff"><use href="#i-cog"/></svg></span><b style="font-size:19px">Precision Parts</b></div><a style="margin-left:auto">Catalog</a><a>Industries</a><a>About</a><a>Contact</a><span class="icon-btn" style="position:relative"><svg><use href="#i-cart"/></svg><b style="position:absolute;top:-6px;right:-6px;background:var(--blue);font-size:11px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center">3</b></span></nav>
+  <div class="pd">
+    <div class="viewer">
+      <span class="badge b-blue" style="position:absolute;left:18px;top:18px">360° interactive view</span>
+      <svg viewBox="0 0 300 300" style="width:430px;height:430px;stroke-width:0">
+        <defs><radialGradient id="metal" cx="40%" cy="35%"><stop offset="0" stop-color="#e2e8f0"/><stop offset=".55" stop-color="#94a3b8"/><stop offset="1" stop-color="#334155"/></radialGradient></defs>
+        <g transform="translate(150 150)">
+          <g fill="url(#metal)">
+            <circle r="96"/>
+            <g id="tooth"><rect x="-14" y="-122" width="28" height="34" rx="5"/></g>
+            <use href="#tooth" transform="rotate(30)"/><use href="#tooth" transform="rotate(60)"/><use href="#tooth" transform="rotate(90)"/><use href="#tooth" transform="rotate(120)"/><use href="#tooth" transform="rotate(150)"/><use href="#tooth" transform="rotate(180)"/><use href="#tooth" transform="rotate(210)"/><use href="#tooth" transform="rotate(240)"/><use href="#tooth" transform="rotate(270)"/><use href="#tooth" transform="rotate(300)"/><use href="#tooth" transform="rotate(330)"/>
+          </g>
+          <circle r="62" fill="#475569"/><circle r="56" fill="url(#metal)"/><circle r="26" fill="#0c1424"/>
+          <g fill="#1e293b"><circle cx="0" cy="-40" r="7"/><circle cx="35" cy="20" r="7"/><circle cx="-35" cy="20" r="7"/></g>
+        </g>
+      </svg>
+      <div class="row" style="position:absolute;bottom:18px;gap:10px"><span class="icon-btn"><svg><use href="#i-rotate"/></svg></span><span class="icon-btn"><svg><use href="#i-plus"/></svg></span><span class="icon-btn"><svg><use href="#i-search"/></svg></span></div>
+    </div>
+    <div class="col" style="gap:18px">
+      <span class="muted sm">Catalog / Power transmission / Gears</span>
+      <h2 style="font-size:38px;letter-spacing:-.025em;line-height:1.1">Spur Gear — SG-48, 20° pressure angle</h2>
+      <div class="row"><b style="font-size:30px">₹1,850</b><span class="muted">/ unit · GST extra</span><span class="badge b-green" style="margin-left:auto">In stock</span></div>
+      <div class="spec"><div><small>Material</small><b>EN8 steel, hardened</b></div><div><small>Teeth</small><b>48</b></div><div><small>Module</small><b>2.0</b></div><div><small>Bore</small><b>25 mm, keyed</b></div></div>
+      <div class="row" style="margin-top:6px"><div class="input" style="width:140px;justify-content:space-between">−<b>10</b>+</div><span class="btn grow" style="height:48px;justify-content:center"><svg><use href="#i-cart"/></svg>Add to cart</span></div>
+      <div class="card" style="padding:16px"><div class="row" style="justify-content:space-between"><span class="muted sm">Bulk pricing</span><span class="badge b-blue">Save up to 12%</span></div><div class="row sm" style="margin-top:12px;justify-content:space-between"><span>10–49 units</span><b>₹1,780</b></div><div class="row sm" style="margin-top:8px;justify-content:space-between"><span>50+ units</span><b>₹1,630</b></div></div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

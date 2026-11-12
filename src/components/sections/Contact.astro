@@ -1,0 +1,123 @@
+---
+import { profile } from '@/data/profile';
+import { testimonials } from '@/data/education';
+import LocalTime from '../features/LocalTime.astro';
+import Icon from '../ui/Icon.astro';
+import JaaliPattern from '../ui/JaaliPattern.astro';
+
+const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+const { socials, contact } = profile;
+const index = testimonials.length ? '07' : '06';
+---
+
+<section id="contact" class="section" aria-labelledby="contact-title">
+  <div class="container-page">
+    <div class="contact-panel">
+      <JaaliPattern id="contact" size={64} class="pointer-events-none absolute inset-0 h-full w-full text-white opacity-[0.06]" />
+      <div class="relative grid gap-10 p-6 sm:p-10 lg:grid-cols-[1fr_1.05fr] lg:gap-14 lg:p-14">
+        <div data-reveal>
+          <p class="eyebrow !text-[#9cc4ff]"><span aria-hidden="true">{index} — </span>Contact</p>
+          <h2 id="contact-title" class="mt-3 text-[clamp(2rem,4.5vw,3rem)] leading-[1.08] font-semibold tracking-[-0.025em]">
+            Let’s build something <span class="accent-serif text-[#ffc24d]">great</span> together.
+          </h2>
+          <p class="muted-on-dark mt-4 text-lg">
+            Hiring for an Angular, .NET or AI-focused role? I’d love to hear about it — I usually reply within 24 hours.
+          </p>
+
+          <ul class="mt-8 grid gap-3">
+            <li>
+              <button type="button" class="channel" data-copy-email>
+                <span class="channel-icon"><Icon name="lucide:mail" class="size-5" /></span>
+                <span class="min-w-0 flex-1">
+                  <span class="channel-label">Email · tap to copy</span>
+                  <span class="channel-value" data-email-text>{contact.emailUser} [at] {contact.emailDomain}</span>
+                </span>
+                <Icon name="lucide:copy" class="size-4 opacity-70" />
+              </button>
+            </li>
+            <li>
+              <a href="#contact" class="channel" data-whatsapp>
+                <span class="channel-icon"><Icon name="si:whatsapp" class="size-5" /></span>
+                <span class="min-w-0 flex-1">
+                  <span class="channel-label">WhatsApp</span>
+                  <span class="channel-value">Chat with me</span>
+                </span>
+                <Icon name="lucide:arrow-up-right" class="size-4 opacity-70" />
+              </a>
+            </li>
+            <li>
+              <button type="button" class="channel" data-reveal-phone>
+                <span class="channel-icon"><Icon name="lucide:phone" class="size-5" /></span>
+                <span class="min-w-0 flex-1">
+                  <span class="channel-label">Phone</span>
+                  <span class="channel-value" data-phone-text>Show phone number</span>
+                </span>
+                <Icon name="lucide:eye" class="size-4 opacity-70" data-phone-icon />
+              </button>
+            </li>
+            <li>
+              <a href={socials.linkedin} class="channel" target="_blank" rel="noopener noreferrer" data-track="linkedin_click" data-track-source="contact">
+                <span class="channel-icon"><Icon name="si:linkedin" class="size-5" /></span>
+                <span class="min-w-0 flex-1">
+                  <span class="channel-label">LinkedIn</span>
+                  <span class="channel-value">in/pankajparihar0286<span class="sr-only"> (opens in a new tab)</span></span>
+                </span>
+                <Icon name="lucide:arrow-up-right" class="size-4 opacity-70" />
+              </a>
+            </li>
+          </ul>
+
+          <p class="muted-on-dark mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+            <Icon name="lucide:clock" class="size-4" />
+            <span>It’s <LocalTime /> for me</span>
+            <span aria-hidden="true">·</span>
+            <span data-tz-relation>India Standard Time</span>
+          </p>
+        </div>
+
+        <div class="card p-6 text-fg sm:p-8" data-reveal style="--reveal-delay:100ms">
+          <h3 class="text-xl font-semibold tracking-[-0.015em]">Send a message</h3>
+          <p class="mt-1 text-sm text-muted">All fields except company are required.</p>
+          <form class="mt-6 grid gap-4" data-contact-form data-key={web3formsKey} novalidate>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div class="field">
+                <label for="cf-name">Name</label>
+                <input id="cf-name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="80" data-label="name" aria-describedby="cf-name-error" />
+                <p id="cf-name-error" class="field-error" hidden></p>
+              </div>
+              <div class="field">
+                <label for="cf-email">Email</label>
+                <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="120" data-label="email" aria-describedby="cf-email-error" />
+                <p id="cf-email-error" class="field-error" hidden></p>
+              </div>
+            </div>
+            <div class="field">
+              <label for="cf-company">Company <span class="font-normal text-muted">(optional)</span></label>
+              <input id="cf-company" name="company" type="text" autocomplete="organization" maxlength="120" />
+            </div>
+            <div class="field">
+              <label for="cf-message">Message</label>
+              <textarea id="cf-message" name="message" required minlength="10" maxlength="3000" data-label="message" aria-describedby="cf-message-error" placeholder="The role, the team, and how I can help…"></textarea>
+              <p id="cf-message-error" class="field-error" hidden></p>
+            </div>
+            <div class="hidden" aria-hidden="true">
+              <label for="cf-botcheck">Leave this empty</label>
+              <input id="cf-botcheck" type="checkbox" name="botcheck" tabindex="-1" />
+            </div>
+            <div class="form-status" data-form-status role="status" aria-live="polite" hidden></div>
+            <button type="submit" class="btn btn-primary w-full sm:w-auto sm:justify-self-start">
+              <span class="btn-spinner" aria-hidden="true"></span>
+              <Icon name="lucide:send" class="btn-icon size-[1.1rem]" />
+              <span data-submit-label>Send message</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initContactForm } from '@/scripts/contact';
+  initContactForm();
+</script>

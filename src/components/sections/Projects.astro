@@ -1,0 +1,69 @@
+---
+import { getProjects, tagLabels, type ProjectTag } from '@/lib/projects';
+import ProjectCard from '../ui/ProjectCard.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+const projects = await getProjects();
+const featured = projects.filter((p) => p.data.featured);
+const more = projects.filter((p) => !p.data.featured);
+const usedTags = (Object.keys(tagLabels) as ProjectTag[]).filter((t) => projects.some((p) => p.data.tags.includes(t)));
+---
+
+<section id="projects" class="section bg-surface/50" aria-labelledby="projects-title">
+  <div class="container-page">
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <SectionHeading
+        id="projects-title"
+        index="02"
+        eyebrow="Projects"
+        title="Selected work,"
+        accent="with proof."
+        intro="Case studies of what I built — work projects shown through screenshots, public ones with code."
+      />
+      {
+        usedTags.length > 1 && (
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Filter projects by technology" data-project-filter>
+            <button type="button" class="chip chip-filter" data-filter="all" aria-pressed="true">
+              All
+            </button>
+            {usedTags.map((t) => (
+              <button type="button" class="chip chip-filter" data-filter={t} aria-pressed="false">
+                {tagLabels[t]}
+              </button>
+            ))}
+          </div>
+        )
+      }
+    </div>
+
+    {
+      featured.length > 0 && (
+        <div class="mt-12 grid gap-6 lg:grid-cols-2">
+          {featured.map((p) => (
+            <ProjectCard project={p} size="lg" />
+          ))}
+        </div>
+      )
+    }
+
+    {
+      more.length > 0 && (
+        <>
+          <h3 class="mt-14 text-sm font-semibold tracking-[0.08em] text-muted uppercase" data-more-heading>
+            More projects
+          </h3>
+          <div class="mt-5 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {more.map((p) => (
+              <ProjectCard project={p} />
+            ))}
+          </div>
+        </>
+      )
+    }
+
+    <p class="mt-10 rounded-2xl border border-dashed border-line-strong/50 p-6 text-center text-muted" data-filter-empty hidden>
+      No projects with this tag yet.
+      <button type="button" class="link font-medium" data-filter-reset>Show all projects</button>
+    </p>
+  </div>
+</section>

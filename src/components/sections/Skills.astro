@@ -1,0 +1,64 @@
+---
+import { alsoSkills, coreSkills, toolSkills } from '@/data/skills';
+import Icon from '../ui/Icon.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section id="skills" class="section" aria-labelledby="skills-title">
+  <div class="container-page">
+    <SectionHeading
+      id="skills-title"
+      index="03"
+      eyebrow="Skills"
+      title="The stack I use"
+      accent="every day."
+      intro="No percentage bars — each core skill shows where I have used it in real work."
+    />
+
+    <h3 class="mt-12 text-sm font-semibold tracking-[0.08em] text-muted uppercase">Core — production, daily use</h3>
+    <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        coreSkills.map((s, i) => (
+          <li class="card flex items-start gap-4 p-5" data-reveal style={`--reveal-delay:${(i % 4) * 60}ms`}>
+            <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-surface-2 text-primary">
+              <Icon name={s.icon} class="size-6" />
+            </span>
+            <div class="min-w-0">
+              <p class="font-semibold">{s.name}</p>
+              <p class="mt-0.5 text-sm text-muted">{s.evidence}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-12 grid gap-10 lg:grid-cols-2">
+      <div data-reveal>
+        <h3 class="text-sm font-semibold tracking-[0.08em] text-muted uppercase">Also worked with</h3>
+        <ul class="mt-5 flex flex-wrap gap-2">
+          {
+            alsoSkills.map((s) => (
+              <li class="chip !py-1.5 !text-sm">
+                <Icon name={s.icon} class="size-4 text-muted" />
+                {s.name}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div data-reveal>
+        <h3 class="text-sm font-semibold tracking-[0.08em] text-muted uppercase">Tools & practices</h3>
+        <ul class="mt-5 flex flex-wrap gap-2">
+          {
+            toolSkills.map((s) => (
+              <li class="chip !py-1.5 !text-sm">
+                <Icon name={s.icon} class="size-4 text-muted" />
+                {s.name}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

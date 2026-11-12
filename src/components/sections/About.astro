@@ -1,0 +1,115 @@
+---
+import { profile } from '@/data/profile';
+import LocalTime from '../features/LocalTime.astro';
+import Icon from '../ui/Icon.astro';
+import JaaliPattern from '../ui/JaaliPattern.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+const steps = [
+  { title: 'Understand', text: 'The business problem, the users, the constraints.' },
+  { title: 'Design', text: 'Data model, API contracts and UI flows.' },
+  { title: 'Build', text: 'Typed, reusable, readable code.' },
+  { title: 'Verify', text: 'Tests, code review and performance checks.' },
+  { title: 'Ship & support', text: 'Deploy, monitor and fix fast.' },
+];
+---
+
+<section id="about" class="section bg-surface/50" aria-labelledby="about-title">
+  <div class="container-page">
+    <SectionHeading id="about-title" index="04" eyebrow="About" title="Engineer from the" accent="Blue City." />
+
+    <div class="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <article class="card relative overflow-hidden p-7 md:col-span-2 lg:row-span-2" data-reveal>
+        <JaaliPattern id="about" size={56} class="pointer-events-none absolute -top-8 -right-8 h-56 w-56 text-primary opacity-[0.08]" />
+        <h3 class="text-sm font-semibold tracking-[0.08em] text-muted uppercase">My story</h3>
+        <div class="relative mt-4 grid gap-4 text-[1.0625rem] leading-relaxed">
+          <p>
+            I’m Pankaj — a software engineer from Rajasthan who started out in <strong>Jodhpur, the Blue City</strong>,
+            building Flutter and Angular apps.
+          </p>
+          <p>
+            Today, at <strong>Dial ERP Technology</strong>, I work across the stack on enterprise CRM and ERP products:
+            Angular front-ends, ASP.NET Core APIs and MongoDB — and, lately, AI features with Azure OpenAI and Azure AI
+            Search.
+          </p>
+          <p>
+            I enjoy turning messy business workflows into simple, fast tools, and I care about what users feel: speed,
+            clarity and reliability. Next, I want to join a team building AI-powered products at scale.
+          </p>
+        </div>
+      </article>
+
+      <article class="card p-7" data-reveal style="--reveal-delay:80ms">
+        <h3 class="flex items-center gap-2 text-sm font-semibold tracking-[0.08em] text-muted uppercase">
+          <Icon name="lucide:map-pin" class="size-4 text-primary" /> Based in
+        </h3>
+        <p class="mt-3 text-2xl font-semibold tracking-[-0.02em]">
+          {profile.location.city ? `${profile.location.city}, ` : ''}{profile.location.country}
+        </p>
+        <p class="mt-1 text-muted">
+          <LocalTime /> right now
+        </p>
+        <p class="mt-3 text-sm text-muted" data-tz-relation>{profile.location.tzAbbr} · {profile.location.tzOffset}</p>
+      </article>
+
+      <article class="card p-7" data-reveal style="--reveal-delay:140ms">
+        <h3 class="flex items-center gap-2 text-sm font-semibold tracking-[0.08em] text-muted uppercase">
+          <Icon name="lucide:languages" class="size-4 text-primary" /> Languages
+        </h3>
+        <ul class="mt-3 grid gap-1.5 font-medium">
+          {profile.languages.map((l) => <li>{l}</li>)}
+        </ul>
+      </article>
+
+      <article class="card p-7 md:col-span-2" data-reveal>
+        <h3 class="flex items-center gap-2 text-sm font-semibold tracking-[0.08em] text-muted uppercase">
+          <Icon name="lucide:workflow" class="size-4 text-primary" /> How I work
+        </h3>
+        <ol class="mt-5 grid gap-5 sm:grid-cols-2 xl:grid-cols-5">
+          {
+            steps.map((s, i) => (
+              <li>
+                <span class="grid size-8 place-items-center rounded-full bg-primary font-mono text-sm font-semibold text-on-primary">
+                  {i + 1}
+                </span>
+                <p class="mt-3 font-semibold">{s.title}</p>
+                <p class="mt-1 text-sm text-muted">{s.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </article>
+
+      <article class="card relative overflow-hidden p-7" data-reveal style="--reveal-delay:80ms">
+        <h3 class="flex items-center gap-2 text-sm font-semibold tracking-[0.08em] text-muted uppercase">
+          <Icon name="lucide:sparkles" class="size-4 text-accent-ink" /> AI-augmented, human-owned
+        </h3>
+        <p class="mt-3">
+          I use AI (Claude) to move faster on boilerplate, exploration and reviews. I own the design, verify every change,
+          and never ship code I can’t explain.
+        </p>
+      </article>
+
+      {
+        profile.currently && (
+          <article class="card p-7" data-reveal>
+            <h3 class="text-sm font-semibold tracking-[0.08em] text-muted uppercase">Currently</h3>
+            <ul class="mt-3 grid gap-1.5">
+              {profile.currently.map((c) => (
+                <li>{c}</li>
+              ))}
+            </ul>
+          </article>
+        )
+      }
+      {
+        profile.beyondCode && (
+          <article class="card p-7" data-reveal>
+            <h3 class="text-sm font-semibold tracking-[0.08em] text-muted uppercase">Beyond code</h3>
+            <p class="mt-3">{profile.beyondCode}</p>
+          </article>
+        )
+      }
+    </div>
+  </div>
+</section>

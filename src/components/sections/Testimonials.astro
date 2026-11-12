@@ -1,0 +1,28 @@
+---
+/** Renders nothing until real LinkedIn recommendations are added (never fabricate). */
+import { testimonials } from '@/data/education';
+import Icon from '../ui/Icon.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+{
+  testimonials.length > 0 && (
+    <section id="testimonials" class="section bg-surface/50" aria-labelledby="testimonials-title">
+      <div class="container-page">
+        <SectionHeading id="testimonials-title" index="06" eyebrow="Recommendations" title="What people" accent="say." />
+        <ul class="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {testimonials.map((t) => (
+            <li class="card flex flex-col p-7" data-reveal>
+              <Icon name="lucide:quote" class="size-7 text-accent-ink" />
+              <blockquote class="mt-4 flex-1 text-[1.0625rem]">{t.quote}</blockquote>
+              <p class="mt-5 font-semibold">{t.name}</p>
+              <p class="text-sm text-muted">
+                {t.role} · {t.relation}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

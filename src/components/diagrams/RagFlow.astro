@@ -1,0 +1,61 @@
+---
+/** Simplified retrieval-augmented generation (RAG) flow for the CRM assistant. */
+---
+
+<figure class="diagram mt-6">
+  <p class="mb-2 text-xs text-muted md:hidden" aria-hidden="true">Swipe to see the full diagram →</p>
+  <div class="overflow-x-auto rounded-2xl border border-line bg-surface p-4 md:p-6" tabindex="0" aria-label="AI assistant answer flow diagram (scrollable)">
+    <svg viewBox="0 0 880 300" class="min-w-[720px]" role="img" aria-labelledby="rag-title rag-desc">
+      <title id="rag-title">AI assistant answer flow (RAG)</title>
+      <desc id="rag-desc">
+        A question from the CRM chat goes to the ASP.NET Core API. The API retrieves relevant company data from Azure
+        AI Search, sends the question with that context to Azure OpenAI, and returns a grounded answer to the CRM.
+      </desc>
+      <defs>
+        <marker id="rag-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 10 5 0 10z" fill="var(--primary)"></path>
+        </marker>
+        <marker id="rag-arrow-alt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 10 5 0 10z" fill="var(--accent-ink)"></path>
+        </marker>
+      </defs>
+
+      <rect class="node" x="16" y="116" width="170" height="68" rx="14"></rect>
+      <text class="t-title" x="101" y="146" text-anchor="middle">Question</text>
+      <text class="t-sub" x="101" y="166" text-anchor="middle">CRM chat · Angular</text>
+
+      <rect class="node node-accent" x="300" y="116" width="200" height="68" rx="14"></rect>
+      <text class="t-title" x="400" y="146" text-anchor="middle">ASP.NET Core API</text>
+      <text class="t-sub" x="400" y="166" text-anchor="middle">orchestrates the flow</text>
+
+      <rect class="node" x="640" y="24" width="224" height="68" rx="14"></rect>
+      <text class="t-title" x="752" y="54" text-anchor="middle">Azure AI Search</text>
+      <text class="t-sub" x="752" y="74" text-anchor="middle">finds relevant company data</text>
+
+      <rect class="node" x="640" y="208" width="224" height="68" rx="14"></rect>
+      <text class="t-title" x="752" y="238" text-anchor="middle">Azure OpenAI</text>
+      <text class="t-sub" x="752" y="258" text-anchor="middle">writes a grounded answer</text>
+
+      <path class="edge" d="M186 140H298" marker-end="url(#rag-arrow)"></path>
+      <text class="t-label" x="242" y="130" text-anchor="middle">ask</text>
+
+      <path class="edge" d="M500 128 638 66" marker-end="url(#rag-arrow)"></path>
+      <text class="t-label" x="548" y="82" text-anchor="middle">① retrieve</text>
+      <path class="edge-dashed" d="M640 82 512 138" marker-end="url(#rag-arrow-alt)"></path>
+
+      <path class="edge" d="M500 172 638 232" marker-end="url(#rag-arrow)"></path>
+      <text class="t-label" x="545" y="232" text-anchor="middle">② question + context</text>
+      <path class="edge-dashed" d="M640 250 512 194" marker-end="url(#rag-arrow-alt)"></path>
+
+      <path class="edge-dashed" d="M300 164H188" marker-end="url(#rag-arrow-alt)"></path>
+      <text class="t-label" x="244" y="186" text-anchor="middle">③ answer</text>
+
+      <circle class="packet" r="5">
+        <animateMotion dur="3.6s" repeatCount="indefinite" path="M186 140H298M500 128 638 66M500 172 638 232"></animateMotion>
+      </circle>
+    </svg>
+  </div>
+  <figcaption class="mt-3 text-sm text-muted">
+    Simplified RAG flow — retrieval first, then a grounded answer. Details anonymized.
+  </figcaption>
+</figure>

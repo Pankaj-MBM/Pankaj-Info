@@ -1,0 +1,71 @@
+---
+import { experience } from '@/data/experience';
+import { durationLabel, formatPeriod } from '@/lib/format';
+import Icon from '../ui/Icon.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section id="experience" class="section" aria-labelledby="experience-title">
+  <div class="container-page">
+    <SectionHeading
+      id="experience-title"
+      index="01"
+      eyebrow="Experience"
+      title="Shipping enterprise software,"
+      accent="end to end."
+      intro="From Flutter and Angular apps to enterprise CRM & ERP platforms with AI and WhatsApp automation."
+    />
+
+    <ol class="timeline relative mt-12 grid gap-8" data-reveal>
+      <span class="timeline-line" aria-hidden="true"></span>
+      {
+        experience.map((job) => {
+          const duration = durationLabel(job.start, job.end);
+          return (
+            <li class="relative pl-10 md:pl-12">
+              <span class="timeline-dot" aria-hidden="true" />
+              <article class="card p-6 md:p-8">
+                <div class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between md:gap-6">
+                  <div>
+                    <h3 class="text-xl font-semibold tracking-[-0.015em] md:text-2xl">{job.role}</h3>
+                    <p class="mt-1 font-medium text-primary">{job.company}</p>
+                  </div>
+                  <div class="text-sm text-muted md:text-right">
+                    <p class="font-medium text-fg">
+                      {formatPeriod(job.start, job.end)}
+                      {duration && <span class="text-muted"> · {duration}</span>}
+                    </p>
+                    <p class="mt-0.5 inline-flex items-center gap-1.5">
+                      <Icon name="lucide:map-pin" class="size-3.5" />
+                      {job.location}
+                    </p>
+                  </div>
+                </div>
+                <ul class="mt-5 grid gap-2.5">
+                  {job.bullets.map((b) => (
+                    <li class="flex gap-3">
+                      <Icon name="lucide:chevron-right" class="mt-1.5 size-4 shrink-0 text-primary" />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div class="mt-6 flex flex-col gap-4 border-t border-line pt-5 md:flex-row md:items-center md:justify-between">
+                  <ul class="flex flex-wrap gap-1.5" aria-label="Tech used">
+                    {job.stack.map((s) => (
+                      <li class="chip">{s}</li>
+                    ))}
+                  </ul>
+                  {job.caseStudy && (
+                    <a href={job.caseStudy.href} class="btn btn-ghost btn-sm shrink-0 self-start !whitespace-normal text-primary md:self-auto">
+                      {job.caseStudy.label} <Icon name="lucide:arrow-right" class="size-4" />
+                    </a>
+                  )}
+                </div>
+              </article>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>

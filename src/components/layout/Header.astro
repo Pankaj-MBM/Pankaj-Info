@@ -1,0 +1,119 @@
+---
+import { sections } from '@/data/nav';
+import { profile } from '@/data/profile';
+import Icon from '../ui/Icon.astro';
+import Logo from '../ui/Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+const base = Astro.url.pathname === '/' ? '' : '/';
+---
+
+<header class="site-header" data-header>
+  <div class="container-page flex h-16 items-center gap-3">
+    <a href="/" class="flex items-center gap-2.5 rounded-full pr-2 font-semibold tracking-[-0.01em]">
+      <Logo class="size-8" />
+      <span class="text-[1.02rem]">Pankaj Parihar</span>
+      <span class="sr-only">— home</span>
+    </a>
+
+    <nav aria-label="Primary" class="ml-auto hidden lg:block">
+      <ul class="flex items-center gap-0.5">
+        {
+          sections.map((s) => (
+            <li>
+              <a href={`${base}#${s.id}`} class="nav-link" data-nav-link={s.id}>
+                {s.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="ml-auto flex items-center gap-1 lg:ml-3">
+      <button
+        type="button"
+        class="search-btn hidden md:inline-flex"
+        data-open-palette
+        aria-label="Search and quick actions"
+        aria-keyshortcuts="Control+K Meta+K"
+      >
+        <Icon name="lucide:search" class="size-4" />
+        <span>Search</span>
+        <kbd class="kbd" data-kbd-hint>Ctrl K</kbd>
+      </button>
+      <ThemeToggle />
+      <a
+        href={profile.resume.pdf}
+        class="btn btn-primary btn-sm ml-1 max-[399px]:!px-3"
+        download
+        data-track="resume_download"
+        data-track-source="nav"
+        aria-label="Download resume (PDF)"
+      >
+        <Icon name="lucide:download" class="size-4" />
+        <span class="max-[399px]:hidden" aria-hidden="true">Resume</span>
+      </a>
+      <button
+        type="button"
+        class="icon-btn lg:hidden"
+        data-menu-open
+        aria-haspopup="dialog"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label="Open menu"
+      >
+        <Icon name="lucide:menu" class="size-6" />
+      </button>
+    </div>
+  </div>
+  <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
+</header>
+
+<dialog id="mobile-menu" class="menu-dialog" aria-label="Menu">
+  <div class="container-page flex h-16 items-center justify-between">
+    <span class="flex items-center gap-2.5 font-semibold"><Logo class="size-8" /> Pankaj Parihar</span>
+    <button type="button" class="icon-btn" data-menu-close aria-label="Close menu">
+      <Icon name="lucide:x" class="size-6" />
+    </button>
+  </div>
+  <nav aria-label="Mobile" class="container-page flex-1 overflow-y-auto pt-6 pb-10">
+    <ul class="grid gap-1">
+      {
+        sections.map((s, i) => (
+          <li>
+            <a
+              href={`${base}#${s.id}`}
+              class="flex items-baseline gap-4 rounded-2xl px-3 py-3 text-3xl font-semibold tracking-[-0.02em] hover:bg-surface-2"
+            >
+              <span class="font-mono text-sm text-primary">0{i + 1}</span>
+              {s.label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a
+          href="/resume/"
+          class="flex items-baseline gap-4 rounded-2xl px-3 py-3 text-3xl font-semibold tracking-[-0.02em] hover:bg-surface-2"
+        >
+          <span class="font-mono text-sm text-primary">06</span>Resume
+        </a>
+      </li>
+    </ul>
+    <div class="mt-10 grid gap-3 sm:grid-cols-2">
+      <a href={profile.resume.pdf} class="btn btn-primary" download data-track="resume_download" data-track-source="menu">
+        <Icon name="lucide:download" class="size-5" /> Download resume
+      </a>
+      <button type="button" class="btn btn-secondary" data-open-summary data-menu-close>
+        <Icon name="lucide:zap" class="size-5 text-accent-ink" /> 30-sec summary
+      </button>
+      <button type="button" class="btn btn-secondary" data-copy-email>
+        <Icon name="lucide:mail" class="size-5" /> Copy email
+      </button>
+      <a href="#contact" class="btn btn-secondary" data-whatsapp>
+        <Icon name="si:whatsapp" class="size-5" /> WhatsApp
+      </a>
+    </div>
+  </nav>
+</dialog>

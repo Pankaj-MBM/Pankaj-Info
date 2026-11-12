@@ -1,0 +1,15 @@
+/* TEAM */
+Developer: Pankaj Parihar
+Role: Software Engineer — Angular · ASP.NET Core · Azure OpenAI
+From: Rajasthan, India
+LinkedIn: https://www.linkedin.com/in/pankajparihar0286/
+GitHub: https://github.com/Pankaj-MBM
+
+/* SITE */
+Standards: HTML5, CSS3, TypeScript
+Components: Astro, Tailwind CSS
+Fonts: Geist, Instrument Serif
+Design: "Blue City Engineer" — inspired by Jodhpur
+
+/* HELLO */
+Looking at the source? Let's talk — the contact form is at /#contact

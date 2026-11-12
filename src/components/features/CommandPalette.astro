@@ -1,0 +1,54 @@
+---
+/** Ctrl/⌘ K command palette (Roadmap §4.5-C). Items are rendered by the lazily-loaded script. */
+import { sections } from '@/data/nav';
+import { profile } from '@/data/profile';
+import { getProjects } from '@/lib/projects';
+import Icon from '../ui/Icon.astro';
+
+const projects = await getProjects();
+const items = [
+  ...sections.map((s) => ({ id: `go-${s.id}`, group: 'Go to', label: s.label, href: `/#${s.id}` })),
+  { id: 'go-resume', group: 'Go to', label: 'Resume page', href: '/resume/', keywords: 'cv print' },
+  ...projects
+    .filter((p) => !p.data.draft)
+    .map((p) => ({
+      id: `project-${p.id}`,
+      group: 'Case studies',
+      label: p.data.title,
+      href: `/projects/${p.id}/`,
+      keywords: p.data.stack.join(' '),
+    })),
+  { id: 'download', group: 'Actions', label: 'Download resume (PDF)', href: profile.resume.pdf, download: true, keywords: 'cv' },
+  { id: 'summary', group: 'Actions', label: 'Open 30-second summary', action: 'summary', keywords: 'recruiter overview' },
+  { id: 'copy-email', group: 'Actions', label: 'Copy email address', action: 'copy-email', keywords: 'mail contact' },
+  { id: 'whatsapp', group: 'Actions', label: 'Message on WhatsApp', action: 'whatsapp', keywords: 'chat phone call' },
+  { id: 'chat', group: 'Actions', label: 'Ask Pankaj (chat)', action: 'chat', keywords: 'faq questions bot' },
+  { id: 'theme', group: 'Actions', label: 'Toggle light / dark theme', action: 'theme', keywords: 'dark mode color' },
+  { id: 'linkedin', group: 'Profiles', label: 'LinkedIn', href: profile.socials.linkedin, external: true },
+  { id: 'github', group: 'Profiles', label: 'GitHub', href: profile.socials.github, external: true },
+];
+---
+
+<dialog id="palette" class="modal palette" aria-label="Search and quick actions">
+  <script is:inline type="application/json" set:html={JSON.stringify(items)} />
+  <div class="palette-search">
+    <Icon name="lucide:search" class="size-5 shrink-0 text-muted" />
+    <input
+      type="text"
+      role="combobox"
+      aria-expanded="true"
+      aria-controls="palette-list"
+      aria-autocomplete="list"
+      aria-label="Search pages, projects and actions"
+      placeholder="Search pages, projects, actions…"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <kbd class="kbd">Esc</kbd>
+  </div>
+  <ul id="palette-list" class="palette-list" role="listbox" aria-label="Results"></ul>
+  <div class="palette-foot" aria-hidden="true">
+    <span><kbd class="kbd">↑</kbd> <kbd class="kbd">↓</kbd> navigate</span>
+    <span><kbd class="kbd">↵</kbd> open</span>
+  </div>
+</dialog>

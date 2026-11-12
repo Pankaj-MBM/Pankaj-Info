@@ -1,0 +1,24 @@
+---
+/** Rajasthani jaali (stone lattice) — an 8-point star lattice drawn with currentColor. */
+interface Props {
+  id: string;
+  class?: string;
+  size?: number;
+}
+const { id, class: className, size = 64 } = Astro.props;
+const patternId = `jaali-${id}`;
+---
+
+<svg class={className} aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id={patternId} width={size} height={size} patternUnits="userSpaceOnUse" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="1.1">
+        <path d="M32 12 52 32 32 52 12 32Z"></path>
+        <rect x="18" y="18" width="28" height="28"></rect>
+        <circle cx="32" cy="32" r="6"></circle>
+        <path d="M0 32h12M52 32h12M32 0v12M32 52v12M0 0l8 8M64 0l-8 8M0 64l8-8M64 64l-8-8"></path>
+      </g>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill={`url(#${patternId})`}></rect>
+</svg>

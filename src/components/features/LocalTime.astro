@@ -1,0 +1,6 @@
+---
+/** Pankaj's local time, filled in by the client script (Roadmap §4.5-D). */
+import { profile } from '@/data/profile';
+---
+
+<span data-local-time data-tz={profile.location.timezone}>{profile.location.tzAbbr} ({profile.location.tzOffset})</span>
