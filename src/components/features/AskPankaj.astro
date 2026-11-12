@@ -1,6 +1,8 @@
 ---
 /** "Ask Pankaj" — scripted recruiter-FAQ assistant (Roadmap §4.5-A). One instance per placement. */
 import { chatFallback, chatGreeting, faq } from '@/data/faq';
+import { Image } from 'astro:assets';
+import photo from '@/assets/profile/pankaj.jpg';
 import Icon from '../ui/Icon.astro';
 
 interface Props {
@@ -15,7 +17,7 @@ const firstChips = faq.slice(0, 4);
 <ask-pankaj class="chat h-full" data-variant={variant} data-hero-chat={variant === 'inline' ? '' : undefined}>
   <script is:inline type="application/json" set:html={JSON.stringify(payload)} />
   <div class="chat-head">
-    <span class="chat-avatar" aria-hidden="true">PP</span>
+    <Image src={photo} alt="" width={72} height={72} class="chat-avatar object-cover object-top" />
     <div class="min-w-0 flex-1">
       <p class="chat-title" id={`${id}-title`}>Ask Pankaj</p>
       <p class="chat-sub"><span class="status-dot"></span> Scripted assistant · instant answers</p>

@@ -6,7 +6,7 @@ import { experienceYears } from '@/lib/format';
 import { getProjects } from '@/lib/projects';
 import Icon from '../ui/Icon.astro';
 import shotQr from '@/assets/projects/2026-co-in.png';
-import shotCrm from '@/assets/projects/ai-crm-whatsapp.png';
+import photo from '@/assets/profile/pankaj.jpg';
 
 const { resume, availability } = profile;
 const projectCount = (await getProjects()).filter((p) => !p.data.draft).length;
@@ -20,7 +20,7 @@ const stats = [
 
 <section id="top" class="lx-hero" aria-labelledby="hero-title" data-hero-chat data-parallax>
   <div class="lx-hero-glow" aria-hidden="true"></div>
-  <div class="container-page grid items-center gap-14 pt-10 pb-16 md:pt-16 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:gap-10 lg:pt-20 lg:pb-20">
+  <div class="container-page grid items-center gap-14 pt-10 pb-16 md:pt-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-10 lg:pt-20 lg:pb-20">
     <div>
       <p class="lx-badge" data-reveal><i aria-hidden="true"></i>{availability.statusLabel} · Software Engineer</p>
       <h1 id="hero-title" class="lx-h1 mt-7" data-reveal style="--reveal-delay:80ms">
@@ -48,18 +48,29 @@ const stats = [
       </p>
     </div>
 
-    <div class="lx-stage" data-reveal style="--reveal-delay:200ms" aria-hidden="true">
-      <a href="/projects/2026-co-in/" class="lx-shot lx-shot-a" data-depth="18" tabindex="-1">
-        <Image src={shotQr} alt="" widths={[560, 840, 1120]} sizes="(min-width:1024px) 38vw, 90vw" loading="eager" fetchpriority="high" class="lx-float" />
+    <div class="lx-stage" data-reveal style="--reveal-delay:200ms">
+      <figure class="lx-portrait" data-depth="10">
+        <Image
+          src={photo}
+          alt="Portrait of Pankaj Parihar"
+          widths={[400, 600, 800]}
+          sizes="(min-width:1024px) 30vw, 70vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <figcaption class="lx-plate">
+          <span class="lx-plate-name">Pankaj Parihar</span>
+          <span class="lx-plate-role">Angular · .NET · Azure AI</span>
+        </figcaption>
+      </figure>
+      <a href="/projects/2026-co-in/" class="lx-shot lx-shot-mini" data-depth="34" tabindex="-1" aria-hidden="true">
+        <Image src={shotQr} alt="" widths={[480, 720]} sizes="(min-width:1024px) 22vw, 50vw" loading="eager" class="lx-float-slow" />
       </a>
-      <a href="/projects/ai-crm-whatsapp/" class="lx-shot lx-shot-b" data-depth="34" tabindex="-1">
-        <Image src={shotCrm} alt="" widths={[560, 840, 1120]} sizes="(min-width:1024px) 34vw, 80vw" loading="eager" class="lx-float-slow" />
-      </a>
-      <div class="lx-chip lx-chip-a" data-depth="48">
+      <div class="lx-chip lx-chip-a" data-depth="48" aria-hidden="true">
         <span class="lx-chip-icon"><Icon name="lucide:circle-check" class="size-5" /></span>
         <span>Live in production<small>2026.co.in · cafés</small></span>
       </div>
-      <div class="lx-chip lx-chip-b" data-depth="-26">
+      <div class="lx-chip lx-chip-b" data-depth="-26" aria-hidden="true">
         <span class="lx-chip-icon"><Icon name="lucide:sparkles" class="size-5" /></span>
         <span>AI chatbot<small>Azure OpenAI + RAG</small></span>
       </div>

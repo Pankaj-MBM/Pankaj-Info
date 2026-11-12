@@ -24,144 +24,110 @@
       body {
         position: relative;
         font-family: Geist, system-ui, sans-serif;
-        color: #fff;
+        color: #0e0e11;
         background:
-          radial-gradient(900px 520px at 88% 8%, rgba(58, 123, 224, 0.45), transparent 60%),
-          linear-gradient(160deg, #0d2b62 0%, #0a1a3d 55%, #070f24 100%);
-      }
-      .jaali {
-        position: absolute;
-        inset: 0;
-        color: #fff;
-        opacity: 0.06;
+          radial-gradient(700px 500px at 95% 0%, rgba(176, 141, 87, 0.22), transparent 65%),
+          radial-gradient(600px 400px at 0% 100%, rgba(31, 59, 143, 0.1), transparent 65%),
+          #f6f3ec;
       }
       .wrap {
         position: absolute;
         inset: 0;
         display: flex;
         align-items: center;
-        gap: 64px;
-        padding: 0 84px;
+        gap: 70px;
+        padding: 0 80px;
       }
-      .arch {
+      .photo {
         position: relative;
         flex: none;
-        display: grid;
-        place-items: center;
-        width: 290px;
-        height: 362px;
-        border-radius: 50% 50% 24px 24px / 40% 40% 24px 24px;
-        background: linear-gradient(165deg, #3a7be0 0%, #1d5bbf 35%, #123c80 75%, #0b2556 100%);
-        box-shadow:
-          0 40px 90px -40px rgba(29, 91, 191, 0.9),
-          inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+        width: 330px;
+        height: 412px;
+        overflow: hidden;
+        border: 8px solid #fff;
+        border-radius: 34px;
+        background: #fff;
+        box-shadow: 0 50px 90px -40px rgba(20, 20, 40, 0.5);
       }
-      .arch::after {
+      .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 10%;
+        border-radius: 26px;
+      }
+      .photo::after {
         content: '';
         position: absolute;
         inset: 12px;
-        border-radius: inherit;
-        border: 1.5px solid rgba(242, 169, 59, 0.65);
+        border: 1.5px solid rgba(176, 141, 87, 0.6);
+        border-radius: 24px;
       }
-      .pp {
-        font-family: 'Instrument Serif', serif;
-        font-style: italic;
-        font-size: 128px;
-        line-height: 1;
-      }
-      .status {
-        display: inline-flex;
+      .eyebrow {
+        display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 8px 18px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.08);
-        font-size: 21px;
-        font-weight: 500;
+        gap: 14px;
+        color: #8a6a35;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
       }
-      .dot {
-        width: 11px;
-        height: 11px;
-        border-radius: 50%;
-        background: #4ade80;
+      .eyebrow::before {
+        content: '';
+        width: 40px;
+        height: 1.5px;
+        background: currentColor;
       }
       h1 {
-        margin: 24px 0 0;
-        font-size: 86px;
-        font-weight: 700;
-        line-height: 1;
-        letter-spacing: -0.035em;
+        margin: 22px 0 0;
+        font-size: 80px;
+        font-weight: 750;
+        line-height: 0.98;
+        letter-spacing: -0.05em;
+      }
+      h1 em {
+        font-family: 'Instrument Serif', serif;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+        color: #8a6a35;
       }
       .role {
-        margin-top: 18px;
-        max-width: 640px;
-        font-size: 34px;
-        font-weight: 500;
-        line-height: 1.25;
-        letter-spacing: -0.01em;
-        color: #e8edf6;
+        margin-top: 22px;
+        font-size: 28px;
+        color: #5b5a62;
+        line-height: 1.35;
       }
-      .role em {
-        font-family: 'Instrument Serif', serif;
-        font-size: 1.18em;
-        color: #ffc24d;
+      .role b {
+        color: #0e0e11;
+        font-weight: 600;
       }
       .chips {
         display: flex;
-        flex-wrap: wrap;
         gap: 10px;
         margin-top: 30px;
       }
       .chip {
-        padding: 8px 16px;
+        padding: 9px 18px;
+        border: 1px solid #e6e0d4;
         border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        background: rgba(255, 255, 255, 0.08);
-        color: #e8edf6;
-        font-size: 20px;
+        background: #fff;
+        font-size: 19px;
         font-weight: 500;
       }
     </style>
   </head>
   <body>
-    <svg class="jaali" width="1200" height="630" aria-hidden="true">
-      <defs>
-        <pattern id="j" width="72" height="72" patternUnits="userSpaceOnUse" viewBox="0 0 64 64">
-          <g fill="none" stroke="currentColor" stroke-width="1.1">
-            <path d="M32 12 52 32 32 52 12 32Z" />
-            <rect x="18" y="18" width="28" height="28" />
-            <circle cx="32" cy="32" r="6" />
-            <path d="M0 32h12M52 32h12M32 0v12M32 52v12M0 0l8 8M64 0l-8 8M0 64l8-8M64 64l-8-8" />
-          </g>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#j)" />
-    </svg>
     <div class="wrap">
-      <div class="arch">
-        <svg viewBox="0 0 48 48" width="200" height="200" aria-hidden="true">
-          <defs>
-            <linearGradient id="lb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cfe2ff" /><stop offset="1" stop-color="#7ab0ff" /></linearGradient>
-            <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd98a" /><stop offset="1" stop-color="#f2a93b" /></linearGradient>
-          </defs>
-          <path d="M12 37V8.5h8a7.5 7.5 0 0 1 0 15h-8" fill="none" stroke="url(#lb)" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M23 17.5h6.5a7 7 0 0 1 0 14H23z" fill="#164a9c" />
-          <path d="M23 39.5V17.5h6.5a7 7 0 0 1 0 14H23" fill="none" stroke="#164a9c" stroke-width="8.6" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M23 39.5V17.5h6.5a7 7 0 0 1 0 14H23" fill="none" stroke="url(#lg)" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </div>
+      <div class="photo"><img src="../src/assets/profile/pankaj.jpg" alt="" /></div>
       <div>
-        <span class="status"><span class="dot"></span>Open to new opportunities</span>
-        <h1>Pankaj Parihar</h1>
-        <p class="role">Software Engineer building <em>AI-powered</em> enterprise apps</p>
+        <div class="eyebrow">Software Engineer</div>
+        <h1>Pankaj <em>Parihar</em></h1>
+        <p class="role">I ship <b>AI-powered products</b> businesses use daily — Angular, .NET &amp; Azure OpenAI.</p>
         <div class="chips">
-          <span class="chip">Angular</span>
-          <span class="chip">ASP.NET Core</span>
-          <span class="chip">C#</span>
-          <span class="chip">MongoDB</span>
-          <span class="chip">Azure OpenAI</span>
-          <span class="chip">WhatsApp API</span>
+          <span class="chip">2.5+ years</span>
+          <span class="chip">40+ REST APIs</span>
+          <span class="chip">Live: 2026.co.in</span>
         </div>
       </div>
     </div>

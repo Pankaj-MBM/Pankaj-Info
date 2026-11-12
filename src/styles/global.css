@@ -1300,17 +1300,80 @@
     object-position: left top;
     border-radius: 15px;
   }
-  .lx-shot-a {
+  .lx-portrait {
+    position: absolute;
     top: 0;
-    right: 0;
-    width: 80%;
-    rotate: 2.5deg;
+    right: 4%;
+    z-index: 1;
+    width: 72%;
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border: 8px solid #fff;
+    border-radius: 34px;
+    background: #fff;
+    box-shadow:
+      0 60px 110px -50px rgb(20 20 40 / 0.5),
+      0 0 0 1px rgb(14 14 17 / 0.06);
+    transition: translate 0.6s var(--ease-soft);
   }
-  .lx-shot-b {
+  .lx-portrait::after {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgb(176 141 87 / 0.55);
+    border-radius: 24px;
+    pointer-events: none;
+  }
+  .lx-portrait img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 12%;
+    border-radius: 26px;
+  }
+  .lx-plate {
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    bottom: 22px;
+    z-index: 2;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid rgb(255 255 255 / 0.25);
+    border-radius: 18px;
+    background: rgb(14 14 17 / 0.62);
+    color: #f6f3ec;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .lx-plate-name {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    font-style: italic;
+    line-height: 1.1;
+  }
+  .lx-plate-role {
+    display: block;
+    margin-top: 0.2rem;
+    color: #d8b77a;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .lx-shot-mini {
     left: 0;
-    top: 38%;
-    width: 70%;
-    rotate: -3.5deg;
+    bottom: 6%;
+    z-index: 2;
+    width: 50%;
+    rotate: -5deg;
+    border-width: 5px;
+    border-radius: 16px;
+  }
+  .lx-shot-mini img {
+    border-radius: 11px;
   }
   .lx-chip {
     position: absolute;
@@ -1345,12 +1408,19 @@
     color: var(--accent-ink);
   }
   .lx-chip-a {
-    right: 3%;
-    bottom: 4%;
+    left: 0;
+    top: 37%;
+  }
+  :root[data-theme='dark'] :is(.lx-portrait, .lx-shot) {
+    border-color: #1a1d26;
+    background: #1a1d26;
+    box-shadow:
+      0 60px 110px -50px rgb(0 0 0 / 0.8),
+      0 0 0 1px rgb(255 255 255 / 0.08);
   }
   .lx-chip-b {
-    left: 4%;
-    top: 4%;
+    left: 2%;
+    top: 10%;
   }
   @media (prefers-reduced-motion: no-preference) {
     .lx-float {
@@ -1360,10 +1430,44 @@
       animation: lx-float 10s ease-in-out -3s infinite;
     }
   }
+  .lx-stage {
+    height: clamp(30rem, 44vw, 38rem);
+  }
   @media (max-width: 1023px) {
     .lx-stage {
       height: auto;
-      aspect-ratio: 16 / 12;
+      aspect-ratio: 1 / 1.05;
+      max-width: 34rem;
+      margin-inline: auto;
+      width: 100%;
+    }
+    .lx-portrait {
+      aspect-ratio: 4 / 4.4;
+    }
+    .lx-shot-mini {
+      bottom: 0;
+      width: 44%;
+    }
+  }
+  @media (max-width: 520px) {
+    .lx-chip {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.78rem;
+    }
+    .lx-chip-icon {
+      display: none;
+    }
+    .lx-plate {
+      inset-inline: 14px;
+      bottom: 14px;
+      padding: 0.7rem 0.9rem;
+    }
+    .lx-plate-name {
+      font-size: 1.15rem;
+    }
+    .lx-plate-role {
+      font-size: 0.62rem;
+      letter-spacing: 0.05em;
     }
   }
 

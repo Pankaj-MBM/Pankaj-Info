@@ -4,6 +4,8 @@ import { profile } from '@/data/profile';
 import { education } from '@/data/education';
 import { coreSkills } from '@/data/skills';
 import { experienceLabel } from '@/lib/format';
+import { Image } from 'astro:assets';
+import photo from '@/assets/profile/pankaj.jpg';
 import Icon from '../ui/Icon.astro';
 
 const { availability, location, resume, socials } = profile;
@@ -28,7 +30,8 @@ const highlights = [
 <dialog id="summary-dialog" class="modal" aria-labelledby="summary-title">
   <div class="p-6 sm:p-8">
     <div class="flex items-start gap-4">
-      <span class="arch-mini !w-14 shrink-0 text-xl" aria-hidden="true">PP</span>
+      <Image src={photo} alt="" width={112} height={112} class="size-14 shrink-0 rounded-full object-cover object-top ring-2 ring-[#b08d57]/60" />
+
       <div class="min-w-0 flex-1">
         <p class="eyebrow">30-second summary</p>
         <h2 id="summary-title" class="mt-1 text-2xl font-semibold tracking-[-0.02em]">{profile.name}</h2>
