@@ -1257,12 +1257,14 @@
     --silk-a: 176 141 87;
     --silk-b: 31 59 143;
     --silk-alpha: 0.26;
+    --silk-glint: 138 106 53;
   }
   :root[data-theme='dark'] .lx-hero {
     --dot: rgb(255 255 255 / 0.08);
     --silk-a: 226 184 111;
     --silk-b: 122 162 255;
-    --silk-alpha: 0.34;
+    --silk-alpha: 0.3;
+    --silk-glint: 255 232 186;
   }
   .lx-backdrop {
     position: absolute;
