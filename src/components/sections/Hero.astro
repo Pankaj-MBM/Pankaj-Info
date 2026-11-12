@@ -51,34 +51,7 @@ const stats = [
     </div>
 
     <div class="lx-stage" data-reveal style="--reveal-delay:200ms">
-      <svg class="lx-orbits" viewBox="-300 -300 600 600" aria-hidden="true" focusable="false">
-        <defs>
-          <path id="lx-orbit-1" d="M-270 0a270 96 0 1 0 540 0a270 96 0 1 0 -540 0" />
-          <path id="lx-orbit-2" d="M-250 0a250 84 0 1 0 500 0a250 84 0 1 0 -500 0" />
-          <path id="lx-orbit-3" d="M-285 0a285 110 0 1 0 570 0a285 110 0 1 0 -570 0" />
-        </defs>
-        {
-          [
-            { id: 1, rot: -18, dur: 10, begin: 0 },
-            { id: 2, rot: 24, dur: 14, begin: -4 },
-            { id: 3, rot: 72, dur: 18, begin: -9 },
-          ].map((o) => (
-            <g transform={`rotate(${o.rot})`}>
-              <use href={`#lx-orbit-${o.id}`} class="lx-orbit-ring" />
-              <circle r="5.5" class="lx-electron">
-                <animateMotion dur={`${o.dur}s`} begin={`${o.begin}s`} repeatCount="indefinite">
-                  <mpath href={`#lx-orbit-${o.id}`} />
-                </animateMotion>
-              </circle>
-              <circle r="3.5" class="lx-electron lx-electron-sm">
-                <animateMotion dur={`${o.dur}s`} begin={`${o.begin - o.dur / 2}s`} repeatCount="indefinite">
-                  <mpath href={`#lx-orbit-${o.id}`} />
-                </animateMotion>
-              </circle>
-            </g>
-          ))
-        }
-      </svg>
+      <div class="lx-halo" aria-hidden="true"><span></span><span></span></div>
       <figure class="lx-portrait" data-depth="10">
         <Image
           src={photo}
@@ -91,7 +64,7 @@ const stats = [
         />
         <figcaption class="lx-plate">
           <span class="lx-plate-name">Pankaj Parihar</span>
-          <span class="lx-plate-role">Angular · .NET · Azure AI</span>
+          <span class="lx-plate-role"><span>Angular · Flutter</span> <span>.NET · Azure AI</span></span>
         </figcaption>
       </figure>
       <a href="/projects/2026-co-in/" class="lx-shot lx-shot-mini" data-depth="34" tabindex="-1" aria-hidden="true">

@@ -39,6 +39,6 @@ const nodes: [number, number][] = [
   <g class="lx-circuit">
     {traces.map((d) => <path d={d} class="lx-trace" />)}
     {traces.map((d, i) => <path d={d} class="lx-pulse" pathLength="1000" style={`--d:${(i * 1.3) % 6}s;--t:${5 + (i % 3) * 1.5}s`} />)}
-    {nodes.map(([cx, cy], i) => <circle cx={cx} cy={cy} r="4" class="lx-node" style={`--d:${(i * 0.9) % 4}s`} />)}
+    {nodes.map(([cx, cy], i) => <circle cx={cx} cy={cy} r="3" class="lx-node" style={`--d:${(i * 0.9) % 4}s`} />)}
   </g>
 </svg>

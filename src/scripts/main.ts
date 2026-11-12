@@ -295,17 +295,11 @@ function initParallax() {
   host.addEventListener('pointerleave', () => layers.forEach((l) => (l.style.translate = '0 0')));
 }
 
-/* ---------- Hero backdrop: SMIL orbits + CSS pulses run only while the hero is on screen ---------- */
+/* ---------- Hero backdrop: halo + circuit pulses run only while the hero is on screen ---------- */
 function initHeroMotion() {
   const hero = $('[data-parallax]');
-  if (!hero) return;
-  const svgs = $$<SVGSVGElement>('svg.lx-orbits', hero);
-  const setRunning = (on: boolean) => {
-    hero.classList.toggle('is-paused', !on);
-    svgs.forEach((s) => (on ? s.unpauseAnimations() : s.pauseAnimations()));
-  };
-  if (prefersReducedMotion()) return setRunning(false);
-  if (!('IntersectionObserver' in window)) return;
+  if (!hero || prefersReducedMotion() || !('IntersectionObserver' in window)) return;
+  const setRunning = (on: boolean) => hero.classList.toggle('is-paused', !on);
   new IntersectionObserver(([entry]) => setRunning(entry.isIntersecting)).observe(hero);
   document.addEventListener('visibilitychange', () => setRunning(!document.hidden));
 }
