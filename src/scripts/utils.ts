@@ -69,9 +69,9 @@ export function contactInfo() {
   return cache;
 }
 
-export function whatsappUrl() {
+export function whatsappUrl(text?: string) {
   const { whatsapp, waMessage } = contactInfo();
-  return `https://wa.me/${whatsapp}?text=${encodeURIComponent(waMessage)}`;
+  return `https://wa.me/${whatsapp}?text=${encodeURIComponent(text ?? waMessage)}`;
 }
 
 export async function copyText(text: string): Promise<boolean> {

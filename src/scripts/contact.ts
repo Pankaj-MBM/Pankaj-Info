@@ -1,4 +1,4 @@
-import { contactInfo, storage, toast, track } from './utils';
+import { contactInfo, copyText, storage, toast, track, whatsappUrl } from './utils';
 
 const DRAFT_KEY = 'contact-draft';
 type Field = HTMLInputElement | HTMLTextAreaElement;
@@ -51,26 +51,72 @@ export function initContactForm() {
     f.addEventListener('input', () => f.getAttribute('aria-invalid') === 'true' && validate(f));
   });
 
-  const setStatus = (kind: string, text: string, link?: { href: string; label: string }) => {
+  type Action = { label: string; href?: string; onClick?: () => void; newTab?: boolean };
+  const setStatus = (kind: string, text: string, actions: Action[] = []) => {
     status.dataset.kind = kind;
     status.replaceChildren(document.createTextNode(text));
-    if (link) {
-      const a = document.createElement('a');
-      a.className = 'link font-semibold';
-      a.href = link.href;
-      a.textContent = link.label;
-      status.append(' ', a);
+    if (actions.length) {
+      const row = document.createElement('span');
+      row.className = 'form-status-actions';
+      for (const action of actions) {
+        const el = document.createElement(action.href ? 'a' : 'button');
+        el.className = 'form-status-action';
+        el.textContent = action.label;
+        if (el instanceof HTMLAnchorElement && action.href) {
+          el.href = action.href;
+          if (action.newTab) {
+            el.target = '_blank';
+            el.rel = 'noopener noreferrer';
+          }
+        } else if (el instanceof HTMLButtonElement) el.type = 'button';
+        if (action.onClick) el.addEventListener('click', action.onClick);
+        row.append(el);
+      }
+      status.append(row);
     }
     status.hidden = false;
   };
 
-  const mailtoHref = () => {
+  /** The visitor's message as subject + body, for the hand-off options below. */
+  const draftMessage = () => {
     const data = new FormData(form);
     const name = String(data.get('name') ?? '');
     const company = String(data.get('company') ?? '');
     const subject = `Portfolio enquiry from ${name}${company ? ` (${company})` : ''}`;
-    const body = `${data.get('message') ?? ''}\n\n— ${name}\n${data.get('email') ?? ''}`;
-    return `mailto:${contactInfo().email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const body = `${data.get('message') ?? ''}\n\n— ${name}${company ? `, ${company}` : ''}\n${data.get('email') ?? ''}`;
+    return { subject, body };
+  };
+  /**
+   * Ways to send without a form service. Web-based first (Gmail, WhatsApp) — a mailto: link alone opens
+   * whatever mail app the OS has registered, which is often missing or broken.
+   */
+  const handOffActions = (): Action[] => {
+    const { email } = contactInfo();
+    const { subject, body } = draftMessage();
+    const q = (s: string) => encodeURIComponent(s);
+    return [
+      {
+        label: 'Send via Gmail',
+        href: `https://mail.google.com/mail/?view=cm&fs=1&to=${q(email)}&su=${q(subject)}&body=${q(body)}`,
+        newTab: true,
+        onClick: () => track('contact_handoff', { via: 'gmail' }),
+      },
+      {
+        label: 'Send on WhatsApp',
+        href: whatsappUrl(`${subject}\n\n${body}`),
+        newTab: true,
+        onClick: () => track('contact_handoff', { via: 'whatsapp' }),
+      },
+      {
+        label: 'Copy message',
+        onClick: async () => {
+          const ok = await copyText(`To: ${email}\nSubject: ${subject}\n\n${body}`);
+          toast(ok ? 'Message copied — paste it into any email' : `Email: ${email}`, ok ? 'success' : 'info');
+          track('contact_handoff', { via: 'copy' });
+        },
+      },
+      { label: 'Other email app', href: `mailto:${email}?subject=${q(subject)}&body=${q(body)}` },
+    ];
   };
 
   let sending = false;
@@ -89,14 +135,9 @@ export function initContactForm() {
       return;
     }
     if (!key) {
-      // No form service configured yet → hand the message to the visitor's email app.
-      const href = mailtoHref();
-      window.location.href = href;
-      setStatus('mailto', 'Your email app should open with the message ready to send. Didn’t open?', {
-        href,
-        label: `Email ${contactInfo().email}`,
-      });
-      track('contact_submit', { result: 'mailto' });
+      // No form service configured → let the visitor pick how to send the message they wrote.
+      setStatus('mailto', 'Your message is ready. Choose how to send it:', handOffActions());
+      track('contact_submit', { result: 'handoff' });
       return;
     }
     if (!navigator.onLine) {
@@ -135,10 +176,7 @@ export function initContactForm() {
       toast('Message sent ✓', 'success');
       track('contact_submit', { result: 'success' });
     } catch {
-      setStatus('error', 'Your message couldn’t be sent. Please try again, or', {
-        href: mailtoHref(),
-        label: 'email me directly',
-      });
+      setStatus('error', 'Your message couldn’t be sent. Please try again, or send it another way:', handOffActions());
       track('contact_submit', { result: 'error' });
     } finally {
       window.clearTimeout(timer);
