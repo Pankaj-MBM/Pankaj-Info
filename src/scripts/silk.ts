@@ -85,7 +85,18 @@ export function initSilk(canvas: HTMLCanvasElement) {
     luminous = document.documentElement.dataset.theme === 'dark';
   };
 
+  const portrait = host.querySelector<HTMLElement>('.lx-portrait');
+  const focus = { mid: 300, half: 300 };
+  const measureFocus = () => {
+    if (!portrait) return;
+    const hr = host.getBoundingClientRect();
+    const pr = portrait.getBoundingClientRect();
+    focus.mid = pr.top - hr.top + pr.height * 0.55;
+    focus.half = pr.height * 1.15;
+  };
+
   const resize = () => {
+    measureFocus();
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     w = host.clientWidth;
     h = host.clientHeight;
@@ -98,17 +109,18 @@ export function initSilk(canvas: HTMLCanvasElement) {
   /** Geometry shared by threads and specks. */
   const layout = () => {
     const mobile = w < 768;
-    const span = Math.min(h, mobile ? 560 : 900);
+    const span = Math.min(h, 900);
     return { mobile, span };
   };
-  const ends = (r: Ribbon, mobile: boolean, span: number) => ({
-    startY: span * (mobile ? 0.2 + r.from * 0.62 : r.from),
-    endY: span * (mobile ? 0.2 + r.to * 0.62 : r.to),
-  });
+  // Phones: ribbons flow gently across the middle of the portrait instead of rising across the screen.
+  const ends = (r: Ribbon, mobile: boolean, span: number) =>
+    mobile
+      ? { startY: focus.mid + (r.from - 0.5) * focus.half, endY: focus.mid + (r.to - 0.5) * focus.half }
+      : { startY: span * r.from, endY: span * r.to };
   const yAt = (r: Ribbon, x: number, k: number, startY: number, endY: number, mobile: boolean) => {
     const u = clamp01(x / w);
     const tt = t * r.speed;
-    const amp = r.amp * (mobile ? 0.6 : 1);
+    const amp = r.amp * (mobile ? 0.45 : 1);
     const spread = r.spread * (mobile ? 0.6 : 1);
     const base = startY + (endY - startY) * (u * u * (3 - 2 * u)); // smooth S-curve
     const wave = Math.sin(u * r.freq + tt + r.phase) * amp + Math.sin(u * 11 - tt * 1.6 + k * 2) * 10;

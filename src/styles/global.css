@@ -1488,42 +1488,49 @@
       width: 44%;
     }
   }
-  /* Phones: the photo leads the first screen — bigger portrait, chips moved clear of the name plate */
+  /* Phones: the photo leads the first screen — a clean portrait card with the two chips in a row beneath it */
   @media (max-width: 640px) {
     .lx-stage {
-      aspect-ratio: 1 / 1.2;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+      max-width: 24rem;
+      height: auto;
+      aspect-ratio: auto;
     }
     .lx-portrait {
-      right: 0;
-      width: 82%;
+      position: relative;
+      inset: auto;
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: 88%;
+      aspect-ratio: 4 / 4.7;
       border-width: 6px;
       border-radius: 28px;
     }
     .lx-portrait img {
       border-radius: 22px;
     }
+    .lx-chip {
+      position: relative;
+      inset: auto;
+      min-width: 0;
+    }
     .lx-chip-b {
-      left: 0;
-      top: 7%;
+      order: 1;
     }
     .lx-chip-a {
-      top: auto;
-      right: 0;
-      left: auto;
-      bottom: 1%;
+      order: 2;
     }
-    .lx-shot-mini {
-      bottom: 0;
-      width: 42%;
+    .lx-shot-mini,
+    .lx-chip-icon {
+      display: none;
     }
   }
   @media (max-width: 520px) {
     .lx-chip {
       padding: 0.6rem 0.8rem;
       font-size: 0.78rem;
-    }
-    .lx-chip-icon {
-      display: none;
     }
     .lx-plate {
       inset-inline: 14px;
