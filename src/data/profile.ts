@@ -15,12 +15,12 @@ export const profile = {
     rest: 'with Angular, .NET & Azure OpenAI.',
   },
   pitch:
-    'Software engineer with 2.5+ years shipping CRM & ERP products at Dial ERP Technology — Angular, ASP.NET Core, MongoDB and Azure OpenAI. Also the engineer behind 2026.co.in, a QR-ordering platform live in cafés.',
+    'Software engineer with 2+ years shipping CRM & ERP products at Dial ERP Technology — Angular, ASP.NET Core, MongoDB and Azure OpenAI. Also the engineer behind 2026.co.in, a QR-ordering platform live in cafés.',
   summary:
-    'Software Engineer with 2.5+ years of experience in Angular, ASP.NET Core and Flutter. At Dial ERP Technology I build enterprise CRM & ERP products: REST APIs in ASP.NET Core, Angular (Material) front-ends, WhatsApp automation with Meta’s Cloud API, and AI features with Azure OpenAI and Azure AI Search.',
+    'Software Engineer with 2+ years of experience in Angular, ASP.NET Core and Flutter. At Dial ERP Technology I build enterprise CRM & ERP products: REST APIs in ASP.NET Core, Angular (Material) front-ends, WhatsApp automation with Meta’s Cloud API, and AI features with Azure OpenAI and Azure AI Search.',
   experience: {
     /** Stated by Pankaj (decision D5). Shown until `firstRoleStart` is known. */
-    years: 2.5,
+    years: 2,
     /** TODO(pankaj): 'YYYY-MM' start of the first role — the total is then calculated on every build. */
     firstRoleStart: null as string | null,
   },
@@ -53,7 +53,7 @@ export const profile = {
     naukri: null as string | null, // ONLY a public URL that opens without login (decision D15)
   },
   resume: {
-    /** Pankaj's own resume (Google Docs export), with the experience line updated to 2.5+ years. */
+    /** Pankaj's own resume (Google Docs export), with the experience line updated to 2+ years. */
     pdf: '/resume/Pankaj-Parihar-Resume.pdf',
     docx: null as string | null,
     updated: 'Nov 2026',
