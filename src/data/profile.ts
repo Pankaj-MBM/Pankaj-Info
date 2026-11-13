@@ -53,7 +53,7 @@ export const profile = {
     naukri: null as string | null, // ONLY a public URL that opens without login (decision D15)
   },
   resume: {
-    /** Generated from /resume/ — after changing any data, rebuild and run: node scripts/make-resume-pdf.mjs */
+    /** Pankaj's own resume (Google Docs export), with the experience line updated to 2.5+ years. */
     pdf: '/resume/Pankaj-Parihar-Resume.pdf',
     docx: null as string | null,
     updated: 'Nov 2026',
