@@ -16,7 +16,7 @@ const { resume, socials, location } = profile;
   title="Resume — Pankaj Parihar, Software Engineer (Angular, .NET)"
   description="Experience, skills and education of Pankaj Parihar — Software Engineer (Angular, ASP.NET Core, Azure OpenAI). Download as PDF or print."
 >
-  <div class="container-page pt-8 pb-16 md:pt-12">
+  <div class="container-page pt-8 pb-16 md:pt-12 print:p-0">
     <div class="no-print flex flex-wrap items-center justify-between gap-4">
       <p class="text-sm text-muted">Last updated {resume.updated}</p>
       <div class="flex flex-wrap gap-2">
@@ -36,7 +36,7 @@ const { resume, socials, location } = profile;
       </div>
     </div>
 
-    <article class="card mx-auto mt-6 max-w-[52rem] p-6 sm:p-10 print:border-0 print:p-0">
+    <article class="resume-doc card mx-auto mt-6 max-w-[52rem] p-6 sm:p-10 print:mt-0 print:border-0 print:p-0">
       <header class="border-b border-line pb-6">
         <h1 class="text-4xl font-bold tracking-[-0.03em]">{profile.name}</h1>
         <p class="mt-1 text-lg font-medium text-primary">{profile.roleLong} · {profile.tagline}</p>

@@ -53,7 +53,7 @@ export const profile = {
     naukri: null as string | null, // ONLY a public URL that opens without login (decision D15)
   },
   resume: {
-    /** TODO(pankaj): replace public/resume/Pankaj-Parihar-Resume.pdf with the updated resume (2.5 years). */
+    /** Generated from /resume/ — after changing any data, rebuild and run: node scripts/make-resume-pdf.mjs */
     pdf: '/resume/Pankaj-Parihar-Resume.pdf',
     docx: null as string | null,
     updated: 'Nov 2026',

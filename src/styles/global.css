@@ -2375,6 +2375,7 @@
    ========================================================================= */
 @media print {
   .no-print,
+  .skip-link,
   .site-header,
   .site-footer,
   .chat-fab,
@@ -2382,10 +2383,53 @@
   .toast-region {
     display: none !important;
   }
+  html,
+  body {
+    min-height: 0 !important;
+    height: auto !important;
+  }
   body {
     background: #fff;
     color: #000;
-    font-size: 10.5pt;
+    font-size: 10pt;
+  }
+  /* Resume page → a compact, recruiter-friendly A4 document */
+  .resume-doc {
+    max-width: none;
+    margin: 0;
+    color: #111;
+  }
+  .resume-doc h1 {
+    font-size: 22pt;
+    /* tight tracking makes PDF text extractors (ATS) read "PankajParihar" */
+    letter-spacing: 0;
+  }
+  .resume-doc dl {
+    font-size: 10pt;
+  }
+  .resume-doc > section {
+    margin-top: 11pt;
+  }
+  .resume-doc h3 {
+    font-size: 11pt;
+  }
+  .resume-doc ul,
+  .resume-doc ol,
+  .resume-doc dl {
+    margin-top: 4pt;
+  }
+  .resume-doc li,
+  .resume-doc dl > div {
+    line-height: 1.4;
+  }
+  .resume-doc .space-y-1 > * + * {
+    margin-top: 1.5pt;
+  }
+  .resume-doc .gap-6 {
+    gap: 9pt;
+  }
+  .resume-doc .gap-2 {
+    gap: 3pt;
   }
   .card {
     box-shadow: none;
