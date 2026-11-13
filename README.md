@@ -43,8 +43,18 @@ Unknown facts are `null` in the data files and simply hidden on the site. Projec
 
 Copy `.env.example` to `.env`:
 
-- `SITE_URL` — the final domain (canonical URLs, Open Graph, sitemap)
-- `PUBLIC_WEB3FORMS_KEY` — contact-form key from web3forms.com (without it the form opens the visitor's email app)
+- `SITE_URL` — the final domain (canonical URLs, Open Graph, sitemap); defaults to https://pankaj.2026.co.in
+- `PUBLIC_CONTACT_ENDPOINT` — contact-form endpoint; defaults to the Catalyst function below
+
+## Hosting (Zoho Catalyst)
+
+- **Site** — Cloud Scale web-client hosting on https://pankaj.2026.co.in (served under `/app/`):
+  `npm run build:client` then `catalyst deploy --only client`
+- **Contact form** — `functions/contact` (Advanced I/O, Node) emails a branded notification to Pankaj and a
+  branded confirmation to the sender through Catalyst Mail: `catalyst deploy --only functions`.
+  The sender address (`FROM_EMAIL` in `functions/contact/catalyst-config.json`) must be verified in the
+  Catalyst console under Cloud Scale › Mail.
+- **Slate copy** — `catalyst deploy slate`
 
 ## Regenerate images
 

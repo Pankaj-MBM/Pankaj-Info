@@ -11,7 +11,10 @@ export function initContactForm() {
   const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
   const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]');
   if (!status || !submit) return;
-  const key = form.dataset.key ?? '';
+  // Catalyst function that emails the message (functions/contact). Same-origin on the Catalyst-hosted site;
+  // other copies (Slate, local) call the custom domain, which allows them via CORS.
+  const remote = form.dataset.endpoint ?? '';
+  const endpoint = remote && location.origin === new URL(remote).origin ? new URL(remote).pathname : remote;
   const fields = Array.from(form.querySelectorAll<Field>('input[name]:not([name="botcheck"]), textarea[name]'));
 
   // Restore a draft after a refresh mid-flow.
@@ -168,8 +171,8 @@ export function initContactForm() {
       setStatus('success', 'Thanks! Your message is on its way.');
       return;
     }
-    if (!key) {
-      // No form service configured → let the visitor pick how to send the message they wrote.
+    if (!endpoint) {
+      // No mail endpoint configured → let the visitor pick how to send the message they wrote.
       setStatus('mailto', 'Your message is ready. Choose how to send it:', handOffActions());
       track('contact_submit', { result: 'handoff' });
       return;
@@ -185,29 +188,32 @@ export function initContactForm() {
     if (submitLabel) submitLabel.textContent = 'Sending…';
     status.hidden = true;
     const controller = new AbortController();
-    const timer = window.setTimeout(() => controller.abort(), 15000);
+    const timer = window.setTimeout(() => controller.abort(), 20000);
     try {
       const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
       delete data.botcheck;
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          ...data,
-          access_key: key,
-          subject: draftMessage().subject,
-          from_name: `${data.name} via ${location.hostname}`,
-          replyto: data.email,
-        }),
+        body: JSON.stringify({ ...data, page: location.pathname }),
         signal: controller.signal,
       });
-      const json = (await res.json().catch(() => ({}))) as { success?: boolean };
-      if (!res.ok || json.success === false) throw new Error(`Request failed (${res.status})`);
-      const name = data.name;
+      const json = (await res.json().catch(() => ({}))) as { ok?: boolean; errors?: Record<string, string> };
+      if (res.status === 422 && json.errors) {
+        // Server-side validation disagreed with the browser — show it on the fields.
+        for (const [name, message] of Object.entries(json.errors)) {
+          const field = fields.find((f) => f.name === name);
+          if (field) showError(field, message);
+        }
+        fields.find((f) => json.errors?.[f.name])?.focus();
+        return;
+      }
+      if (!res.ok || !json.ok) throw new Error(`Request failed (${res.status})`);
+      const name = data.name.trim().split(/\s+/)[0];
       form.reset();
       storage.remove(DRAFT_KEY, 'session');
       fields.forEach((f) => f.setAttribute('aria-invalid', 'false'));
-      setStatus('success', `Thanks, ${name}! Your message is on its way — I’ll reply soon.`);
+      setStatus('success', `Thanks, ${name}! Your message is in my inbox — a confirmation is on its way to yours. I’ll reply within 24 hours.`);
       toast('Message sent ✓', 'success');
       track('contact_submit', { result: 'success' });
     } catch {

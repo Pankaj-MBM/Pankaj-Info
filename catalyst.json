@@ -7,5 +7,12 @@
   ],
   "client": {
     "source": "client"
+  },
+  "functions": {
+    "targets": [
+      "contact"
+    ],
+    "ignore": [],
+    "source": "functions"
   }
 }

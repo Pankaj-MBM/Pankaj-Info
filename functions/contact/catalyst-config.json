@@ -1,0 +1,15 @@
+{
+  "deployment": {
+    "name": "contact",
+    "stack": "node24",
+    "type": "advancedio",
+    "env_variables": {
+      "OWNER_EMAIL": "pankajparihar0286@gmail.com",
+      "FROM_EMAIL": "pankajparihar0286@gmail.com",
+      "SITE_URL": "https://pankaj.2026.co.in"
+    }
+  },
+  "execution": {
+    "main": "index.js"
+  }
+}

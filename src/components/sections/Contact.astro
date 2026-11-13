@@ -3,7 +3,8 @@ import { profile } from '@/data/profile';
 import LocalTime from '../features/LocalTime.astro';
 import Icon from '../ui/Icon.astro';
 
-const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+/** Catalyst function that emails the message (functions/contact). Empty → the form offers Gmail/WhatsApp hand-off. */
+const contactEndpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? 'https://pankaj.2026.co.in/server/contact/';
 const { socials, contact, resume } = profile;
 ---
 
@@ -35,7 +36,7 @@ const { socials, contact, resume } = profile;
           </p>
         </div>
 
-        <form class="lx-form grid gap-5" data-contact-form data-key={web3formsKey} novalidate>
+        <form class="lx-form grid gap-5" data-contact-form data-endpoint={contactEndpoint} novalidate>
           <p class="text-lg font-semibold tracking-[-0.015em]">Send a message</p>
           <div class="grid gap-5 sm:grid-cols-2">
             <div class="field">
