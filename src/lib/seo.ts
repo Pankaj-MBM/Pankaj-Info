@@ -1,3 +1,4 @@
+import { withBase } from './url';
 import { profile } from '../data/profile';
 import { education } from '../data/education';
 import { coreSkills } from '../data/skills';
@@ -16,8 +17,8 @@ export function profileJsonLd(site: URL | undefined) {
       name: profile.name,
       jobTitle: profile.role,
       description: profile.summary,
-      url: new URL('/', site).href,
-      image: new URL('/og/og-default.png', site).href,
+      url: new URL(withBase('/'), site).href,
+      image: new URL(withBase('/og/og-default.png'), site).href,
       worksFor: { '@type': 'Organization', name: 'Dial ERP Technology Ltd.' },
       alumniOf: education.map((e) => ({ '@type': 'CollegeOrUniversity', name: `${e.school}, Jodhpur` })),
       address: {

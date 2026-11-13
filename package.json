@@ -14,7 +14,8 @@
     "check": "astro check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "astro": "astro"
+    "astro": "astro",
+    "build:client": "node scripts/build-client.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

@@ -1,4 +1,5 @@
 ---
+import { pagePath, withBase } from '@/lib/url';
 interface Props {
   title: string;
   description: string;
@@ -11,13 +12,13 @@ interface Props {
 const {
   title,
   description,
-  image = '/og/og-default.png',
+  image = withBase('/og/og-default.png'),
   imageAlt = 'Pankaj Parihar — Software Engineer · Angular · ASP.NET Core · Azure OpenAI',
   type = 'website',
   noindex = false,
   jsonLd,
 } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const canonical = new URL(pagePath(Astro.url.pathname), Astro.site);
 const ogImage = new URL(image, Astro.site);
 ---
 

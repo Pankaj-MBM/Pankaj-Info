@@ -1,4 +1,5 @@
 ---
+import { withBase } from '@/lib/url';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Icon from '@/components/ui/Icon.astro';
 ---
@@ -31,9 +32,9 @@ import Icon from '@/components/ui/Icon.astro';
       </h1>
       <p class="mt-4 text-lg text-muted">This page doesn’t exist — but plenty of good things do.</p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
-        <a href="/" class="btn btn-primary"><Icon name="lucide:house" class="size-4" /> Home</a>
-        <a href="/#projects" class="btn btn-secondary">Projects</a>
-        <a href="/#contact" class="btn btn-secondary">Contact</a>
+        <a href={withBase('/')} class="btn btn-primary"><Icon name="lucide:house" class="size-4" /> Home</a>
+        <a href={withBase('/#projects')} class="btn btn-secondary">Projects</a>
+        <a href={withBase('/#contact')} class="btn btn-secondary">Contact</a>
       </div>
       <p class="mt-6 text-sm text-muted">Tip: press <kbd class="kbd">Ctrl</kbd> <kbd class="kbd">K</kbd> to search.</p>
     </div>

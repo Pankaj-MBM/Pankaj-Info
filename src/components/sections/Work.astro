@@ -1,4 +1,5 @@
 ---
+import { withBase } from '@/lib/url';
 /** Selected work: a dark "showroom" — three signature projects as large showcases, the rest as framed tiles. */
 import { Image } from 'astro:assets';
 import { contextLabels, getProjects, projectYear, type Project } from '@/lib/projects';
@@ -33,7 +34,7 @@ const meta = (p: Project) => [kind(p), projectYear(p)].filter(Boolean).join(' ·
       {
         featured.map((p, i) => (
           <article class:list={['lx-feat', i % 2 === 1 && 'lx-feat-flip']} data-reveal>
-            <a href={`/projects/${p.id}/`} class="lx-feat-media" data-spotlight tabindex="-1" aria-hidden="true">
+            <a href={withBase(`/projects/${p.id}/`)} class="lx-feat-media" data-spotlight tabindex="-1" aria-hidden="true">
               <span class="lx-frame">
                 <span class="lx-frame-bar">
                   <i />
@@ -53,7 +54,7 @@ const meta = (p: Project) => [kind(p), projectYear(p)].filter(Boolean).join(' ·
               <span class="lx-feat-num" aria-hidden="true">{num(i)}</span>
               <p class="lx-feat-meta">{meta(p)}</p>
               <h3 class="lx-feat-title">
-                <a href={`/projects/${p.id}/`}>{name(p)}</a>
+                <a href={withBase(`/projects/${p.id}/`)}>{name(p)}</a>
               </h3>
               <p class="lx-feat-text">{p.data.summary}</p>
               {p.data.highlights.length > 0 && (
@@ -70,7 +71,7 @@ const meta = (p: Project) => [kind(p), projectYear(p)].filter(Boolean).join(' ·
                   ))}
                 </ul>
               )}
-              <a href={`/projects/${p.id}/`} class="lx-feat-link">
+              <a href={withBase(`/projects/${p.id}/`)} class="lx-feat-link">
                 View case study <Icon name="lucide:arrow-up-right" class="size-4" />
                 <span class="sr-only"> — {name(p)}</span>
               </a>
@@ -90,7 +91,7 @@ const meta = (p: Project) => [kind(p), projectYear(p)].filter(Boolean).join(' ·
           <ul class="lx-more">
             {rest.map((p, i) => (
               <li data-reveal style={`--reveal-delay:${(i % 3) * 80}ms`}>
-                <a href={`/projects/${p.id}/`} class="lx-tile" data-spotlight>
+                <a href={withBase(`/projects/${p.id}/`)} class="lx-tile" data-spotlight>
                   <span class="lx-tile-media">
                     {p.data.cover ? (
                       <Image src={p.data.cover} alt="" widths={[480, 720, 960]} sizes="(min-width:1024px) 30vw, (min-width:640px) 50vw, 100vw" loading="lazy" />

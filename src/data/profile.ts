@@ -1,3 +1,4 @@
+import { withBase } from '../lib/url';
 /**
  * Single source of truth for personal facts (Roadmap §6.3 / §7.1).
  * `null` = not known yet → the UI hides it. Fill every TODO(pankaj) before launch.
@@ -54,7 +55,7 @@ export const profile = {
   },
   resume: {
     /** Pankaj's own resume (Google Docs export), with the experience line updated to 2+ years. */
-    pdf: '/resume/Pankaj-Parihar-Resume.pdf',
+    pdf: withBase('/resume/Pankaj-Parihar-Resume.pdf'),
     docx: null as string | null,
     updated: 'Nov 2026',
   },

@@ -1,4 +1,5 @@
 ---
+import { withBase } from '@/lib/url';
 /** Ctrl/⌘ K command palette (Roadmap §4.5-C). Items are rendered by the lazily-loaded script. */
 import { sections } from '@/data/nav';
 import { profile } from '@/data/profile';
@@ -7,15 +8,15 @@ import Icon from '../ui/Icon.astro';
 
 const projects = await getProjects();
 const items = [
-  ...sections.map((s) => ({ id: `go-${s.id}`, group: 'Go to', label: s.label, href: `/#${s.id}` })),
-  { id: 'go-resume', group: 'Go to', label: 'Resume page', href: '/resume/', keywords: 'cv print' },
+  ...sections.map((s) => ({ id: `go-${s.id}`, group: 'Go to', label: s.label, href: withBase(`/#${s.id}`) })),
+  { id: 'go-resume', group: 'Go to', label: 'Resume page', href: withBase('/resume/'), keywords: 'cv print' },
   ...projects
     .filter((p) => !p.data.draft)
     .map((p) => ({
       id: `project-${p.id}`,
       group: 'Case studies',
       label: p.data.title,
-      href: `/projects/${p.id}/`,
+      href: withBase(`/projects/${p.id}/`),
       keywords: p.data.stack.join(' '),
     })),
   { id: 'download', group: 'Actions', label: 'Download resume (PDF)', href: profile.resume.pdf, download: true, keywords: 'cv' },

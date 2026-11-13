@@ -1,16 +1,18 @@
 ---
+import { withBase } from '@/lib/url';
 import { sections } from '@/data/nav';
 import { profile } from '@/data/profile';
 import Icon from '../ui/Icon.astro';
 import Logo from '../ui/Logo.astro';
 import ThemeToggle from './ThemeToggle.astro';
 
-const base = Astro.url.pathname === '/' ? '' : '/';
+const home = withBase('/');
+const base = [home, home.replace(/\/$/, '')].includes(Astro.url.pathname) ? '' : home;
 ---
 
 <header class="site-header" data-header>
   <div class="container-page flex h-16 items-center gap-3">
-    <a href="/" class="flex items-center gap-2.5 rounded-full pr-2 font-semibold tracking-[-0.01em]">
+    <a href={withBase('/')} class="flex items-center gap-2.5 rounded-full pr-2 font-semibold tracking-[-0.01em]">
       <Logo class="size-9" />
       <span class="text-[1.02rem] whitespace-nowrap">Pankaj Parihar</span>
       <span class="sr-only">— home</span>
@@ -83,7 +85,7 @@ const base = Astro.url.pathname === '/' ? '' : '/';
       }
       <li>
         <a
-          href="/resume/"
+          href={withBase('/resume/')}
           class="flex items-baseline gap-4 rounded-2xl px-3 py-3 text-3xl font-semibold tracking-[-0.02em] hover:bg-surface-2"
         >
           <span class="font-mono text-sm text-primary">06</span>Resume

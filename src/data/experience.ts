@@ -1,3 +1,4 @@
+import { withBase } from '../lib/url';
 export interface Role {
   id: string;
   company: string;
@@ -40,7 +41,7 @@ export const experience: Role[] = [
       'Azure AI Search',
       'WhatsApp Cloud API',
     ],
-    caseStudy: { href: '/projects/ai-crm-whatsapp/', label: 'CRM case study' },
+    caseStudy: { href: withBase('/projects/ai-crm-whatsapp/'), label: 'CRM case study' },
   },
   {
     id: 'hunarship',
@@ -58,6 +59,6 @@ export const experience: Role[] = [
       // TODO(pankaj): add your Angular work in this role.
     ],
     stack: ['Flutter', 'Dart', 'Firebase', 'Laravel', 'Angular', 'REST APIs'],
-    caseStudy: { href: '/projects/educareer-admin/', label: 'EduCareer case study' },
+    caseStudy: { href: withBase('/projects/educareer-admin/'), label: 'EduCareer case study' },
   },
 ];

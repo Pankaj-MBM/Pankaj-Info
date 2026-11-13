@@ -1,4 +1,5 @@
 ---
+import { withBase } from '@/lib/url';
 import { Image } from 'astro:assets';
 import { profile } from '@/data/profile';
 import { techStrip } from '@/data/skills';
@@ -40,7 +41,7 @@ const stats = [
         </a>
       </div>
       <p class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted" data-reveal style="--reveal-delay:320ms">
-        <a href="/resume/" data-open-summary class="inline-flex items-center gap-1.5 font-medium text-fg hover:text-primary">
+        <a href={withBase('/resume/')} data-open-summary class="inline-flex items-center gap-1.5 font-medium text-fg hover:text-primary">
           <Icon name="lucide:zap" class="size-4 lx-gold" /> 30-second summary
         </a>
         <span aria-hidden="true">·</span>
@@ -66,7 +67,7 @@ const stats = [
           <span class="lx-plate-role"><span>Angular · Flutter</span> <span>.NET · Azure AI</span></span>
         </figcaption>
       </figure>
-      <a href="/projects/2026-co-in/" class="lx-shot lx-shot-mini" data-depth="34" tabindex="-1" aria-hidden="true">
+      <a href={withBase('/projects/2026-co-in/')} class="lx-shot lx-shot-mini" data-depth="34" tabindex="-1" aria-hidden="true">
         <Image src={shotQr} alt="" widths={[480, 720]} sizes="(min-width:1024px) 22vw, 50vw" loading="eager" class="lx-float-slow" />
       </a>
       <div class="lx-chip lx-chip-a" data-depth="48" aria-hidden="true">

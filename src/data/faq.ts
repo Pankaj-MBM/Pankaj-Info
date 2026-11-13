@@ -1,3 +1,4 @@
+import { withBase } from '../lib/url';
 import { profile } from './profile';
 import { experienceLabel } from '../lib/format';
 
@@ -25,14 +26,14 @@ const items: (FaqItem | null)[] = [
     answer:
       'Core: Angular (Material) + TypeScript on the front end, ASP.NET Core Web API (C#) on the back end, MongoDB for data, and Azure OpenAI + Azure AI Search for AI features. Also: WhatsApp Cloud API, Google Maps API, Flutter, Firebase, MySQL/PostgreSQL and Redis.',
     keywords: ['stack', 'tech', 'skill', 'technolog', 'angular', '.net', 'dotnet', 'c#', 'language', 'framework'],
-    actions: [{ kind: 'link', label: 'See all skills', href: '/#skills' }],
+    actions: [{ kind: 'link', label: 'See all skills', href: withBase('/#skills') }],
   },
   {
     id: 'experience',
     question: 'How much experience do you have?',
     answer: `${experienceLabel()}. Software Engineer at Dial ERP Technology since Nov 2024, building enterprise CRM/ERP products — and before that, Flutter & Angular Developer at Hunarship.`,
     keywords: ['experience', 'year', 'yrs', 'work', 'job', 'company', 'senior'],
-    actions: [{ kind: 'link', label: 'View experience', href: '/#experience' }],
+    actions: [{ kind: 'link', label: 'View experience', href: withBase('/#experience') }],
   },
   {
     id: 'ai',
@@ -40,7 +41,7 @@ const items: (FaqItem | null)[] = [
     answer:
       'Yes. At Dial ERP I implemented AI chatbot features for the CRM using Azure OpenAI with Azure AI Search (retrieval-augmented generation), so users can ask questions about their data in plain language.',
     keywords: ['ai', 'openai', 'gpt', 'llm', 'rag', 'chatbot', 'azure', 'genai', 'machine'],
-    actions: [{ kind: 'link', label: 'Read the case study', href: '/projects/ai-crm-whatsapp/' }],
+    actions: [{ kind: 'link', label: 'Read the case study', href: withBase('/projects/ai-crm-whatsapp/') }],
   },
   {
     id: 'whatsapp',
@@ -48,7 +49,7 @@ const items: (FaqItem | null)[] = [
     answer:
       'I integrated Meta’s WhatsApp Cloud API end-to-end: template messages, media, webhooks for delivery status and replies, and bulk messaging.',
     keywords: ['whatsapp', 'meta', 'webhook', 'messag', 'bulk', 'template'],
-    actions: [{ kind: 'link', label: 'Read the case study', href: '/projects/ai-crm-whatsapp/' }],
+    actions: [{ kind: 'link', label: 'Read the case study', href: withBase('/projects/ai-crm-whatsapp/') }],
   },
   availability.noticePeriod
     ? {
@@ -75,9 +76,9 @@ const items: (FaqItem | null)[] = [
       'Start with the WhatsApp CRM & AI automation platform — Angular, .NET, MongoDB and Azure OpenAI, end to end. For a product that is live in production, see 2026.co.in — a QR ordering platform for cafés and restaurants.',
     keywords: ['project', 'best', 'portfolio', 'showcase', 'example', 'code', 'github', 'live'],
     actions: [
-      { kind: 'link', label: 'CRM case study', href: '/projects/ai-crm-whatsapp/' },
-      { kind: 'link', label: '2026.co.in', href: '/projects/2026-co-in/' },
-      { kind: 'link', label: 'All projects', href: '/#projects' },
+      { kind: 'link', label: 'CRM case study', href: withBase('/projects/ai-crm-whatsapp/') },
+      { kind: 'link', label: '2026.co.in', href: withBase('/projects/2026-co-in/') },
+      { kind: 'link', label: 'All projects', href: withBase('/#projects') },
     ],
   },
   {
@@ -92,7 +93,7 @@ const items: (FaqItem | null)[] = [
     question: 'Salary expectations?',
     answer: 'Happy to discuss on a call — it depends on the role, location and responsibilities.',
     keywords: ['salary', 'ctc', 'compensation', 'pay', 'package', 'expect', 'lpa'],
-    actions: [{ kind: 'link', label: 'Get in touch', href: '/#contact' }],
+    actions: [{ kind: 'link', label: 'Get in touch', href: withBase('/#contact') }],
   },
   {
     id: 'contact',
@@ -103,7 +104,7 @@ const items: (FaqItem | null)[] = [
     actions: [
       { kind: 'copy-email', label: 'Copy email' },
       { kind: 'whatsapp', label: 'WhatsApp' },
-      { kind: 'link', label: 'Contact form', href: '/#contact' },
+      { kind: 'link', label: 'Contact form', href: withBase('/#contact') },
     ],
   },
 ];
