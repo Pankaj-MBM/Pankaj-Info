@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Pankaj Parihar — Resume</title>
+    <!--
+      Source of public/resume/Pankaj-Parihar-Resume.pdf — same look as Pankaj's original Google-Docs resume
+      (Georgia, navy, underlined section heads). Edit here, then run: node scripts/make-resume.mjs
+    -->
+    <style>
+      @page {
+        size: Letter;
+        margin: 0.55in 0.75in 0.5in;
+      }
+      :root {
+        --navy: #142440;
+        --ink: #1b1b1b;
+        --link: #1155cc;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        color: var(--ink);
+        font: 10pt/1.32 Georgia, 'Times New Roman', serif;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      header {
+        color: var(--navy);
+      }
+      h1 {
+        margin: 0;
+        font-size: 17pt;
+        letter-spacing: 0.06em;
+      }
+      .title {
+        margin: 2pt 0 0;
+        font-size: 11pt;
+        font-weight: bold;
+      }
+      .contact {
+        margin: 4pt 0 0;
+        font-size: 10pt;
+      }
+      .contact a.link {
+        color: var(--link);
+        text-decoration: underline;
+      }
+      h2 {
+        margin: 10pt 0 4pt;
+        color: var(--navy);
+        font-size: 11pt;
+        text-decoration: underline;
+        text-underline-offset: 2.5pt;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        break-after: avoid;
+      }
+      p {
+        margin: 0;
+      }
+      .summary {
+        text-align: justify;
+      }
+      b,
+      strong {
+        color: var(--navy);
+      }
+      ul {
+        margin: 0;
+        padding-left: 1.45em;
+        list-style: disc;
+      }
+      li {
+        margin: 1.2pt 0;
+        padding-left: 0.15em;
+      }
+      li::marker {
+        color: var(--navy);
+      }
+      .skills li {
+        text-align: justify;
+      }
+      .role {
+        margin-top: 6pt;
+        break-inside: avoid;
+      }
+      .role-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12pt;
+        color: var(--navy);
+      }
+      .role-head .what {
+        font-weight: bold;
+      }
+      .meta {
+        margin: 1pt 0 3pt;
+        color: #3d4555;
+      }
+      .edu {
+        display: flex;
+        justify-content: space-between;
+        gap: 12pt;
+        margin-top: 3pt;
+        break-inside: avoid;
+      }
+      .edu .right {
+        color: var(--navy);
+        white-space: nowrap;
+      }
+      section {
+        break-inside: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>PANKAJ PARIHAR</h1>
+      <p class="title">Software Engineer — Angular · ASP.NET Core · Azure OpenAI</p>
+      <p class="contact">
+        Rajasthan, India • +91 75688 62848 •
+        <a href="mailto:pankajparihar0286@gmail.com">pankajparihar0286@gmail.com</a><br />
+        <a class="link" href="https://www.linkedin.com/in/pankajparihar0286/">linkedin.com/in/pankajparihar0286</a> •
+        <a class="link" href="https://pankaj.2026.co.in">pankaj.2026.co.in</a> •
+        <a class="link" href="https://github.com/Pankaj-MBM">github.com/Pankaj-MBM</a>
+      </p>
+    </header>
+
+    <section>
+      <h2>Professional Summary</h2>
+      <p class="summary">
+        Software Engineer with <b>2+ years</b> of experience designing and delivering enterprise CRM and ERP
+        solutions with <b>Angular, ASP.NET Core Web API (C#) and MongoDB</b>. Experienced in integrating the
+        <b>Meta WhatsApp Cloud API</b> and in building AI-powered features with <b>Azure OpenAI and Azure AI Search</b>.
+        Focused on scalable REST APIs, reusable front-end components and reliable production systems in Agile teams.
+      </p>
+    </section>
+
+    <section>
+      <h2>Technical Skills</h2>
+      <ul class="skills">
+        <li><b>Languages</b> – C#, TypeScript, JavaScript, SQL, Python, Java, C/C++</li>
+        <li><b>Frontend</b> – Angular, Angular Material, HTML5, CSS3, Bootstrap, Flutter</li>
+        <li><b>Backend &amp; APIs</b> – ASP.NET Core Web API, RESTful APIs, Webhooks, Laravel</li>
+        <li><b>Databases</b> – MongoDB, MySQL, PostgreSQL, Redis</li>
+        <li>
+          <b>Cloud, AI &amp; Integrations</b> – Azure OpenAI, Azure AI Search, Meta WhatsApp Cloud API, Google Maps API,
+          Firebase, Zoho Catalyst (Cloud Hosting &amp; Deployment)
+        </li>
+        <li>
+          <b>Tools &amp; Platforms</b> – Git, GitHub, Visual Studio, VS Code, Postman, Android Studio, Linux (shell, file
+          system, permissions, basic administration)
+        </li>
+        <li><b>Professional Skills</b> – Teamwork, Problem Solving, Communication, Adaptability, Continuous Learning</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Professional Experience</h2>
+      <div class="role">
+        <div class="role-head">
+          <span class="what">Software Engineer — Dial ERP Technology Limited</span>
+          <span>Nov 2024 – Present</span>
+        </div>
+        <p class="meta">Gurgaon, Haryana</p>
+        <ul>
+          <li>Develop and maintain enterprise CRM/ERP modules with Angular, ASP.NET Core Web API (C#) and MongoDB.</li>
+          <li>Designed and built <b>40+ RESTful APIs</b> and a library of reusable <b>Angular Material</b> components.</li>
+          <li>
+            Integrated the <b>Meta WhatsApp Cloud API</b> end to end, covering template messaging, media handling, webhooks
+            and bulk messaging.
+          </li>
+          <li>Implemented AI chatbot capabilities using <b>Azure OpenAI</b> and <b>Azure AI Search</b>.</li>
+          <li>Provide production support, including issue resolution, bug fixing and performance optimization.</li>
+          <li>Collaborate in Agile sprints with peer code reviews and Git-based version control.</li>
+        </ul>
+      </div>
+      <div class="role">
+        <div class="role-head">
+          <span class="what">Flutter Full Stack Developer Intern — Hunarship</span>
+          <span>Jul 2024 – Oct 2024</span>
+        </div>
+        <p class="meta">Jodhpur, Rajasthan</p>
+        <ul>
+          <li>Developed Flutter mobile applications integrated with <b>Firebase</b> and <b>Laravel</b> back-end services.</li>
+          <li>Designed responsive mobile user interfaces and integrated RESTful APIs.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="edu">
+        <span><b>Master of Computer Applications (MCA)</b> — MBM University, Jodhpur</span>
+        <span class="right">2024 · 84%</span>
+      </div>
+      <div class="edu">
+        <span><b>Bachelor of Computer Applications (BCA)</b> — Lucky Institute of Professional Studies, Jodhpur</span>
+        <span class="right">75%</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Key Achievements</h2>
+      <ul>
+        <li>
+          Built an AI-powered CRM and WhatsApp automation platform (Angular, ASP.NET Core, C#, MongoDB).
+        </li>
+        <li>Integrated Azure OpenAI to deliver AI-powered features within the CRM.</li>
+        <li>Developed <b>Geo Tracker</b>, a field-sales tracking application with real-time Google Maps integration.</li>
+        <li>Delivered multiple production-ready enterprise application modules.</li>
+        <li>
+          Designed, built and deployed a personal portfolio website on Zoho Catalyst —
+          <a class="link" href="https://pankaj.2026.co.in" style="color: var(--link); text-decoration: underline">pankaj.2026.co.in</a>
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>
