@@ -389,6 +389,21 @@
     -webkit-backdrop-filter: saturate(1.5) blur(14px);
     backdrop-filter: saturate(1.5) blur(14px);
   }
+  /*
+   * Scroll performance. Backdrop blur is re-computed on every scrolled frame, which is the main source of
+   * jank on phones — touch devices get near-opaque surfaces instead. Paint-heavy decorative animations
+   * pause while the page is moving (html.is-scrolling is set by main.ts).
+   */
+  @media (hover: none) {
+    .site-header[data-scrolled] {
+      background: color-mix(in oklab, var(--bg) 96%, transparent);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+  .is-scrolling :is(.lx-shine, .lx-float, .lx-float-slow, .status-dot) {
+    animation-play-state: paused;
+  }
   .scroll-progress {
     position: absolute;
     left: 0;
@@ -1539,6 +1554,23 @@
     }
     .lx-plate-name {
       font-size: 1.15rem;
+    }
+  }
+
+  /* Touch devices: no live blur over the animated silk — solid glass instead (see "Scroll performance") */
+  @media (hover: none) {
+    .lx-chip,
+    .lx-plate,
+    .lx-badge,
+    .lx-btn-light {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+    .lx-chip {
+      background: var(--surface);
+    }
+    .lx-plate {
+      background: rgb(14 14 17 / 0.86);
     }
   }
 

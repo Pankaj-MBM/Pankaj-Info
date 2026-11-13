@@ -52,6 +52,14 @@ function initHeader() {
   const header = $('[data-header]');
   const bar = $('[data-scroll-progress]');
   let ticking = false;
+  // While the page is moving, decorative paint-heavy animations pause (see .is-scrolling in global.css).
+  const root = document.documentElement;
+  let settle = 0;
+  const markScrolling = () => {
+    if (!root.classList.contains('is-scrolling')) root.classList.add('is-scrolling');
+    clearTimeout(settle);
+    settle = window.setTimeout(() => root.classList.remove('is-scrolling'), 160);
+  };
   const update = () => {
     ticking = false;
     const y = window.scrollY;
@@ -62,6 +70,7 @@ function initHeader() {
   window.addEventListener(
     'scroll',
     () => {
+      markScrolling();
       if (!ticking) {
         ticking = true;
         requestAnimationFrame(update);

@@ -3,7 +3,8 @@
  * Luxury details: threads are brighter in the middle of each ribbon (depth), a slow glint of light travels
  * along every ribbon like light catching satin, and a few specks of gold dust drift and twinkle on the silk.
  * Everything bends a little towards the pointer.
- * Light on purpose: one 2D canvas, ~90 polylines + ~30 specks, DPR capped at 2, paused off-screen and in
+ * Light on purpose: one 2D canvas sized to the ribbons only, ~90 polylines + ~30 sprite specks, DPR capped
+ * at 1.5, ~30 fps, no drawing while the page scrolls, paused off-screen and in
  * hidden tabs, and a single still frame for prefers-reduced-motion.
  */
 import { prefersReducedMotion } from './utils';
@@ -83,6 +84,28 @@ export function initSilk(canvas: HTMLCanvasElement) {
     glint = parseRgb(cs.getPropertyValue('--silk-glint'), glint);
     alpha = Number(cs.getPropertyValue('--silk-alpha')) || alpha;
     luminous = document.documentElement.dataset.theme === 'dark';
+    paintSprite();
+  };
+
+  // Gold-dust sprite (glow + bright core) drawn once per theme, then stamped with drawImage — far cheaper
+  // than building a radial gradient for every speck on every frame.
+  const SPRITE = 48;
+  const sprite = document.createElement('canvas');
+  sprite.width = sprite.height = SPRITE;
+  const paintSprite = () => {
+    const s = sprite.getContext('2d');
+    if (!s) return;
+    const c = SPRITE / 2;
+    s.clearRect(0, 0, SPRITE, SPRITE);
+    const halo = s.createRadialGradient(c, c, 0, c, c, c);
+    halo.addColorStop(0, rgba(glint, 0.6));
+    halo.addColorStop(1, rgba(glint, 0));
+    s.fillStyle = halo;
+    s.fillRect(0, 0, SPRITE, SPRITE);
+    s.fillStyle = rgba(luminous ? [255, 248, 230] : glint, 1);
+    s.beginPath();
+    s.arc(c, c, SPRITE / 12, 0, Math.PI * 2);
+    s.fill();
   };
 
   const portrait = host.querySelector<HTMLElement>('.lx-portrait');
@@ -97,9 +120,13 @@ export function initSilk(canvas: HTMLCanvasElement) {
 
   const resize = () => {
     measureFocus();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Thin threads look the same at 1.5x; it saves ~45% of the pixels on 2x/3x phones.
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     w = host.clientWidth;
-    h = host.clientHeight;
+    // Only cover the area the ribbons can reach, not the whole hero (stats + marquee sit below).
+    const reach = w < 768 ? focus.mid + focus.half * 0.75 + 60 : 1020;
+    h = Math.min(host.clientHeight, Math.round(reach));
+    canvas.style.height = `${h}px`;
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -196,29 +223,30 @@ export function initSilk(canvas: HTMLCanvasElement) {
       const y = yAt(r, x, s.k, startY, endY, mobile);
       const twinkle = Math.max(0, Math.sin(t * 1.4 + s.seed)) ** 3;
       if (twinkle < 0.02) continue;
-      const size = s.size * (mobile ? 0.85 : 1);
-      const halo = ctx.createRadialGradient(x, y, 0, x, y, size * 6);
-      halo.addColorStop(0, rgba(glint, 0.55 * twinkle));
-      halo.addColorStop(1, rgba(glint, 0));
-      ctx.fillStyle = halo;
-      ctx.beginPath();
-      ctx.arc(x, y, size * 6, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = rgba(luminous ? [255, 248, 230] : glint, 0.95 * twinkle);
-      ctx.beginPath();
-      ctx.arc(x, y, size, 0, Math.PI * 2);
-      ctx.fill();
+      const d = s.size * (mobile ? 0.85 : 1) * 12; // sprite core = 1/12 of its size
+      ctx.globalAlpha = twinkle;
+      ctx.drawImage(sprite, x - d / 2, y - d / 2, d, d);
     }
+    ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';
   };
 
+  // The silk moves slowly, so ~30 fps is enough; frames are skipped entirely while the page is being
+  // scrolled so scrolling always gets the full frame budget.
+  const FRAME_MS = 1000 / 30;
+  let lastDraw = 0;
+  let scrollingUntil = 0;
   const frame = (now: number) => {
     const dt = Math.min((now - last) / 1000, 0.05);
     last = now;
     t += dt;
-    draw();
+    if (now >= scrollingUntil && now - lastDraw >= FRAME_MS) {
+      lastDraw = now;
+      draw();
+    }
     raf = requestAnimationFrame(frame);
   };
+  window.addEventListener('scroll', () => (scrollingUntil = performance.now() + 160), { passive: true });
 
   const start = () => {
     if (running || still) return;
@@ -252,7 +280,7 @@ export function initSilk(canvas: HTMLCanvasElement) {
       host.addEventListener('pointermove', (e) => {
         const r = host.getBoundingClientRect();
         pointer.tx = (e.clientX - r.left) / r.width;
-        pointer.ty = (e.clientY - r.top) / r.height;
+        pointer.ty = (e.clientY - r.top) / h; // relative to the canvas, which is shorter than the hero
         pointer.tpull = 1;
       });
       host.addEventListener('pointerleave', () => (pointer.tpull = 0));
