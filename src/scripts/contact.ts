@@ -77,14 +77,48 @@ export function initContactForm() {
     status.hidden = false;
   };
 
-  /** The visitor's message as subject + body, for the hand-off options below. */
+  /**
+   * The visitor's message as a polished, ready-to-send email (and a WhatsApp variant): clear subject,
+   * greeting, their words untouched apart from tidy capitalisation, and a proper signature block.
+   */
   const draftMessage = () => {
     const data = new FormData(form);
-    const name = String(data.get('name') ?? '');
-    const company = String(data.get('company') ?? '');
-    const subject = `Portfolio enquiry from ${name}${company ? ` (${company})` : ''}`;
-    const body = `${data.get('message') ?? ''}\n\n— ${name}${company ? `, ${company}` : ''}\n${data.get('email') ?? ''}`;
-    return { subject, body };
+    const tidy = (v: FormDataEntryValue | null) => String(v ?? '').trim().replace(/\s+/g, ' ');
+    const titleCase = (s: string) => s.replace(/\b\p{L}/gu, (c) => c.toUpperCase());
+    const name = titleCase(tidy(data.get('name')));
+    const company = tidy(data.get('company'));
+    const from = tidy(data.get('email'));
+    let message = String(data.get('message') ?? '').trim();
+    message = message.charAt(0).toUpperCase() + message.slice(1);
+    const greeted = /^(hi|hello|hey|dear|greetings|good (morning|afternoon|evening))\b/i.test(message);
+    const site = location.hostname;
+
+    const subject = company ? `Opportunity at ${company} — let’s connect` : `Let’s connect — ${name} via your portfolio`;
+    const body = [
+      greeted ? null : 'Hi Pankaj,',
+      greeted ? null : '',
+      message,
+      '',
+      'Best regards,',
+      name,
+      company || null,
+      from,
+      '',
+      '———',
+      `Sent via ${site}`,
+    ]
+      .filter((line) => line !== null)
+      .join('\n');
+    const whatsapp = [
+      `*${company ? `Opportunity at ${company}` : 'New enquiry via your portfolio'}*`,
+      '',
+      greeted ? message : `Hi Pankaj,\n\n${message}`,
+      '',
+      `— *${name}*${company ? `, ${company}` : ''}`,
+      from,
+      `_via ${site}_`,
+    ].join('\n');
+    return { subject, body, whatsapp };
   };
   /**
    * Ways to send without a form service. Web-based first (Gmail, WhatsApp) — a mailto: link alone opens
@@ -92,7 +126,7 @@ export function initContactForm() {
    */
   const handOffActions = (): Action[] => {
     const { email } = contactInfo();
-    const { subject, body } = draftMessage();
+    const { subject, body, whatsapp } = draftMessage();
     const q = (s: string) => encodeURIComponent(s);
     return [
       {
@@ -103,7 +137,7 @@ export function initContactForm() {
       },
       {
         label: 'Send on WhatsApp',
-        href: whatsappUrl(`${subject}\n\n${body}`),
+        href: whatsappUrl(whatsapp),
         newTab: true,
         onClick: () => track('contact_handoff', { via: 'whatsapp' }),
       },
@@ -161,8 +195,9 @@ export function initContactForm() {
         body: JSON.stringify({
           ...data,
           access_key: key,
-          subject: `Portfolio enquiry from ${data.name}`,
-          from_name: 'Portfolio contact form',
+          subject: draftMessage().subject,
+          from_name: `${data.name} via ${location.hostname}`,
+          replyto: data.email,
         }),
         signal: controller.signal,
       });
