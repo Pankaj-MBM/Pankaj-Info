@@ -51,5 +51,5 @@ export const achievements = [
   'Implemented Azure OpenAI integration to enable AI-powered CRM features.',
   'Built the Geo Tracker application with Google Maps integration.',
   'Delivered multiple production-ready enterprise application modules.',
-  'Developed and deployed multiple AI-assisted projects using Claude AI.',
+  'Designed, built and deployed this portfolio website on Zoho Catalyst — pankaj.2026.co.in.',
 ];

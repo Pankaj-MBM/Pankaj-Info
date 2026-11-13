@@ -25,6 +25,7 @@ export const alsoSkills: Skill[] = [
   { name: 'Flutter', icon: 'si:flutter' },
   { name: 'Dart', icon: 'si:dart' },
   { name: 'Firebase', icon: 'si:firebase' },
+  { name: 'Zoho Catalyst (hosting & deployment)', icon: 'si:zoho' },
   { name: 'Laravel', icon: 'si:laravel' },
   { name: 'MySQL', icon: 'si:mysql' },
   { name: 'PostgreSQL', icon: 'si:postgresql' },

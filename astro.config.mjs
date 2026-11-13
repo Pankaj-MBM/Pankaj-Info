@@ -3,9 +3,9 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-// Set SITE_URL in the hosting dashboard (e.g. https://pankajparihar.dev) — used for canonical URLs,
-// Open Graph tags and the sitemap. Falls back to the local dev server.
-const site = process.env.SITE_URL ?? 'http://localhost:4321';
+// Public address — used for canonical URLs, Open Graph tags and the sitemap. SITE_URL overrides it
+// (e.g. for a preview deployment).
+const site = process.env.SITE_URL ?? 'https://pankaj.2026.co.in';
 
 export default defineConfig({
   site,
