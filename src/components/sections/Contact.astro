@@ -3,8 +3,12 @@ import { profile } from '@/data/profile';
 import LocalTime from '../features/LocalTime.astro';
 import Icon from '../ui/Icon.astro';
 
-/** Catalyst function that emails the message (functions/contact). Empty → the form offers Gmail/WhatsApp hand-off. */
-const contactEndpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? 'https://pankaj.2026.co.in/server/contact/';
+/**
+ * Catalyst function that emails the message (functions/contact). Off until Catalyst Mail has a verified
+ * sender on a private domain (Gmail senders aren't allowed) — set PUBLIC_CONTACT_ENDPOINT to
+ * https://pankaj.2026.co.in/server/contact/ then. Empty → the form offers the Gmail/WhatsApp hand-off.
+ */
+const contactEndpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? '';
 const { socials, contact, resume } = profile;
 ---
 

@@ -44,7 +44,8 @@ Unknown facts are `null` in the data files and simply hidden on the site. Projec
 Copy `.env.example` to `.env`:
 
 - `SITE_URL` — the final domain (canonical URLs, Open Graph, sitemap); defaults to https://pankaj.2026.co.in
-- `PUBLIC_CONTACT_ENDPOINT` — contact-form endpoint; defaults to the Catalyst function below
+- `PUBLIC_CONTACT_ENDPOINT` — contact-form endpoint (the Catalyst function below); empty by default, so the
+  form offers a Gmail / WhatsApp / copy hand-off
 
 ## Hosting (Zoho Catalyst)
 
@@ -52,8 +53,9 @@ Copy `.env.example` to `.env`:
   `npm run build:client` then `catalyst deploy --only client`
 - **Contact form** — `functions/contact` (Advanced I/O, Node) emails a branded notification to Pankaj and a
   branded confirmation to the sender through Catalyst Mail: `catalyst deploy --only functions`.
-  The sender address (`FROM_EMAIL` in `functions/contact/catalyst-config.json`) must be verified in the
-  Catalyst console under Cloud Scale › Mail.
+  Not switched on yet: Catalyst Mail only sends from a verified address on a private domain (not Gmail), so
+  `FROM_EMAIL` in `functions/contact/catalyst-config.json` needs e.g. `contact@2026.co.in` with SPF/DKIM set up
+  under Cloud Scale › Mail; then set `PUBLIC_CONTACT_ENDPOINT`.
 - **Slate copy** — `catalyst deploy slate`
 
 ## Regenerate images
